@@ -1,0 +1,208 @@
+/* ═══════════════════════════════════════════════════════════
+   💡 CALLOUT / ASIDE (Caixa de Destaque)
+   ═══════════════════════════════════════════════════════════ */
+
+.callout {
+  position: relative;
+  background: #ffd6c9;
+  border-left: 4px solid var(--orange);
+  padding: 1.5rem 1.5rem 1.5rem 4rem;
+  margin: 2rem 0;
+  border-radius: 6px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .callout {
+    background: rgba(37, 99, 235, 0.1);
+    border-left-color: var(--orange);
+  }
+}
+
+/* Ícone de informação */
+.callout::before {
+  content: 'i';
+  position: absolute;
+  left: 1rem;
+  top: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: var(--orange);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-family: var(--font);
+}
+
+@media (prefers-color-scheme: dark) {
+  .callout::before {
+    background: var(--orange-white);
+    color: #1a1a1a;
+  }
+}
+
+/* Título do callout */
+.callout-title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+/* Parágrafos dentro do callout */
+.callout p {
+  margin-bottom: 1rem;
+  max-width: 100%;
+}
+
+.callout p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* Variantes de cor */
+.callout-warning {
+  background: #fef3c7;
+  border-left-color: #f59e0b;
+}
+
+.callout-warning::before {
+  content: '!';
+  background: #f59e0b;
+}
+
+.callout-success {
+  background: #d1fae5;
+  border-left-color: #10b981;
+}
+
+.callout-success::before {
+  content: '✓';
+  background: #10b981;
+}
+
+.callout-danger {
+  background: #fee2e2;
+  border-left-color: #ef4444;
+}
+
+.callout-danger::before {
+  content: '×';
+  background: #ef4444;
+  font-size: 1.25rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .callout-warning {
+    background: rgba(245, 158, 11, 0.1);
+    border-left-color: #fbbf24;
+  }
+  
+  .callout-warning::before {
+    background: #fbbf24;
+    color: #1a1a1a;
+  }
+  
+  .callout-success {
+    background: rgba(16, 185, 129, 0.1);
+    border-left-color: #34d399;
+  }
+  
+  .callout-success::before {
+    background: #34d399;
+    color: #1a1a1a;
+  }
+  
+  .callout-danger {
+    background: rgba(239, 68, 68, 0.1);
+    border-left-color: #f87171;
+  }
+  
+  .callout-danger::before {
+    background: #f87171;
+    color: #1a1a1a;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   💬 CALLOUT QUOTE (Citação)
+   ═══════════════════════════════════════════════════════════ */
+
+.callout-quote {
+  position: relative;
+  background: #f8f9fa;
+  border-left: 4px solid var(--orange);
+  padding: 2rem 2rem 2rem 4rem;
+  margin: 2rem 0;
+  border-radius: 6px;
+  font-style: italic;
+}
+
+@media (prefers-color-scheme: dark) {
+  .callout-quote {
+    background: rgba(99, 102, 241, 0.08);
+    border-left-color: #818cf8;
+  }
+}
+
+/* Aspas decorativas */
+.callout-quote::before {
+  content: '"';
+  position: absolute;
+  left: 1rem;
+  top: 1.5rem;
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--orange);
+  font-style: normal;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  opacity: 0.3;
+}
+
+@media (prefers-color-scheme: dark) {
+  .callout-quote::before {
+    color: var(--orange-white);
+  }
+}
+
+/* Texto da citação */
+.callout-quote p {
+  font-size: var(--text-lg);
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 1rem;
+  max-width: 100%;
+}
+
+.callout-quote p:last-of-type {
+  margin-bottom: 1.25rem;
+}
+
+/* Autor da citação */
+.callout-quote cite,
+.quote-author {
+  display: block;
+  font-size: var(--text-base);
+  font-style: normal;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-top: 1rem;
+}
+
+.callout-quote cite::before,
+.quote-author::before {
+  content: '— ';
+  color: var(--orange);
+}
+
+@media (prefers-color-scheme: dark) {
+  .callout-quote cite::before,
+  .quote-author::before {
+    color: var(--orange-white);
+  }
+}

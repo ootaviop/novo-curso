@@ -1,0 +1,12 @@
+[x] - Minimap de linhas reativo
+[ ] - Bolinha que acompanha o título/subtítulo que está na viewport
+[x] - Mapear títulos localizando tags <h1>
+[x] - Verificar como o código vai lidar com seções muito diferentes em tamanho de conteúdo.
+[x] - Adicionar em sumário lateral os títulos mapeados(só aparecerão quando o hover for aplicado no minimap)
+
+
+[x] - Destaque
+[x] - Lista com seta
+[ ] - Sublinhado diferente
+[ ] - Link com ícone de seta
+[ ] - Rough Notation

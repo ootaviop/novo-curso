@@ -1,0 +1,159 @@
+@import url('https://fonts.cdnfonts.com/css/wotfard');
+
+/**
+ * ═══════════════════════════════════════════════════════════════
+ * 🎨 SCROLL MINIMAP - ESTILOS BASE
+ * ═══════════════════════════════════════════════════════════════
+ * 
+ * Estilos base para o minimap. Estilos da sidebar são injetados
+ * dinamicamente pelo JavaScript para manter valores da config.
+ */
+
+ ::selection{
+    background-color: var(--base);
+    color: white;
+ }
+/* ═══════════════════════════════════════════════════════════
+   🌐 RESET GLOBAL
+   ═══════════════════════════════════════════════════════════ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+html {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+body {
+    font-family: 'Wotfard', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+html, body {
+    overflow: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   📄 SEÇÕES DE EXEMPLO
+   ═══════════════════════════════════════════════════════════ */
+section {
+    /* min-height: 100vh; */
+    /* padding: 4rem 2rem; */
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    flex-direction: column;
+}
+
+/* section:nth-child(odd) { 
+    background: #f5f5f5; 
+}
+
+section:nth-child(even) { 
+    background: #fff; 
+} */
+/* ═══════════════════════════════════════════════════════════
+   🗺️ MINIMAP WRAPPER
+   ═══════════════════════════════════════════════════════════ */
+.minimap-wrapper {
+    position: relative;
+   
+}
+
+/* ═══════════════════════════════════════════════════════════
+   📏 LINHAS DO MINIMAP
+   ═══════════════════════════════════════════════════════════ */
+.minimap-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-end;
+}
+
+.minimap-line {
+    height: 1px;
+    transition: transform 0.1s cubic-bezier(.3,.3,.98,.98);
+    transform-origin: right center;
+    will-change: transform;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   📍 INDICADOR DE POSIÇÃO
+   ═══════════════════════════════════════════════════════════ */
+.scroll-indicator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 1px;
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.indicator-arrow {
+    position: absolute;
+    right: -1rem;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+}
+
+.indicator-arrow path {
+    fill: var(--base);
+}
+
+.indicator-label {
+    position: absolute;
+    left: 8rem;
+    top: -12px;
+    background: var(--base);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.05em;
+    display: none;
+}
+/* ═══════════════════════════════════════════════════════════
+   📱 RESPONSIVIDADE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 960px) {
+    .scroll-indicator {
+        right: 1rem;
+        width: calc(100vw - 2rem);
+    }
+    
+    .indicator-arrow {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .indicator-label {
+        left: 2.5rem;
+        font-size: 0.65rem;
+        padding: 0.2rem 0.4rem;
+    }
+}

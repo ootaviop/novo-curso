@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimap + Rough Notation - Teste de Harmonia</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: white;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #999;
+      margin-bottom: 3rem;
+      font-size: 1.125rem;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       GRADE DE COMPARAÇÃO
+       ═══════════════════════════════════════════════════════════ */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .comparison-card {
+      background: #0f172a;
+      border-radius: 20px;
+      padding: 2rem;
+      border: 2px solid #1e293b;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-verdict {
+      font-size: 0.875rem;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      display: inline-block;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    .verdict-good {
+      background: rgba(16, 185, 129, 0.2);
+      color: #10B981;
+      border: 1px solid #10B981;
+    }
+
+    .verdict-warning {
+      background: rgba(245, 158, 11, 0.2);
+      color: #F59E0B;
+      border: 1px solid #F59E0B;
+    }
+
+    .verdict-bad {
+      background: rgba(239, 68, 68, 0.2);
+      color: #EF4444;
+      border: 1px solid #EF4444;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       MINI SIDEBAR (Simulação)
+       ═══════════════════════════════════════════════════════════ */
+    .mini-sidebar {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .sidebar-header {
+      border-bottom: 1px solid #e5e5e5;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-title {
+      font-size: 0.75rem;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+
+    .nav-items {
+      list-style: none;
+    }
+
+    .nav-item {
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.25rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+      cursor: pointer;
+      color: #4a4a4a;
+      font-size: 0.9375rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-item:hover {
+      background: #f8f8f8;
+    }
+
+    .nav-item.active {
+      background: linear-gradient(90deg, rgba(255,107,53,0.08) 0%, transparent 100%);
+      color: #ff6b35;
+      font-weight: 500;
+    }
+
+    .level-icon {
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: #999;
+    }
+
+    .nav-item.active .level-icon {
+      color: #ff6b35;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       MINIMAP LINES (Simulação)
+       ═══════════════════════════════════════════════════════════ */
+    .minimap-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-end;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .minimap-line {
+      height: 2px;
+      background: #333;
+      transform-origin: right center;
+    }
+
+    .minimap-line.level-1 { width: 48px; }
+    .minimap-line.level-2 { width: 38px; opacity: 0.9; }
+    .minimap-line.level-3 { width: 31px; opacity: 0.8; }
+    .minimap-line.level-4 { width: 26px; opacity: 0.7; }
+    .minimap-line.active { background: #ff6b35; transform: scaleX(1.3); }
+
+    /* ═══════════════════════════════════════════════════════════
+       ANÁLISE DE CONFLITO
+       ═══════════════════════════════════════════════════════════ */
+    .conflict-analysis {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .conflict-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #F59E0B;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .conflict-points {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .conflict-point {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.9375rem;
+      color: #cbd5e1;
+    }
+
+    .conflict-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       ALTERNATIVAS
+       ═══════════════════════════════════════════════════════════ */
+    .alternatives {
+      background: #0f172a;
+      border-radius: 16px;
+      padding: 2rem;
+      margin-top: 3rem;
+      border: 2px solid #10B981;
+    }
+
+    .alternatives-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #10B981;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .alternative-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .alternative-card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid #334155;
+    }
+
+    .alternative-name {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #F59E0B;
+    }
+
+    .alternative-desc {
+      font-size: 0.9375rem;
+      color: #94a3b8;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .alternative-example {
+      background: #0f172a;
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid #1e293b;
+      font-size: 0.875rem;
+      color: #cbd5e1;
+    }
+
+    /* Efeitos de exemplo */
+    .underline-subtle {
+      position: relative;
+      display: inline-block;
+    }
+
+    .underline-subtle::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -2px;
+      height: 2px;
+      background: #ff6b35;
+      border-radius: 1px;
+    }
+
+    .gradient-underline {
+      position: relative;
+      display: inline-block;
+    }
+
+    .gradient-underline::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -2px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #ff6b35, transparent);
+      border-radius: 1px;
+    }
+
+    .glow-text {
+      color: #ff6b35;
+      text-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Teste de Harmonia Visual</h1>
+    <div class="subtitle">Minimap Minimalista × Rough Notation Orgânico</div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         COMPARAÇÃO LADO A LADO
+         ═══════════════════════════════════════════════════════════ -->
+    <div class="comparison-grid">
+      
+      <!-- 1️⃣ MINIMAP ORIGINAL (Sem Rough) -->
+      <div class="comparison-card">
+        <div class="card-header">
+          <div class="card-title">
+            1️⃣ Minimap Original
+          </div>
+          <div class="card-verdict verdict-good">✅ COERENTE</div>
+        </div>
+
+        <div class="minimap-preview">
+          <div class="minimap-line level-1"></div>
+          <div class="minimap-line level-2 active"></div>
+          <div class="minimap-line level-3"></div>
+          <div class="minimap-line level-4"></div>
+        </div>
+
+        <div class="mini-sidebar">
+          <div class="sidebar-header">
+            <div class="sidebar-title">Índice do Curso</div>
+          </div>
+          <ul class="nav-items">
+            <li class="nav-item">
+              <span class="level-icon">●</span>
+              <span>Introdução</span>
+            </li>
+            <li class="nav-item active">
+              <span class="level-icon">●</span>
+              <span>Conceitos Básicos</span>
+            </li>
+            <li class="nav-item">
+              <span class="level-icon">○</span>
+              <span>Exemplo Prático</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="conflict-analysis">
+          <div class="conflict-title">✨ Características</div>
+          <div class="conflict-points">
+            <div class="conflict-point">
+              <span class="conflict-icon">▪</span>
+              <span>Linhas perfeitamente retas</span>
+            </div>
+            <div class="conflict-point">
+              <span class="conflict-icon">▪</span>
+              <span>Cores sólidas e gradientes suaves</span>
+            </div>
+            <div class="conflict-point">
+              <span class="conflict-icon">▪</span>
+              <span>Estética minimalista e técnica</span>
+            </div>
+            <div class="conflict-point">
+              <span class="conflict-icon">▪</span>
+              <span>Animações precisas (cubic-bezier)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2️⃣ COM ROUGH NOTATION (Conflito) -->
+      <div class="comparison-card">
+        <div class="card-header">
+          <div class="card-title">
+            2️⃣ Com Rough Notation Padrão
+          </div>
+          <div class="card-verdict verdict-bad">❌ CONFLITO VISUAL</div>
+        </div>
+
+        <div class="minimap-preview">
+          <div class="minimap-line level-1"></div>
+          <div class="minimap-line level-2 active"></div>
+          <div class="minimap-line level-3"></div>
+          <div class="minimap-line level-4"></div>
+        </div>
+
+        <div class="mini-sidebar">
+          <div class="sidebar-header">
+            <div class="sidebar-title">Índice do Curso</div>
+          </div>
+          <ul class="nav-items">
+            <li class="nav-item">
+              <span class="level-icon">●</span>
+              <span id="rough-1">Introdução</span>
+            </li>
+            <li class="nav-item active">
+              <span class="level-icon">●</span>
+              <span id="rough-2">Conceitos Básicos</span>
+            </li>
+            <li class="nav-item">
+              <span class="level-icon">○</span>
+              <span id="rough-3">Exemplo Prático</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="conflict-analysis">
+          <div class="conflict-title">⚠️ Problemas Identificados</div>
+          <div class="conflict-points">
+            <div class="conflict-point">
+              <span class="conflict-icon">⚠️</span>
+              <span>Linhas hand-drawn vs. geometria precisa</span>
+            </div>
+            <div class="conflict-point">
+              <span class="conflict-icon">⚠️</span>
+              <span>Estética casual vs. profissional</span>
+            </div>
+            <div class="conflict-point">
+              <span class="conflict-icon">⚠️</span>
+              <span>Irregularidade vs. perfeição matemática</span>
+            </div>
+            <div class="conflict-point">
+              <span class="conflict-icon">⚠️</span>
+              <span>Pode parecer "descuidado"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3️⃣ ROUGH SUTILIZADO -->
+      <div class="comparison-card">
+        <div class="card-header">
+          <div class="card-title">
+            3️⃣ Rough Notation Sutilizado
+          </div>
+          <div class="card-verdict verdict-warning">⚡ ACEITÁVEL COM AJUSTES</div>
+        </div>
+
+        <div class="minimap-preview">
+          <div class="minimap-line level-1"></div>
+          <div class="minimap-line level-2 active"></div>
+          <div class="minimap-line level-3"></div>
+          <div class="minimap-line level-4"></div>
+        </div>
+
+        <div class="mini-sidebar">
+          <div class="sidebar-header">
+            <div class="sidebar-title">Índice do Curso</div>
+          </div>
+          <ul class="nav-items">
+            <li class="nav-item">
+              <span class="level-icon">●</span>
+              <span>Introdução</span>
+            </li>
+            <li class="nav-item active">
+              <span class="level-icon">●</span>
+              <span id="rough-subtle">Conceitos Básicos</span>
+            </li>
+            <li class="nav-item">
+              <span class="level-icon">○</span>
+              <span>Exemplo Prático</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="conflict-analysis">
+          <div class="conflict-title">⚙️ Ajustes Necessários</div>
+          <div class="conflict-points">
+            <div class="conflict-point">
+              <span class="conflict-icon">✓</span>
+              <span>strokeWidth: 1 (ao invés de 3)</span>
+            </div>
+            <div class="conflict-point">
+              <span class="conflict-icon">✓</span>
+              <span>Mesmas cores do sistema (#ff6b35)</span>
+            </div>
+            <div class="conflict-point">
+              <span class="conflict-icon">✓</span>
+              <span>Apenas em itens ativos (não em todos)</span>
+            </div>
+            <div class="conflict-point">
+              <span class="conflict-icon">✓</span>
+              <span>Animação mais rápida (300ms)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4️⃣ APENAS NO CONTEÚDO -->
+      <div class="comparison-card">
+        <div class="card-header">
+          <div class="card-title">
+            4️⃣ Rough Apenas no Conteúdo
+          </div>
+          <div class="card-verdict verdict-good">✅ SOLUÇÃO IDEAL</div>
+        </div>
+
+        <div class="minimap-preview">
+          <div class="minimap-line level-1"></div>
+          <div class="minimap-line level-2 active"></div>
+          <div class="minimap-line level-3"></div>
+          <div class="minimap-line level-4"></div>
+        </div>
+
+        <div class="mini-sidebar">
+          <div class="sidebar-header">
+            <div class="sidebar-title">Índice do Curso</div>
+          </div>
+          <ul class="nav-items">
+            <li class="nav-item">
+              <span class="level-icon">●</span>
+              <span>Introdução</span>
+            </li>
+            <li class="nav-item active">
+              <span class="level-icon">●</span>
+              <span>Conceitos Básicos</span>
+            </li>
+            <li class="nav-item">
+              <span class="level-icon">○</span>
+              <span>Exemplo Prático</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="conflict-analysis">
+          <div class="conflict-title">💡 Estratégia Recomendada</div>
+          <div class="conflict-points">
+            <div class="conflict-point">
+              <span class="conflict-icon">✓</span>
+              <span>Minimap mantém estética clean</span>
+            </div>
+            <div class="conflict-point">
+              <span class="conflict-icon">✓</span>
+              <span>Rough Notation só no CONTEÚDO da aula</span>
+            </div>
+            <div class="conflict-point">
+              <span class="conflict-icon">✓</span>
+              <span>Separação clara: UI vs. Content</span>
+            </div>
+            <div class="conflict-point">
+              <span class="conflict-icon">✓</span>
+              <span>Sem conflito de linguagens visuais</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         ALTERNATIVAS MELHORES
+         ═══════════════════════════════════════════════════════════ -->
+    <div class="alternatives">
+      <div class="alternatives-title">💎 Alternativas Harmônicas para o Minimap</div>
+      
+      <div class="alternative-grid">
+        <!-- Alt 1 -->
+        <div class="alternative-card">
+          <div class="alternative-name">1. Underline Sutil</div>
+          <div class="alternative-desc">
+            Linha fina e reta que mantém a coerência visual do design minimalista.
+          </div>
+          <div class="alternative-example">
+            Exemplo: <span class="underline-subtle">Seção Ativa</span>
+          </div>
+        </div>
+
+        <!-- Alt 2 -->
+        <div class="alternative-card">
+          <div class="alternative-name">2. Gradient Underline</div>
+          <div class="alternative-desc">
+            Sublinhado com gradiente que desvanece nas pontas — mais sofisticado.
+          </div>
+          <div class="alternative-example">
+            Exemplo: <span class="gradient-underline">Seção Ativa</span>
+          </div>
+        </div>
+
+        <!-- Alt 3 -->
+        <div class="alternative-card">
+          <div class="alternative-name">3. Glow Effect</div>
+          <div class="alternative-desc">
+            Brilho sutil no texto ativo — mantém a estética moderna e digital.
+          </div>
+          <div class="alternative-example">
+            Exemplo: <span class="glow-text">Seção Ativa</span>
+          </div>
+        </div>
+
+        <!-- Alt 4 -->
+        <div class="alternative-card">
+          <div class="alternative-name">4. Animated Border</div>
+          <div class="alternative-desc">
+            Borda animada que desenha ao redor do item — elegante e moderna.
+          </div>
+          <div class="alternative-example">
+            Usa CSS animations com border-image ou clip-path
+          </div>
+        </div>
+
+        <!-- Alt 5 -->
+        <div class="alternative-card">
+          <div class="alternative-name">5. Progress Fill</div>
+          <div class="alternative-desc">
+            Background que preenche progressivamente — feedback visual limpo.
+          </div>
+          <div class="alternative-example">
+            Transição de 0% a 100% width em ::before
+          </div>
+        </div>
+
+        <!-- Alt 6 -->
+        <div class="alternative-card">
+          <div class="alternative-name">6. Highlight Sólido</div>
+          <div class="alternative-desc">
+            Background color simples com opacity — sem conflito visual.
+          </div>
+          <div class="alternative-example">
+            background: rgba(255, 107, 53, 0.1)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROUGH NOTATION LIBRARY -->
+  <script src="https://unpkg.com/rough-notation@0.5.1/lib/rough-notation.iife.js"></script>
+
+  <script>
+    const { annotate } = RoughNotation;
+
+    // ═══════════════════════════════════════════════════════════
+    // DEMONSTRAÇÃO DO CONFLITO
+    // ═══════════════════════════════════════════════════════════
+    
+    // Card 2: Rough Notation Padrão (conflito evidente)
+    const r1 = annotate(document.getElementById('rough-1'), {
+      type: 'underline',
+      color: '#F59E0B',
+      strokeWidth: 3,
+      animationDuration: 800
+    });
+
+    const r2 = annotate(document.getElementById('rough-2'), {
+      type: 'circle',
+      color: '#ff6b35',
+      strokeWidth: 2,
+      padding: 8,
+      animationDuration: 800
+    });
+
+    const r3 = annotate(document.getElementById('rough-3'), {
+      type: 'highlight',
+      color: '#FDE68A',
+      animationDuration: 600
+    });
+
+    setTimeout(() => {
+      r1.show();
+      r2.show();
+      r3.show();
+    }, 1000);
+
+    // Card 3: Rough Sutilizado (melhor, mas ainda questionável)
+    const rSubtle = annotate(document.getElementById('rough-subtle'), {
+      type: 'underline',
+      color: '#ff6b35',
+      strokeWidth: 1,  // ← Muito mais fino
+      animationDuration: 300  // ← Mais rápido
+    });
+
+    setTimeout(() => {
+      rSubtle.show();
+    }, 1500);
+  </script>
+</body>
+</html>

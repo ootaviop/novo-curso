@@ -1,0 +1,87 @@
+    /* ═══════════════════════════════════════════════════════
+       📄 CONTAINER PRINCIPAL
+       ═══════════════════════════════════════════════════════ */
+
+    .lesson-main {
+      padding-bottom: 2rem;
+
+    }
+
+    .lesson-container {
+
+      margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       📍 BREADCRUMB
+       ═══════════════════════════════════════════════════════ */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9375rem;
+      color: var(--gray);
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .breadcrumb-item {
+      color: var(--gray);
+      text-decoration: none;
+      transition: color 150ms;
+    }
+
+    .breadcrumb-item:hover {
+      color: var(--orange);
+    }
+
+    .breadcrumb-separator {
+      color: var(--orange);
+      font-weight: 400;
+    }
+
+    .breadcrumb-current {
+      color: var(--orange-white);
+      font-weight: 400;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       📝 CONTEÚDO PRINCIPAL
+       ═══════════════════════════════════════════════════════ */
+
+    .lesson-title {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .lesson-meta {
+      font-size: 0.9375rem;
+      color: var(--gray);
+      font-style: italic;
+      margin-bottom: 3rem;
+    }
+
+    .lesson-intro {
+      font-size: 1.125rem;
+      line-height: 1.7;
+      color: var(--gray-dark);
+      margin-bottom: 2rem;
+    }
+
+    .lesson-intro strong {
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    #first {
+      padding-top: 2rem;
+    }
