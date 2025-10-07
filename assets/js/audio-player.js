@@ -179,7 +179,7 @@ class AudioPlayer {
    * Estima duração total (2 min por track em média)
    */
   estimateTotalDuration() {
-    const avgDuration = 2; // minutos por track
+    const avgDuration = 0.4; // minutos por track
     const total = this.playlist.length * avgDuration;
     return Math.ceil(total);
   }

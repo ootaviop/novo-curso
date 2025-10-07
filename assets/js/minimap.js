@@ -808,9 +808,9 @@ class ScrollMinimap {
     align-items: center;
     gap: 0.75rem;
     padding: 0.625rem 1.5rem;
-    color: #666;
+    color: #303030ff;
     text-decoration: none;
-    font-size: 0.875rem;
+    font-size: 1rem;
     transition: all 0.15s ease;
     position: relative;
     border-left: 2px solid transparent;
@@ -818,25 +818,26 @@ class ScrollMinimap {
 
 /* Marcador */
 .nav-marker {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     font-size: 0.5rem;
-    color: #ccc;
+    color: #424242ff;
     flex-shrink: 0;
     width: 8px;
     transition: color 0.15s ease;
+    
 }
 
 /* Hierarquia por tamanho de marcador + opacidade */
 .nav-item[data-level="1"] .nav-marker {
     font-size: 0.625rem;
-    color: #999;
+    color: #565656ff;
 }
 
 .nav-item[data-level="2"] .nav-marker {
     font-size: 0.5rem;
-    color: #aaa;
+    color: #6c6c6cff;
 }
 
 .nav-item[data-level="3"] .nav-marker {
@@ -857,30 +858,32 @@ class ScrollMinimap {
 /* Hierarquia de texto */
 .nav-item[data-level="1"] .nav-link2 { 
     padding-left: 1.5rem; 
-    font-weight: 500;
-    font-size: 0.9375rem;
-    color: #333;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #1c1c1cff;
 }
 
 .nav-item[data-level="2"] .nav-link2 { 
-    padding-left: 2rem; 
-    font-size: 0.875rem;
+    padding-left: 2.2rem; 
+    font-size: 0.9rem;
+    color: #333333ff;
+    font-weight: 600;
 }
 
 .nav-item[data-level="3"] .nav-link2 { 
-    padding-left: 2.5rem; 
+    padding-left: 2.7rem; 
     font-size: 0.8125rem;
-    color: #777;
+    color: #373737ff;
 }
 
 .nav-item[data-level="4"] .nav-link2 { 
-    padding-left: 3rem; 
+    padding-left: 3.2rem; 
     font-size: 0.75rem;
     color: #888;
 }
 
 .nav-item[data-level="5"] .nav-link2 { 
-    padding-left: 3.5rem; 
+    padding-left: 3.7rem; 
     font-size: 0.75rem;
     color: #999;
 }
