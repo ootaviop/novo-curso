@@ -799,7 +799,7 @@ class ScrollMinimap {
 
             .nav-item {
                 position: relative;
-                cursor: pointer;
+                // cursor: pointer;
                 user-select: none;
             }
 
@@ -938,6 +938,7 @@ class ScrollMinimap {
                     display: none;
                 }
             }
+                
         `;
         
         document.head.appendChild(style);

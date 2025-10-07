@@ -781,7 +781,7 @@ class ScrollMinimap {
 
             .nav-item {
                 position: relative;
-                cursor: pointer;
+                // cursor: pointer;
                 user-select: none;
             }
 

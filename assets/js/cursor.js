@@ -170,7 +170,16 @@ setTimeout(() => {
         handleLeftClickRelease();
     }
     });
+
+    // muda a cor do cursor no mouseenter se o elemento em hover for um link ou button
+    window.addEventListener('mouseenter', () => {
+        const hoveredElement = document.elementFromPoint(event.clientX, event.clientY);
+        if (hoveredElement && (hoveredElement.tagName === 'A' || hoveredElement.tagName === 'BUTTON')) {
+            cursor.style.background = 'red';
+        }
+    });
     
+
     setupMorphableElements();
     rafId = requestAnimationFrame(animate);
 
@@ -179,5 +188,6 @@ setTimeout(() => {
     window.removeEventListener('mousemove', handleMouseMove);
     if (rafId) cancelAnimationFrame(rafId);
     });
+
 })();
  }, 100)
