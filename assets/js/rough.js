@@ -42,7 +42,7 @@ class RoughAnnotationSystem {
                 multiline: true, 
                 strokeWidth: 2,
                 padding: 6,
-                animationDuration: 700
+                animationDuration: 1000
             },
             'cls-circle': {
                 type: 'circle',
@@ -107,7 +107,7 @@ class RoughAnnotationSystem {
         this.observer = new IntersectionObserver(
             (entries) => this.handleIntersection(entries),
             {
-                rootMargin: '-300px 0px', // Dispara 300px ANTES de entrar
+                rootMargin: '-350px 0px', // Dispara 350px DEPOIS de entrar
                 threshold: 0
             }
         );

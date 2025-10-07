@@ -56,7 +56,7 @@ class ScrollMinimap {
             // Sidebar (proporção áurea aplicada)
             sidebarWidth: 320, // ≈ 200 × φ
             sidebarHoverDelay: 70, // 250ms × φ
-            sidebarHideDelay: 800, // Delay maior para evitar flickering
+            sidebarHideDelay: 500, // 400ms × φ³
             sidebarTransitionDuration: 0.3,
             minimapTransitionDuration: 0.25,
             
@@ -80,7 +80,6 @@ class ScrollMinimap {
         this.currentActiveSection = null;
         this.scrollHistory = []; // ✅ Propriedade (fix memory leak)
         this.isScrolling = false;
-        this.isSidebarActive = false; // ✅ Flag para evitar flickering
         this.hoverTimeout = null;
         this.hideTimeout = null;
         
@@ -199,7 +198,7 @@ class ScrollMinimap {
         
         const title = document.createElement('div');
         title.className = 'sidebar-title';
-        title.textContent = 'Índice da Aula';
+        title.textContent = 'Índice do Curso';
         
         const progressInfo = document.createElement('div');
         progressInfo.className = 'progress-info';
@@ -309,21 +308,21 @@ class ScrollMinimap {
         li.dataset.index = index;
         
         const link = document.createElement('a');
-        link.className = 'nav-link2';
+        link.className = 'nav-link';
         link.href = '#';
         
-        // Marcador minimalista
-        const marker = document.createElement('span');
-        marker.className = 'nav-marker';
-        marker.textContent = '—'; // ou '—' para traço
+        const icon = document.createElement('span');
+        icon.className = 'level-icon';
+        icon.textContent = this.getLevelIcon(level);
         
         const text = document.createElement('span');
         text.textContent = label;
         
-        link.appendChild(marker);
+        link.appendChild(icon);
         link.appendChild(text);
         li.appendChild(link);
         
+        // Click handler
         li.addEventListener('click', (e) => {
             e.preventDefault();
             this.scrollToSection(index);
@@ -373,11 +372,7 @@ class ScrollMinimap {
             clearTimeout(this.hoverTimeout);
             clearTimeout(this.hideTimeout);
             
-            // Se já está ativa, apenas cancela o hide
-            if (this.isSidebarActive) return;
-            
             this.hoverTimeout = setTimeout(() => {
-                this.isSidebarActive = true;
                 this.navContainer.classList.add('sidebar-active');
             }, this.config.sidebarHoverDelay);
         });
@@ -388,7 +383,6 @@ class ScrollMinimap {
             clearTimeout(this.hideTimeout);
             
             this.hideTimeout = setTimeout(() => {
-                this.isSidebarActive = false;
                 this.navContainer.classList.remove('sidebar-active');
             }, this.config.sidebarHideDelay);
         });
@@ -694,11 +688,11 @@ class ScrollMinimap {
                 width: ${this.config.sidebarWidth}px;
                 max-height: 80vh;
                 background: #ffffff;
-                border-radius: 8px;
+                border-radius: 12px;
                 box-shadow: 
-                    0 0 0 1px rgba(0,0,0,0.03),
-                    0 4px 12px rgba(0,0,0,0.03),
-                    0 12px 32px rgba(0,0,0,0.06);
+                    0 0 0 1px rgba(0,0,0,0.04),
+                    0 8px 16px rgba(0,0,0,0.04),
+                    0 16px 48px rgba(0,0,0,0.08);
                 opacity: 0;
                 transition: all ${this.config.sidebarTransitionDuration}s cubic-bezier(0.4, 0.0, 0.2, 1);
                 transition-delay: 0.15s;
@@ -706,18 +700,6 @@ class ScrollMinimap {
                 overflow: hidden;
                 display: flex;
                 flex-direction: column;
-            }
-
-            /* Zona de buffer invisível à direita da sidebar */
-            .navigation-sidebar::after {
-                content: '';
-                position: absolute;
-                right: -20px;
-                top: 0;
-                width: 20px;
-                height: 100%;
-                pointer-events: auto;
-                opacity: 0;
             }
 
             .navigation-container.sidebar-active .navigation-sidebar {
@@ -728,45 +710,45 @@ class ScrollMinimap {
 
             /* Header */
             .sidebar-header {
-                padding: 1.25rem 1.5rem 1rem;
-                border-bottom: 1px solid #f5f5f5;
+                padding: 1.5rem 1.5rem 1rem;
+                border-bottom: 1px solid #f0f0f0;
                 flex-shrink: 0;
             }
 
             .sidebar-title {
-                font-size: 0.6875rem;
-                font-weight: 500;
+                font-size: 0.75rem;
+                font-weight: 600;
                 text-transform: uppercase;
-                letter-spacing: 0.08em;
-                color: #aaa;
-                margin-bottom: 0.875rem;
+                letter-spacing: 0.05em;
+                color: #999;
+                margin-bottom: 0.75rem;
             }
 
             .progress-info {
                 display: flex;
                 align-items: center;
-                gap: 0.625rem;
+                gap: 0.75rem;
             }
 
             .progress-percentage {
-                font-size: 0.875rem;
-                font-weight: 600;
+                font-size: 1.5rem;
+                font-weight: 700;
                 color: #ff6b35;
                 font-variant-numeric: tabular-nums;
             }
 
             .progress-bar-container {
                 flex: 1;
-                height: 4px;
-                background: #f5f5f5;
-                border-radius: 2px;
+                height: 6px;
+                background: #f0f0f0;
+                border-radius: 3px;
                 overflow: hidden;
             }
 
             .progress-bar-fill {
                 height: 100%;
-                background: #ff6b35;
-                border-radius: 2px;
+                background: linear-gradient(90deg, #ff6b35 0%, #ff8c61 100%);
+                border-radius: 3px;
                 transition: width 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
                 width: 0%;
             }
@@ -781,7 +763,7 @@ class ScrollMinimap {
             }
 
             .nav-items::-webkit-scrollbar {
-                width: 4px;
+                width: 6px;
             }
 
             .nav-items::-webkit-scrollbar-track {
@@ -789,12 +771,12 @@ class ScrollMinimap {
             }
 
             .nav-items::-webkit-scrollbar-thumb {
-                background: #e8e8e8;
-                border-radius: 2px;
+                background: #e5e5e5;
+                border-radius: 3px;
             }
 
             .nav-items::-webkit-scrollbar-thumb:hover {
-                background: #d8d8d8;
+                background: #d1d1d1;
             }
 
             .nav-item {
@@ -803,129 +785,59 @@ class ScrollMinimap {
                 user-select: none;
             }
 
-            .nav-link2 {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.625rem 1.5rem;
-    color: #666;
-    text-decoration: none;
-    font-size: 0.875rem;
-    transition: all 0.15s ease;
-    position: relative;
-    border-left: 2px solid transparent;
-}
+            .nav-link {
+                display: flex;
+                align-items: center;
+                padding: 0.5rem 1.5rem;
+                color: #4a4a4a;
+                text-decoration: none;
+                font-size: 0.9375rem;
+                transition: all 0.15s ease;
+                position: relative;
+                gap: 0.75rem;
+            }
 
-/* Marcador */
-.nav-marker {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.5rem;
-    color: #ccc;
-    flex-shrink: 0;
-    width: 8px;
-    transition: color 0.15s ease;
-}
+            .nav-item[data-level="1"] .nav-link { padding-left: 1.5rem; font-weight: 500; }
+            .nav-item[data-level="2"] .nav-link { padding-left: 2.25rem; font-size: 0.875rem; }
+            .nav-item[data-level="3"] .nav-link { padding-left: 3rem; font-size: 0.8125rem; }
+            .nav-item[data-level="4"] .nav-link { padding-left: 3.75rem; font-size: 0.8125rem; }
+            .nav-item[data-level="5"] .nav-link { padding-left: 4.5rem; font-size: 0.75rem; }
 
-/* Hierarquia por tamanho de marcador + opacidade */
-.nav-item[data-level="1"] .nav-marker {
-    font-size: 0.625rem;
-    color: #999;
-}
+            .nav-link:hover {
+                color: #1a1a1a;
+                background: #f8f8f8;
+            }
 
-.nav-item[data-level="2"] .nav-marker {
-    font-size: 0.5rem;
-    color: #aaa;
-}
+            .nav-item.active .nav-link {
+                color: #ff6b35;
+                background: linear-gradient(90deg, rgba(255,107,53,0.08) 0%, transparent 100%);
+                font-weight: 500;
+            }
 
-.nav-item[data-level="3"] .nav-marker {
-    font-size: 0.4375rem;
-    color: #bbb;
-}
-
-.nav-item[data-level="4"] .nav-marker {
-    font-size: 0.375rem;
-    color: #ccc;
-}
-
-.nav-item[data-level="5"] .nav-marker {
-    font-size: 0.375rem;
-    color: #ddd;
-}
-
-/* Hierarquia de texto */
-.nav-item[data-level="1"] .nav-link2 { 
-    padding-left: 1.5rem; 
-    font-weight: 500;
-    font-size: 0.9375rem;
-    color: #333;
-}
-
-.nav-item[data-level="2"] .nav-link2 { 
-    padding-left: 2rem; 
-    font-size: 0.875rem;
-}
-
-.nav-item[data-level="3"] .nav-link2 { 
-    padding-left: 2.5rem; 
-    font-size: 0.8125rem;
-    color: #777;
-}
-
-.nav-item[data-level="4"] .nav-link2 { 
-    padding-left: 3rem; 
-    font-size: 0.75rem;
-    color: #888;
-}
-
-.nav-item[data-level="5"] .nav-link2 { 
-    padding-left: 3.5rem; 
-    font-size: 0.75rem;
-    color: #999;
-}
-
-/* Hover */
-.nav-link2:hover {
-    color: #333;
-    background: rgba(0,0,0,0.02);
-    border-left-color: rgba(255, 107, 53, 0.2);
-}
-
-.nav-link2:hover .nav-marker {
-    color: #ff6b35;
-}
-
-/* Ativo */
-.nav-item.active .nav-link2 {
-    color: #ff6b35;
-    background: rgba(255, 107, 53, 0.04);
-    font-weight: 500;
-    border-left-color: #ff6b35;
-}
-
-.nav-item.active .nav-marker {
-    color: #ff6b35;
-}
+            .nav-item.active .nav-link::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 3px;
+                height: 100%;
+                background: #ff6b35;
+                border-radius: 0 2px 2px 0;
+            }
 
             .level-icon {
-                width: 14px;
-                height: 14px;
+                width: 16px;
+                height: 16px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 0.625rem;
-                color: #bbb;
+                font-size: 0.75rem;
+                color: #999;
                 flex-shrink: 0;
             }
 
-            .nav-item[data-level="1"] .level-icon { 
-                color: #999;
-                font-size: 0.6875rem;
-            }
-            .nav-item.active .level-icon { 
-                color: #ff6b35;
-            }
+            .nav-item[data-level="1"] .level-icon { color: #666; }
+            .nav-item.active .level-icon { color: #ff6b35; }
 
             /* ═══════════════════════════════════════════════════════════
                📱 RESPONSIVO

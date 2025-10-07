@@ -1,5 +1,5 @@
-
-(function() {
+setTimeout(() => { 
+    (function() {
     'use strict';
 
     const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || 
@@ -16,6 +16,8 @@
     // Estado
     const position = { x: 0, y: 0 };
     const target = { x: 0, y: 0 };
+    let currentScale = 1;
+    let targetScale = 1;
     let rafId = null;
     let currentMorphTarget = null;
     let isMorphed = false;
@@ -65,7 +67,7 @@
      * - Queremos que a BORDA envolva o elemento
      * - Se usarmos width exato, borda fica cortada
      */
-    const borderWidth = 3;
+    const borderWidth = 2;
     const offset = borderWidth * 2;
     
     cursor.style.width = `${rect.width + offset}px`;
@@ -81,8 +83,8 @@
     currentMorphTarget = null;
     isMorphed = false;
     
-    cursor.style.width = '16px';
-    cursor.style.height = '16px';
+    cursor.style.width = '35px';
+    cursor.style.height = '35px';
     cursor.style.borderRadius = '50%';
     cursor.classList.remove('morphed');
     }
@@ -120,18 +122,55 @@
     position.x = lerp(position.x, target.x, lerpFactor);
     position.y = lerp(position.y, target.y, lerpFactor);
 
+    // Interpola scale (transição suave)
+    currentScale = lerp(currentScale, targetScale, 0.2);
+
     /**
      * Aplica transform combinado
      * - translate(x, y): posição absoluta
      * - translate(-50%, -50%): centraliza no ponto
+     * - scale(): expande durante o click
+     * 
+     * CRÍTICO: Incluímos o scale no transform inline porque
+     * o requestAnimationFrame sobrescreve qualquer CSS.
+     * A interpolação garante transição suave.
      */
-    cursor.style.transform = `translate(${position.x}px, ${position.y}px) translate(-50%, -50%)`;
+    cursor.style.transform = `translate(${position.x}px, ${position.y}px) translate(-50%, -50%) scale(${currentScale})`;
 
     rafId = requestAnimationFrame(animate);
     }
 
+    /**
+     * Left-click effect
+     * NÃO previne comportamento padrão para permitir seleção de texto
+     */
+    function handleLeftClick() {
+    // Define scale alvo
+    targetScale = 1.5;
+    // Adiciona classe de efeito (para opacity)
+    cursor.classList.add('cursor-click-active');
+    }
+
+    function handleLeftClickRelease() {
+    // Restaura scale
+    targetScale = 1.0;
+    // Remove classe de efeito
+    cursor.classList.remove('cursor-click-active');
+    }
+
     // Inicialização
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousedown', (e) => {
+    if ((e.button === 0) && !isMorphed) { // Botão esquerdo
+        handleLeftClick();
+    }
+    });
+    window.addEventListener('mouseup', (e) => {
+    if ((e.button === 0) && !isMorphed) { // Botão esquerdo
+        handleLeftClickRelease();
+    }
+    });
+    
     setupMorphableElements();
     rafId = requestAnimationFrame(animate);
 
@@ -141,3 +180,4 @@
     if (rafId) cancelAnimationFrame(rafId);
     });
 })();
+ }, 100)

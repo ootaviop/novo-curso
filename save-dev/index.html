@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimap de Navegação - 5 Níveis</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       🗺️ MINIMAP
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="minimap-container" id="minimap">
+    <div class="minimap-lines" id="minimapLines">
+      <!-- Items (título + linha) gerados automaticamente por JS -->
+    </div>
+
+    <div class="scroll-indicator" id="scrollIndicator">
+      <svg class="indicator-arrow" width="10" height="8" viewBox="0 0 7 6">
+        <path d="M3.54688 6L0.515786 0.75L6.57796 0.75L3.54688 6Z"/>
+      </svg>
+      <span class="indicator-label" id="indicatorLabel">Nível 1</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       📄 CONTEÚDO DE EXEMPLO (5 Níveis)
+       ═══════════════════════════════════════════════════════════ -->
+  
+  <!-- Container A -->
+  <div class="intro-container">
+    <section data-nav-level="1" data-label="Introdução">
+    <div>
+    <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+    </div>
+    </section>
+  </div>
+  <!-- Container B -->
+  <div class="content-wrapper">
+    <section data-nav-level="2" data-label="Conceitos Básicos">
+         <div>
+    <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+   
+     <p>asdasd</p>
+     <p>asd</p>
+    </div>
+    </section>
+    
+    <section data-nav-level="3" data-label="Exemplo Prático 1">
+          <div>
+    <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+    </div>
+    </section>
+    
+    <section data-nav-level="4" data-label="Detalhe Técnico">
+         <div>
+    <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+    </div>
+    </section>
+    
+    <section data-nav-level="5" data-label="Nota Adicional">
+      Nível 5 - Nota Adicional
+    </section>
+  </div>
+
+  <!-- Container C -->
+    <section data-nav-level="2" data-label="Teoria Avançada">
+      Nível 2 - Teoria Avançada
+    </section>
+    
+    <section data-nav-level="3" data-label="Exemplo Prático 2">
+      Nível 3 - Exemplo Prático 2
+    </section>
+  
+  <!-- Container B -->
+  <div class="content-wrapper">
+    <section data-nav-level="2" data-label="Conceitos Básicos">
+         <div>
+    <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+   
+     <p>asdasd</p>
+     <p>asd</p>
+    </div>
+    </section>
+    
+    <section data-nav-level="3" data-label="Exemplo Prático 1">
+          <div>
+    <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+    </div>
+    </section>
+    
+    <section data-nav-level="4" data-label="Detalhe Técnico">
+         <div>
+    <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+    </div>
+    </section>
+    
+    <section data-nav-level="5" data-label="Nota Adicional">
+      Nível 5 - Nota Adicional
+    </section>
+  </div>
+
+  <!-- Container C -->
+    <section data-nav-level="2" data-label="Teoria Avançada">
+      Nível 2 - Teoria Avançada
+    </section>
+    
+    <section data-nav-level="3" data-label="Exemplo Prático 2">
+      Nível 3 - Exemplo Prático 2
+    </section>
+
+      <!-- Container B -->
+  <div class="content-wrapper">
+    <section data-nav-level="2" data-label="Conceitos Básicos">
+         <div>
+    <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+   
+     <p>asdasd</p>
+     <p>asd</p>
+    </div>
+    </section>
+    
+    <section data-nav-level="3" data-label="Exemplo Prático 1">
+          <div>
+    <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+    </div>
+    </section>
+    
+    <section data-nav-level="4" data-label="Detalhe Técnico">
+         <div>
+    <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+     <p>asdasd</p>
+     <p>asd</p>
+    </div>
+    </section>
+    
+    <section data-nav-level="5" data-label="Nota Adicional">
+      Nível 5 - Nota Adicional
+    </section>
+  </div>
+
+  <!-- Container C -->
+    <section data-nav-level="2" data-label="Teoria Avançada">
+      Nível 2 - Teoria Avançada
+    </section>
+    
+    <section data-nav-level="3" data-label="Exemplo Prático 2">
+      Nível 3 - Exemplo Prático 2
+    </section>
+ 
+  <script src="script.js"></script>
+</body>
+</html>

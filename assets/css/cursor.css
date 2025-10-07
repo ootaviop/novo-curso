@@ -1,6 +1,4 @@
-
-
-    body {
+body {
      
       cursor: none;
     }
@@ -19,20 +17,25 @@
       pointer-events: none;
       z-index: 10000;
       transform: translate(-50%, -50%);
-      will-change: transform, width, height, border-radius;
+      will-change: transform, width, height, border-radius, opacity;
       
       /**
-       * Transições suaves para morph
+       * Transições suaves para morph e scale
        * Por que cubic-bezier específico?
        * - (0.23, 1, 0.32, 1) = easeOutQuint
        * - Início rápido, fim suave = sensação orgânica
+       * 
+       * IMPORTANTE: Não colocamos transition em transform aqui
+       * porque o transform é atualizado a cada frame pelo JS
+       * A transição do scale será suave através do requestAnimationFrame
        */
       transition: 
         width 0.5s cubic-bezier(0.23, 1, 0.32, 1),
         height 0.5s cubic-bezier(0.23, 1, 0.32, 1),
         border-radius 0.5s cubic-bezier(0.23, 1, 0.32, 1),
         background 0.3s ease,
-        border 0.3s ease;
+        border 0.3s ease,
+        opacity 0.2s ease;
     }
 
     /**
@@ -48,6 +51,16 @@
       box-shadow: 
         0 0 0 1px rgba(255, 107, 53, 0.2),
         0 0 20px rgba(255, 107, 53, 0.3);
+    }
+
+    /**
+     * Estado click: fica 50% transparente
+     * O scale é controlado pelo JavaScript via interpolação (lerp)
+     * A opacity usa CSS transition para suavizar
+     */
+    .cursor.cursor-click-active {
+      opacity: 0.2;
+      transition: opacity 0.2s ease;
     }
 
     /* ═══════════════════════════════════════════════════════════
@@ -78,115 +91,6 @@
       font-weight: 600;
       opacity: 0.8;
     }
-
-/* 
-    .btn-group {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .btn {
-      padding: 1.25rem 2.5rem;
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 12px;
-      color: white;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: none;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .btn:hover {
-      border-color: rgba(255, 255, 255, 0.5);
-      transform: translateY(-2px);
-    }
-    .card {
-      background: rgba(255, 255, 255, 0.08);
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      padding: 2.5rem;
-      cursor: none;
-      transition: all 0.3s ease;
-      margin-bottom: 1.5rem;
-      backdrop-filter: blur(10px);
-    }
-
-    .card:hover {
-      border-color: rgba(255, 255, 255, 0.4);
-      transform: translateY(-4px);
-    }
-
-    .card h3 {
-      font-size: 1.75rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .card p {
-      opacity: 0.9;
-      line-height: 1.7;
-      font-size: 1.05rem;
-    }
-
-
-    .tags {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .tag {
-      padding: 0.75rem 1.5rem;
-      background: rgba(255, 107, 53, 0.15);
-      border: 2px solid rgba(255, 107, 53, 0.3);
-      border-radius: 50px;
-      color: #ff8c61;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: none;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .tag:hover {
-      background: rgba(255, 107, 53, 0.25);
-      border-color: rgba(255, 107, 53, 0.5);
-    }
-
-    .info {
-      background: rgba(0, 0, 0, 0.2);
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      border-radius: 16px;
-      padding: 2rem;
-      margin-top: 3rem;
-      backdrop-filter: blur(10px);
-    }
-
-    .info h3 {
-      margin-bottom: 1rem;
-      color: #ff6b35;
-    }
-
-    .info ul {
-      list-style: none;
-    }
-
-    .info li {
-      padding: 0.5rem 0;
-      opacity: 0.9;
-      line-height: 1.6;
-    }
-
-    .info li::before {
-      content: '✓ ';
-      color: #ff6b35;
-      font-weight: bold;
-      margin-right: 0.5rem;
-    } */
 
     .highlight {
       background: rgba(255, 193, 7, 0.1);

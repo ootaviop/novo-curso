@@ -10,3 +10,5 @@
 [ ] - Sublinhado diferente
 [ ] - Link com ícone de seta
 [ ] - Rough Notation
+
+[ ] - Ajustar estilos da sidebar

@@ -1,0 +1,390 @@
+/**
+ * ═══════════════════════════════════════════════════════════════
+ * 🎵 AUDIO PLAYER - ESTILOS
+ * ═══════════════════════════════════════════════════════════════
+ * 
+ * Inspirado no Spotify: Barra bottom fixa com controles
+ */
+
+/* ═══════════════════════════════════════════════════════════
+   🎧 BOTÃO INICIAL - "Ouvir esta aula"
+   ═══════════════════════════════════════════════════════════ */
+
+.audio-trigger-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0 2rem;
+  padding: 1rem 0;
+  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.audio-trigger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.2);
+}
+
+.audio-trigger-btn:hover {
+  background: var(--orange-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+.audio-trigger-btn:active {
+  transform: translateY(0);
+}
+
+.audio-trigger-btn .icon {
+  font-size: 1.25rem;
+}
+
+.audio-trigger-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8125rem;
+  color: var(--gray);
+}
+
+.audio-trigger-info strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   🎵 BARRA BOTTOM - Estilo Spotify
+   ═══════════════════════════════════════════════════════════ */
+
+.audio-player-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background: linear-gradient(to top, #1a1a1a 0%, #242424 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  z-index: 9999;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s ease;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.audio-player-bar.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Adiciona padding-bottom ao body quando player está ativo */
+body.audio-player-active {
+  padding-bottom: 90px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   📊 SEÇÃO DE INFO (Esquerda)
+   ═══════════════════════════════════════════════════════════ */
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 200px;
+  flex: 1;
+}
+
+.player-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--orange);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.player-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  overflow: hidden;
+}
+
+.player-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+.player-subtitle {
+  font-size: 0.75rem;
+  color: #b3b3b3;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   🎮 SEÇÃO DE CONTROLES (Centro)
+   ═══════════════════════════════════════════════════════════ */
+
+.player-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  max-width: 600px;
+}
+
+.player-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.player-btn {
+  background: none;
+  border: none;
+  color: #b3b3b3;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-btn:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.player-btn:active {
+  transform: scale(0.95);
+}
+
+.player-btn.btn-play-pause {
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  color: #1a1a1a;
+}
+
+.player-btn.btn-play-pause:hover {
+  background: #fff;
+  transform: scale(1.1);
+}
+
+.player-btn .material-symbols-outlined {
+  font-size: 1.5rem;
+}
+
+.player-btn.btn-play-pause .material-symbols-outlined {
+  font-size: 1.75rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ⏱️ BARRA DE PROGRESSO
+   ═══════════════════════════════════════════════════════════ */
+
+.player-progress-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.player-time {
+  font-size: 0.6875rem;
+  color: #b3b3b3;
+  font-variant-numeric: tabular-nums;
+  min-width: 40px;
+  text-align: center;
+}
+
+.player-progress-bar {
+  flex: 1;
+  height: 4px;
+  background: #4d4d4d;
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.player-progress-bar:hover {
+  height: 6px;
+}
+
+.player-progress-fill {
+  height: 100%;
+  background: var(--orange);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.1s linear;
+  position: relative;
+}
+
+.player-progress-fill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.player-progress-bar:hover .player-progress-fill::after {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ⚙️ SEÇÃO DE EXTRAS (Direita)
+   ═══════════════════════════════════════════════════════════ */
+
+.player-extras {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 200px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.player-speed {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #b3b3b3;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.player-speed-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 0.375rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  font-family: var(--font);
+  min-width: 50px;
+  text-align: center;
+}
+
+.player-speed-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.player-close-btn {
+  background: none;
+  border: none;
+  color: #b3b3b3;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-close-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ✨ HIGHLIGHT DO PARÁGRAFO SENDO LIDO
+   ═══════════════════════════════════════════════════════════ */
+
+.audio-highlight {
+  background: linear-gradient(120deg, 
+    rgba(255, 107, 53, 0.15) 0%, 
+    rgba(255, 107, 53, 0.08) 100%);
+  border-left: 4px solid var(--orange);
+  padding-left: 1rem;
+  margin-left: -1rem;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   📱 RESPONSIVO
+   ═══════════════════════════════════════════════════════════ */
+
+@media (max-width: 968px) {
+  .audio-player-bar {
+    height: auto;
+    padding: 1rem;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .player-info,
+  .player-controls,
+  .player-extras {
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+  }
+
+  .player-info {
+    justify-content: flex-start;
+  }
+
+  .player-extras {
+    justify-content: space-between;
+  }
+
+  .player-title {
+    max-width: 200px;
+  }
+
+  body.audio-player-active {
+    padding-bottom: 150px;
+  }
+}
+
+@media (max-width: 640px) {
+  .audio-trigger-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .player-speed {
+    display: none;
+  }
+}
