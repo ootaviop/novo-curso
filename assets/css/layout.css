@@ -19,3 +19,9 @@ body{
 .separador-medio{
     height: 60px;
 }
+
+::selection{
+    background-color: var(--orange-white3);
+    color: var(--orange-white);
+ }
+

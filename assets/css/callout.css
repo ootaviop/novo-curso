@@ -1,208 +1,284 @@
 /* ═══════════════════════════════════════════════════════════
-   💡 CALLOUT / ASIDE (Caixa de Destaque)
+   💡 DICA (Tip Box)
    ═══════════════════════════════════════════════════════════ */
 
-.callout {
-  position: relative;
-  background: #ffd6c9;
-  border-left: 4px solid var(--orange);
-  padding: 1.5rem 1.5rem 1.5rem 4rem;
-  margin: 2rem 0;
-  border-radius: 6px;
-}
-
-@media (prefers-color-scheme: dark) {
-  .callout {
-    background: rgba(37, 99, 235, 0.1);
-    border-left-color: var(--orange);
-  }
-}
-
-/* Ícone de informação */
-.callout::before {
-  content: 'i';
-  position: absolute;
-  left: 1rem;
-  top: 1.5rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  background: var(--orange);
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 0.875rem;
-  font-style: normal;
-  font-family: var(--font);
-}
-
-@media (prefers-color-scheme: dark) {
-  .callout::before {
-    background: var(--orange-white);
-    color: #1a1a1a;
-  }
-}
-
-/* Título do callout */
-.callout-title {
-  font-size: var(--text-lg);
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: var(--text);
-}
-
-/* Parágrafos dentro do callout */
-.callout p {
-  margin-bottom: 1rem;
-  max-width: 100%;
-}
-
-.callout p:last-child {
-  margin-bottom: 0;
-}
-
-
-/* Variantes de cor */
-.callout-warning {
-  background: #fef3c7;
-  border-left-color: #f59e0b;
-}
-
-.callout-warning::before {
-  content: '!';
-  background: #f59e0b;
-}
-
-.callout-success {
-  background: #d1fae5;
-  border-left-color: #10b981;
-}
-
-.callout-success::before {
-  content: '✓';
-  background: #10b981;
-}
-
-.callout-danger {
-  background: #fee2e2;
-  border-left-color: #ef4444;
-}
-
-.callout-danger::before {
-  content: '×';
-  background: #ef4444;
-  font-size: 1.25rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  .callout-warning {
-    background: rgba(245, 158, 11, 0.1);
-    border-left-color: #fbbf24;
+   .callout-tip {
+    position: relative;
+    background: #f0fdf4;
+    border-left: 4px solid #10b981;
+    padding: 1.5rem 1.5rem 1.5rem 4rem;
+    margin: 2rem 0;
+    border-radius: 6px;
   }
   
-  .callout-warning::before {
-    background: #fbbf24;
-    color: #1a1a1a;
+  @media (prefers-color-scheme: dark) {
+    .callout-tip {
+      background: rgba(16, 185, 129, 0.1);
+      border-left-color: #34d399;
+    }
   }
   
-  .callout-success {
-    background: rgba(16, 185, 129, 0.1);
-    border-left-color: #34d399;
+  /* Ícone */
+  .callout-tip::before {
+    content: '✓';
+    position: absolute;
+    left: 1rem;
+    top: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: #10b981;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-family: var(--font);
   }
   
-  .callout-success::before {
-    background: #34d399;
-    color: #1a1a1a;
+  @media (prefers-color-scheme: dark) {
+    .callout-tip::before {
+      background: #34d399;
+      color: #1a1a1a;
+    }
   }
   
-  .callout-danger {
-    background: rgba(239, 68, 68, 0.1);
-    border-left-color: #f87171;
+  /* Título do callout */
+  .callout-tip-title {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text);
   }
   
-  .callout-danger::before {
-    background: #f87171;
-    color: #1a1a1a;
+  /* Parágrafos dentro do callout */
+  .callout-tip p {
+    margin-bottom: 1rem;
+    max-width: 100%;
+    font-family: var(--font-serif);
+    font-size: var(--text-base-small);
   }
-}
+  
+  .callout-tip p:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* ═══════════════════════════════════════════════════════════
+     📄 NOTA (Note Box)
+     ═══════════════════════════════════════════════════════════ */
+  
+  .callout-note {
+    position: relative;
+    background: #eff6ff;
+    border-left: 4px solid #3b82f6;
+    /* padding: calc(1.5rem * var(--scale-multiplier));
+    margin: 2rem 0; */
+    padding: calc(1.25rem * var(--scale-multiplier)) calc(1.25rem * var(--scale-multiplier)) calc(1.25rem * var(--scale-multiplier)) calc(3.5rem * var(--scale-multiplier));
+    margin: calc(1.5rem * var(--scale-multiplier)) 0;
+  }
+
+  .icon {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    stroke-width: 2;
+    stroke: currentColor;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .callout-note-icon {
+    position: absolute;
+    left: calc(1rem * var(--scale-multiplier));
+    top: calc(1.25rem * var(--scale-multiplier));
+    width: calc(24px * var(--scale-multiplier));
+    height: calc(24px * var(--scale-multiplier));
+    color: #3b82f6;
+  }
+  
+  /* Título do callout */
+  .callout-note-title {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  
+  /* Parágrafos dentro do callout */
+  .callout-note p {
+    margin-bottom: 0;
+    max-width: 100%;
+    font-family: var(--font);
+    font-size: var(--text-base-small);
+  }
+  
+  .callout-note p:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* ═══════════════════════════════════════════════════════════
+     💼 EXEMPLO (Example Box)
+     ═══════════════════════════════════════════════════════════ */
+  
+  .callout-example {
+    position: relative;
+    background: #faf5ff;
+    border-left: 4px solid #a855f7;
+    padding: 1.5rem 1.5rem 1.5rem 4rem;
+    margin: 2rem 0;
+    border-radius: 6px;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .callout-example {
+      background: rgba(168, 85, 247, 0.1);
+      border-left-color: #c084fc;
+    }
+  }
+  
+  /* Ícone */
+  .callout-example::before {
+    content: '◆';
+    position: absolute;
+    left: 1rem;
+    top: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: #a855f7;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-family: var(--font);
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .callout-example::before {
+      background: #c084fc;
+      color: #1a1a1a;
+    }
+  }
+  
+  /* Título do callout */
+  .callout-example-title {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  
+  /* Parágrafos dentro do callout */
+  .callout-example p {
+    margin-bottom: 1rem;
+    max-width: 100%;
+    font-family: var(--font-serif);
+    font-size: var(--text-base-small);
+  }
+  
+  .callout-example p:last-child {
+    margin-bottom: 0;
+  }
+  
+  
+  /* ═══════════════════════════════════════════════════════════
+     📖 CITAÇÃO AUTOR (Author Quote - Variante Simples)
+     ═══════════════════════════════════════════════════════════ */
+  
+  .callout-quote-author {
+    position: relative;
+    background: #ffffff;
+    border-left: 4px solid var(--orange);
+    padding: calc(2rem * var(--scale-multiplier)) calc(2.5rem * var(--scale-multiplier)) calc(2rem * var(--scale-multiplier)) calc(3.5rem * var(--scale-multiplier));
+    margin: 2rem 0;
+    /* border-radius: 6px; */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Aspas decorativas sutis */
+  .callout-quote-author::before {
+    content: '"';
+    position: absolute;
+    left: calc(0.8rem * var(--scale-multiplier));
+    top: calc(1.5rem * var(--scale-multiplier));
+    font-size: calc(3.5rem * var(--scale-multiplier));
+    line-height: 1;
+    color: rgba(255, 107, 53, 0.15);
+    font-style: normal;
+    font-family: var(--font-serif);
+    font-weight: 700;
+  }
+  
+  
+  /* Texto da citação */
+  .callout-quote-author p {
+    font-size: var(--text-base-small);
+    line-height: 1.6;
+    color: var(--text);
+    margin-bottom: 1rem;
+    max-width: 100%;
+    font-family: var(--font-serif);
+    font-style: italic;
+  }
+  
+  .callout-quote-author p:last-of-type {
+    margin-bottom: 1.25rem;
+  }
+  
+  /* Autor da citação */
+  .callout-quote-author cite {
+    display: block;
+    font-size: var(--text-sm);
+    font-style: italic;
+    font-family: var(--font);
+    color: var(--text-muted);
+    margin-top: 1rem;
+    text-align: right;
+    color: var(--base);
+  }
+  
 
 /* ═══════════════════════════════════════════════════════════
-   💬 CALLOUT QUOTE (Citação)
-   ═══════════════════════════════════════════════════════════ */
-
-.callout-quote {
+4️⃣ REFLEXÃO (Reflection Box)
+═══════════════════════════════════════════════════════════ */
+.callout-reflection {
   position: relative;
-  background: #f8f9fa;
-  border-left: 4px solid var(--orange);
-  padding: 2rem 2rem 2rem 4rem;
-  margin: 2rem 0;
-  border-radius: 6px;
-  font-style: italic;
+  background: #faf5ff;
+  border-left: 4px solid #a855f7;
+  padding: calc(1.25rem * var(--scale-multiplier)) calc(1.25rem * var(--scale-multiplier)) calc(1.25rem * var(--scale-multiplier)) calc(3.5rem * var(--scale-multiplier));
+  margin: calc(1.5rem * var(--scale-multiplier)) 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  .callout-quote {
-    background: rgba(99, 102, 241, 0.08);
-    border-left-color: #818cf8;
-  }
-}
-
-/* Aspas decorativas */
-.callout-quote::before {
-  content: '"';
+.callout-reflection-icon {
   position: absolute;
-  left: 1rem;
-  top: 1.5rem;
-  font-size: 3rem;
-  line-height: 1;
-  color: var(--orange);
-  font-style: normal;
-  font-family: var(--font-serif);
+  left: calc(1rem * var(--scale-multiplier));
+  top: calc(1.25rem * var(--scale-multiplier));
+  width: calc(24px * var(--scale-multiplier));
+  height: calc(24px * var(--scale-multiplier));
+  color: #a855f7;
+}
+
+.callout-reflection-title {
+  color: #6b21a8;
+  font-size: var(--text-base-small);
   font-weight: 700;
-  opacity: 0.3;
+  margin-bottom: 0.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  .callout-quote::before {
-    color: var(--orange-white);
-  }
-}
-
-/* Texto da citação */
-.callout-quote p {
-  font-size: var(--text-lg);
-  line-height: 1.6;
-  color: var(--text);
-  margin-bottom: 1rem;
+.callout-reflection p {
+  margin-bottom: 0;
   max-width: 100%;
+  font-family: var(--font);
+  font-size: var(--text-base-small);
 }
 
-.callout-quote p:last-of-type {
-  margin-bottom: 1.25rem;
-}
 
-/* Autor da citação */
-.callout-quote cite,
-.quote-author {
-  display: block;
-  font-size: var(--text-base);
-  font-style: normal;
-  font-weight: 600;
-  color: var(--text-muted);
-  margin-top: 1rem;
-}
-
-.callout-quote cite::before,
-.quote-author::before {
-  content: '— ';
-  color: var(--orange);
-}
-
-@media (prefers-color-scheme: dark) {
-  .callout-quote cite::before,
-  .quote-author::before {
-    color: var(--orange-white);
-  }
+.callout-reflection p:last-child {
+  margin-bottom: 0;
 }

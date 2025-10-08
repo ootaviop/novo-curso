@@ -5,13 +5,13 @@
     scrollbar-width: none;
 }
 
-button, .btn{
+/* button, .btn{
     cursor: none;
-}
+} */
 
-[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled){
+/* [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled){
     cursor: none!important;
-}
+} */
 
 *::-webkit-scrollbar {
     display: none;
@@ -79,7 +79,7 @@ section:nth-child(even) { background: #fff; }
     margin-right: 2rem;
     align-items: flex-end;
     pointer-events: auto;
-    /* cursor: pointer; */
+    cursor: pointer;
 }
 
 .minimap-line {

@@ -1,0 +1,24 @@
+/* ═══════════════════════════════════════════════════════════
+   🌐 RESET GLOBAL
+   ═══════════════════════════════════════════════════════════ */
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+html {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+

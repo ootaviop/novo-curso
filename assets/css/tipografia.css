@@ -86,6 +86,8 @@ p {
   font-weight: 400;
 }
 
+
+
 p:last-child {
   margin-bottom: 0;
 }
@@ -149,25 +151,7 @@ a[rel*="external"]::after {
   text-decoration: none;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   CÓDIGO
-   ═══════════════════════════════════════════════════════════ */
 
-code {
-  font-family: var(--font-mono);
-  font-size: 0.9em;
-  background: rgba(0, 0, 0, 0.05);
-  color: #c7254e;
-  padding: 0.2em 0.4em;
-  border-radius: 3px;
-}
-
-@media (prefers-color-scheme: dark) {
-  code {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fca5a5;
-  }
-}
 
 /* ═══════════════════════════════════════════════════════════
    MARCA-TEXTO
@@ -179,8 +163,3 @@ mark {
   border-radius: 3px;
 }
 
-@media (prefers-color-scheme: dark) {
-  mark {
-    background: #854d0e;
-  }
-}

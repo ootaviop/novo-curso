@@ -1,6 +1,6 @@
 body {
      
-      cursor: none;
+      /* cursor: none; */
     }
 
     /* ═══════════════════════════════════════════════════════════
@@ -103,9 +103,9 @@ body {
 
     @media (max-width: 768px) {
       body {
-        cursor: auto;
+        /* cursor: auto; */
       }
       .cursor {
-        display: none;
+        /* display: none; */
       }
     }

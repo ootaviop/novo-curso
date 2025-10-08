@@ -1,0 +1,7 @@
+[LAYOUT]
+-> Mudei o breakpoint para o minimap sumir de 468px para 1200px.
+-> Mudei todos os containers para fluid.
+-> Mudei as definições de coluna para "col-sm-10 col-lg-10 col-xl-9 col-xxl-10 m-auto"
+
+[MINIMAP]
+-> 

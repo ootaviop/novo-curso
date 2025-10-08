@@ -1,4 +1,5 @@
-/**
+
+    /**
  * ═══════════════════════════════════════════════════════════════
  * 🖍️ ROUGH NOTATION - SISTEMA COMPLETO
  * ═══════════════════════════════════════════════════════════════
@@ -28,53 +29,78 @@ class RoughAnnotationSystem {
     constructor() {
         this.annotationMap = new Map();
         this.observer = null;
+        const w = window.innerWidth;
+        w >= 1920 ? this.strokeWidth = 3.2 : this.strokeWidth = 2;
+
+        const colors = {
+            "base": "var(--rough-notation-base)",
+            "solidOrange": "var(--rough-notation-solid-orange)",
+            "solidGreen": "var(--rough-notation-solid-green)",
+            "solidBlue": "var(--rough-notation-solid-blue)",
+            "solidPurple": "var(--rough-notation-solid-purple)",
+            "solidRed": "var(--rough-notation-solid-red)",
+            "solidYellow": "var(--rough-notation-solid-yellow)",
+            "softOrange": "var(--rough-notation-soft-orange)",
+            "softGreen": "var(--rough-notation-soft-green)",
+            "softBlue": "var(--rough-notation-soft-blue)",
+            "softPurple": "var(--rough-notation-soft-purple)",
+            "softRed": "var(--rough-notation-soft-red)",
+            "softYellow": "var(--rough-notation-soft-yellow)",
+        }
         
-        // Configuração de cada tipo de anotação
         this.annotationTypes = {
             'cls-underline': {
                 type: 'underline',
                 multiline: true, 
-                strokeWidth: 2,
-                animationDuration: 800
+                strokeWidth: this.strokeWidth,
+                animationDuration: 800,
+                color: colors.solidOrange
             },
             'cls-box': {
                 type: 'box',
                 multiline: true, 
-                strokeWidth: 2,
+                strokeWidth: this.strokeWidth,
                 padding: 6,
-                animationDuration: 1000
+                animationDuration: 1000,
+                color: colors.solidGreen
             },
             'cls-circle': {
                 type: 'circle',
                 multiline: true, 
-                strokeWidth: 2,
+                strokeWidth: this.strokeWidth,
                 padding: 8,
-                animationDuration: 800
+                animationDuration: 800,
+                color: colors.solidBlue
             },
             'cls-highlight': {
                 type: 'highlight',
+                strokeWidth: this.strokeWidth,
                 multiline: true,
                 animationDuration: 1300,
+                color: colors.softYellow
                 
             },
             'cls-strike': {
                 type: 'strike-through',
                 multiline: true, 
-                strokeWidth: 2,
-                animationDuration: 500
+                strokeWidth: this.strokeWidth,
+                animationDuration: 500,
+                color: colors.solidGreen
             },
             'cls-crossed': {
                 type: 'crossed-off',
                 multiline: true, 
-                strokeWidth: 2,
-                animationDuration: 600
+                strokeWidth: this.strokeWidth,
+                animationDuration: 600,
+                color: colors.solidRed
             },
             'cls-bracket': {
                 type: 'bracket',
                 multiline: true, 
-                strokeWidth: 2,
+                strokeWidth: this.strokeWidth,
                 brackets: ['left', 'right'],
-                animationDuration: 700
+                animationDuration: 700,
+                color: colors.solidOrange
             }
         };
         
@@ -145,7 +171,7 @@ class RoughAnnotationSystem {
         }
 
         // Obtém a cor
-        const baseColor = this.getBaseColor(element);
+        const baseColor = this.getBaseColor(element, config);
         
         // Para highlight, usa cor com transparência
         const color = config.type === 'highlight' 
@@ -165,41 +191,21 @@ class RoughAnnotationSystem {
         this.observer.observe(element);
     }
 
-    /**
-     * Obtém o valor da variável CSS --base
-     */
-    // getBaseColor(element) {
-    //     // Tenta pegar do elemento
-    //     let color = getComputedStyle(element).getPropertyValue('--base').trim();
-        
-    //     // Se não encontrar, tenta do :root
-    //     if (!color) {
-    //         color = getComputedStyle(document.documentElement).getPropertyValue('--base').trim();
-    //     }
 
-    //     // Fallback se --base não existir
-    //     if (!color) {
-    //         console.warn('[RoughAnnotationSystem] Variável --base não encontrada. Usando fallback #ff6b35');
-    //         return '#ff6b35';
-    //     }
-
-    //     return color;
-    // }
-
-     getBaseColor(element) {
+     getBaseColor(element, config) {
         // 1️⃣ Se existir data-color
         if (element.dataset.color) {
             return element.dataset.color.trim();
         }
 
         // 2️⃣ Se existir cor inline
-        const inlineColor = element.style.color;
-        if (inlineColor) {
-            return inlineColor.trim();
-        }
+        // const inlineColor = element.style.color;
+        // if (inlineColor) {
+        //     return inlineColor.trim();
+        // }
 
         // 3️⃣ Fallback para cor padrão
-        return this.defaultColor;
+        return config.color;
     }
 
     /**
@@ -316,3 +322,6 @@ window.roughAnnotationSystem = roughAnnotationSystem;
 // Log de boas-vindas
 console.log('%c🖍️ Rough Annotation System carregado!', 'color: #ff6b35; font-weight: bold; font-size: 14px;');
 console.log('%cClasses disponíveis: .cls-underline, .cls-box, .cls-circle, .cls-highlight, .cls-strike, .cls-crossed, .cls-bracket', 'color: #666; font-size: 12px;');
+
+
+

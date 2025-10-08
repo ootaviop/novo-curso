@@ -3,17 +3,16 @@
        ═══════════════════════════════════════════════════════ */
 
     .lesson-main {
-      padding-bottom: 2rem;
+      padding-bottom: clamp(2rem, 2rem + 1vw, 3rem);
 
     }
 
     .lesson-container {
-
       margin: 0 auto;
-      padding: 2rem;
+      padding: clamp(2rem, 2rem + 1vw, 3rem);
       display: grid;
       grid-template-columns: 1fr 280px;
-      gap: 4rem;
+      gap: clamp(4rem, 4rem + 1vw, 5rem);
       align-items: start;
     }
 
@@ -23,10 +22,10 @@
     .breadcrumb {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      font-size: 0.9375rem;
+      gap: clamp(0.75rem, 0.7rem + 0.25vw, 1rem);
+      font-size: clamp(0.9375rem, 0.8rem + 0.55vw, 1.2rem);
       color: var(--gray);
-      margin-bottom: 2rem;
+      margin-bottom: clamp(2rem, 2rem + 1vw, 3rem);
       flex-wrap: wrap;
     }
 
@@ -34,6 +33,7 @@
       color: var(--gray);
       text-decoration: none;
       transition: color 150ms;
+      font-size: var(--text-xs);
     }
 
     .breadcrumb-item:hover {
@@ -43,11 +43,13 @@
     .breadcrumb-separator {
       color: var(--orange);
       font-weight: 400;
+      font-size: var(--text-sm);
     }
 
     .breadcrumb-current {
       color: var(--orange-white);
       font-weight: 400;
+      font-size: var(--text-xs);
     }
 
     /* ═══════════════════════════════════════════════════════
@@ -55,26 +57,26 @@
        ═══════════════════════════════════════════════════════ */
 
     .lesson-title {
-      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-size: var(--text-h4);
       font-weight: 700;
       color: var(--black);
       line-height: 1.2;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.75rem;
+      letter-spacing: clamp(-0.02em, -0.01em + 0.05vw, 0em);
+      margin-bottom: clamp(0.75rem, 0.7rem + 0.25vw, 1rem);
     }
 
     .lesson-meta {
-      font-size: 0.9375rem;
+      font-size: var(--text-sm);
       color: var(--gray);
       font-style: italic;
-      margin-bottom: 3rem;
+      margin-bottom: clamp(2rem, 2em + 1vw, 3rem);
     }
 
     .lesson-intro {
-      font-size: 1.125rem;
+      font-size: var(--text-lg);
       line-height: 1.7;
       color: var(--gray-dark);
-      margin-bottom: 2rem;
+      margin-bottom: clamp(2rem, 2rem + 0vw, 2rem);
     }
 
     .lesson-intro strong {
@@ -83,5 +85,5 @@
     }
 
     #first {
-      padding-top: 2rem;
+      padding-top: clamp(2rem, 2rem + 0vw, 2rem);
     }
