@@ -19,3 +19,15 @@ body{
 .separador-medio{
     height: 60px;
 }
+
+@media (min-width: 1200px) {
+    .container{
+        max-width: 1200px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container{
+        max-width: 1400px;
+    }
+}
