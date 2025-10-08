@@ -20,3 +20,12 @@ body{
     height: 60px;
 }
 
+::selection{
+    background-color: var(--base);
+    color: white;
+ }
+
+
+ /* assets/css/variables.css */
+
+/* Telas muito grandes (1920px+) */

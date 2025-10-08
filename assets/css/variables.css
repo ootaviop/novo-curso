@@ -1,16 +1,3 @@
-:root{
-    --base: #ff6b35;
-    --orange: #FF5C00;
-      --orange-hover: #E54F00;
-      --black: #000000;
-      --gray-dark: #1a1a1a;
-      --gray: #666666;
-      --gray-light: #E5E5E5;
-      --white: #FFFFFF;
-      --bg-subtle: #FAFAFA;
-      --bh: #ededed;  
-}
-
 :root {
   /* Cores - Modo Claro */
   --text: #1a1a1a;
@@ -23,6 +10,11 @@
   --orange-hover: #E54F00;
   --orange-white: rgb(255, 109, 68);
   --orange-white2: rgba(255, 178, 157, 0.8);
+  --bg-subtle: #FAFAFA;
+  --bh: #ededed;  
+  --gray-dark: #1a1a1a;
+  --gray: #666666;
+  --black: #000000;
   
   /* Fontes */
   --font: "Red Hat Display", sans-serif;
@@ -37,26 +29,54 @@
   /* Fórmula clamp: clamp(min, preferencial, max)
      preferencial = min + (max - min) × ((100vw - 320px) / (1280 - 320)) */
   
-  --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.875rem);      /* 12.8px → 14px */
-  --text-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);        /* 16px → 18px */
-  --text-lg: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);       /* 18px → 20px */
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.8rem);      /* 12.8px → 17.6px */
+  --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 1rem);      /* 12.8px → 17.6px */
+  --text-base: clamp(1rem, 0.9rem + 0.5vw, 1.35rem);        /* 16px → 21.6px */
+  --text-lg: clamp(1.125rem, 1rem + 0.625vw, 1.5rem);       /* 18px → 24px */
   
-  /* Títulos - Escala 1.25 */
-  --text-h6: clamp(1.25rem, 1.125rem + 0.625vw, 1.375rem);   /* 20px → 22px */
-  --text-h5: clamp(1.375rem, 1.2rem + 0.875vw, 1.563rem);    /* 22px → 25px */
-  --text-h4: clamp(1.563rem, 1.35rem + 1.065vw, 1.953rem);   /* 25px → 31.25px */
-  --text-h3: clamp(1.953rem, 1.65rem + 1.515vw, 2.441rem);   /* 31.25px → 39px */
-  --text-h2: clamp(2.441rem, 2rem + 2.205vw, 3.052rem);      /* 39px → 48.8px */
-  --text-h1: clamp(3.052rem, 2.5rem + 2.76vw, 3.815rem);     /* 48.8px → 61px */
+  /* Títulos - Escala 1.25+ para telas grandes */
+  --text-h6: clamp(1.25rem, 1.125rem + 0.625vw, 1.7rem);    /* 20px → 27.2px */
+  --text-h5: clamp(1.375rem, 1.2rem + 0.875vw, 1.95rem);    /* 22px → 31.2px */
+  --text-h4: clamp(1.563rem, 1.35rem + 1.065vw, 2.45rem);   /* 25px → 39.2px */
+  --text-h3: clamp(1.953rem, 1.65rem + 1.515vw, 3.05rem);   /* 31.25px → 48.8px */
+  --text-h2: clamp(2.441rem, 2rem + 2.205vw, 3.8rem);       /* 39px → 60.8px */
+  --text-h1: clamp(3.052rem, 2.5rem + 2.76vw, 4.8rem);      /* 48.8px → 76.8px */
 }
 
-/* Modo Escuro */
-@media (prefers-color-scheme: dark) {
+@media (min-width: 1920px) {
   :root {
-    --text: #e5e5e5;
-    --text-muted: #a3a3a3;
-    --bg: #1a1a1a;
-    --link: #60a5fa;
-    --link-hover: #93c5fd;
+    --scale-multiplier: 1.5; 
+    --text-xs: calc(0.8rem * var(--scale-multiplier));
+    --text-sm: calc(1.1rem * var(--scale-multiplier));
+    --text-base: calc(1.35rem * var(--scale-multiplier));
+    --text-lg: calc(1.5rem * var(--scale-multiplier));
+    
+    --text-h6: calc(1.7rem * var(--scale-multiplier));
+    --text-h5: calc(1.95rem * var(--scale-multiplier));
+    --text-h4: calc(2.45rem * var(--scale-multiplier));
+    --text-h3: calc(3.05rem * var(--scale-multiplier));
+    --text-h2: calc(3.8rem * var(--scale-multiplier));
+    --text-h1: calc(4.8rem * var(--scale-multiplier));
   }
+  
+  p {
+    line-height: calc(40px * var(--scale-multiplier))!important;
+    margin-bottom: calc(1.75rem * var(--scale-multiplier))!important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: calc(2.5rem * var(--scale-multiplier))!important;
+    margin-bottom: calc(1.25rem * var(--scale-multiplier))!important;
+  }
+
+  .col-sm-10, .col-lg-10, .col-xl-9, .col-xxl-10 {
+    padding-left: calc(1.5rem * var(--scale-multiplier))!important;
+    padding-right: calc(1.5rem * var(--scale-multiplier))!important;
+  }
+
+  .container-fluid {
+    padding-left: calc(1.5rem * var(--scale-multiplier))!important;
+    padding-right: calc(1.5rem * var(--scale-multiplier))!important;
+  }
+
 }

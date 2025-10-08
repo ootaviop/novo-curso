@@ -1,4 +1,5 @@
-/**
+
+    /**
  * ═══════════════════════════════════════════════════════════════
  * 🖍️ ROUGH NOTATION - SISTEMA COMPLETO
  * ═══════════════════════════════════════════════════════════════
@@ -28,31 +29,36 @@ class RoughAnnotationSystem {
     constructor() {
         this.annotationMap = new Map();
         this.observer = null;
+        //this.strokeWidth = 2;
         
         // Configuração de cada tipo de anotação
+        const w = window.innerWidth;
+        w >= 1920 ? this.strokeWidth = 3.2 : this.strokeWidth = 2;
+        
         this.annotationTypes = {
             'cls-underline': {
                 type: 'underline',
                 multiline: true, 
-                strokeWidth: 2,
+                strokeWidth: this.strokeWidth,
                 animationDuration: 800
             },
             'cls-box': {
                 type: 'box',
                 multiline: true, 
-                strokeWidth: 2,
+                strokeWidth: this.strokeWidth,
                 padding: 6,
                 animationDuration: 1000
             },
             'cls-circle': {
                 type: 'circle',
                 multiline: true, 
-                strokeWidth: 2,
+                strokeWidth: this.strokeWidth,
                 padding: 8,
                 animationDuration: 800
             },
             'cls-highlight': {
                 type: 'highlight',
+                strokeWidth: this.strokeWidth,
                 multiline: true,
                 animationDuration: 1300,
                 
@@ -60,19 +66,19 @@ class RoughAnnotationSystem {
             'cls-strike': {
                 type: 'strike-through',
                 multiline: true, 
-                strokeWidth: 2,
+                strokeWidth: this.strokeWidth,
                 animationDuration: 500
             },
             'cls-crossed': {
                 type: 'crossed-off',
                 multiline: true, 
-                strokeWidth: 2,
+                strokeWidth: this.strokeWidth,
                 animationDuration: 600
             },
             'cls-bracket': {
                 type: 'bracket',
                 multiline: true, 
-                strokeWidth: 2,
+                strokeWidth: this.strokeWidth,
                 brackets: ['left', 'right'],
                 animationDuration: 700
             }
@@ -316,3 +322,6 @@ window.roughAnnotationSystem = roughAnnotationSystem;
 // Log de boas-vindas
 console.log('%c🖍️ Rough Annotation System carregado!', 'color: #ff6b35; font-weight: bold; font-size: 14px;');
 console.log('%cClasses disponíveis: .cls-underline, .cls-box, .cls-circle, .cls-highlight, .cls-strike, .cls-crossed, .cls-bracket', 'color: #666; font-size: 12px;');
+
+
+

@@ -13,9 +13,9 @@
 .audio-trigger-container {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin: 1.5rem 0 2rem;
-  padding: 1rem 0;
+  gap: clamp(1rem, 1rem + 1vw, 2rem);
+  margin: clamp(0.8rem, .5rem + 1vw, 1.5rem) 0 clamp(0.8rem, .5rem + 1vw, 1.5rem);
+  padding: clamp(0.8rem, .5rem + 1vw, 1.5rem) 0;
   border-top: 1px solid #f0f0f0;
   border-bottom: 1px solid #f0f0f0;
 }
@@ -23,13 +23,13 @@
 .audio-trigger-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
+  gap: clamp(0.5rem, 0.5rem + 0.25vw, 1rem);
+  padding: clamp(0.75rem, 0.75rem + 0.25vw, 1rem) clamp(1.5rem, 1.5rem + 0.25vw, 2rem);
   background: var(--orange);
   color: white;
   border: none;
   border-radius: 50px;
-  font-size: 0.9375rem;
+  font-size: var(--text-sm);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -48,14 +48,14 @@
 }
 
 .audio-trigger-btn .icon {
-  font-size: 1.25rem;
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.5rem);
 }
 
 .audio-trigger-info {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  font-size: 0.8125rem;
+  gap: clamp(0.25rem, 0.25rem + 0.25vw, 0.5rem);
+  font-size: var(--text-sm);
   color: var(--gray);
 }
 
@@ -73,7 +73,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 90px;
+  height: clamp(90px, 90px + 0.6vw, 120px);
   background: linear-gradient(to top, #1a1a1a 0%, #242424 100%);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
@@ -312,7 +312,7 @@ body.audio-player-active {
   background: none;
   border: none;
   color: #b3b3b3;
-  cursor: pointer;
+  /* cursor: pointer; */
   padding: 0.5rem;
   border-radius: 50%;
   transition: all 0.2s ease;
