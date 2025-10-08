@@ -10,6 +10,7 @@
   --orange-hover: #E54F00;
   --orange-white: rgb(255, 109, 68);
   --orange-white2: rgba(255, 178, 157, 0.8);
+  --orange-white3: rgba(255, 239, 235, 0.8);
   --bg-subtle: #FAFAFA;
   --bh: #ededed;  
   --gray-dark: #1a1a1a;
@@ -20,11 +21,30 @@
   --font: "Red Hat Display", sans-serif;
   --font-serif: Georgia, 'Times New Roman', serif;
   --font-mono: 'SF Mono', 'Monaco', 'Courier New', monospace;
+  --fa-check: '\f00c';           /* fa-check */
+  --fa-lightbulb: '\f0eb';       /* fa-lightbulb */
+  --fa-file-alt: '\f15c';        /* fa-file-alt */
+  --fa-code: '\f121';            /* fa-code */
+  --fa-brain: '\f5dc';           /* fa-brain */
+  --fa-quote-left: '\f10d';      /* fa-quote-left */
+  --fa-exclamation-triangle: '\f071'; /* fa-exclamation-triangle */
+  --fa-info-circle: '\f05a';     /* fa-info-circle */
   
-  /* ═══════════════════════════════════════════════════════════
-     ESCALA TIPOGRÁFICA (Proporção 1.25)
-     Base: 16px (mobile) → 18px (desktop)
-     ═══════════════════════════════════════════════════════════ */
+
+  /* Cores Rough Notation */
+  --rough-notation-base: #ff6b35;
+  --rough-notation-solid-orange: #ff6b35;
+  --rough-notation-soft-orange: #ff9670;
+  --rough-notation-soft-green: #bfff41;
+  --rough-notation-solid-green: #1ed760;
+  --rough-notation-solid-blue: #1f9be4;
+  --rough-notation-soft-blue: #70b5e4;
+  --rough-notation-solid-purple: #a855f7;
+  --rough-notation-soft-purple: #c084fc;
+  --rough-notation-solid-red: #ff0000;
+  --rough-notation-soft-red: #ff7070;
+  --rough-notation-solid-yellow: #ffff00;
+  --rough-notation-soft-yellow: #ffff90;
   
   /* Fórmula clamp: clamp(min, preferencial, max)
      preferencial = min + (max - min) × ((100vw - 320px) / (1280 - 320)) */
@@ -32,6 +52,7 @@
   --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.8rem);      /* 12.8px → 17.6px */
   --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 1rem);      /* 12.8px → 17.6px */
   --text-base: clamp(1rem, 0.9rem + 0.5vw, 1.35rem);        /* 16px → 21.6px */
+  --text-base-small: clamp(0.9rem, 0.8rem + 0.5vw, 1.2rem);        /* 14.4px → 19.2px */
   --text-lg: clamp(1.125rem, 1rem + 0.625vw, 1.5rem);       /* 18px → 24px */
   
   /* Títulos - Escala 1.25+ para telas grandes */
@@ -41,14 +62,16 @@
   --text-h3: clamp(1.953rem, 1.65rem + 1.515vw, 3.05rem);   /* 31.25px → 48.8px */
   --text-h2: clamp(2.441rem, 2rem + 2.205vw, 3.8rem);       /* 39px → 60.8px */
   --text-h1: clamp(3.052rem, 2.5rem + 2.76vw, 4.8rem);      /* 48.8px → 76.8px */
+  --scale-multiplier: 1;
 }
 
 @media (min-width: 1920px) {
   :root {
-    --scale-multiplier: 1.5; 
+    --scale-multiplier: 1.4; 
     --text-xs: calc(0.8rem * var(--scale-multiplier));
     --text-sm: calc(1.1rem * var(--scale-multiplier));
     --text-base: calc(1.35rem * var(--scale-multiplier));
+    --text-base-small: calc(1.2rem * var(--scale-multiplier));
     --text-lg: calc(1.5rem * var(--scale-multiplier));
     
     --text-h6: calc(1.7rem * var(--scale-multiplier));
@@ -62,6 +85,10 @@
   p {
     line-height: calc(40px * var(--scale-multiplier))!important;
     margin-bottom: calc(1.75rem * var(--scale-multiplier))!important;
+  }
+
+  p:last-child {
+    margin-bottom: 0!important;
   }
 
   h1, h2, h3, h4, h5, h6 {

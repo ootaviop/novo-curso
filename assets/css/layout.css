@@ -21,11 +21,7 @@ body{
 }
 
 ::selection{
-    background-color: var(--base);
-    color: white;
+    background-color: var(--orange-white3);
+    color: var(--orange-white);
  }
 
-
- /* assets/css/variables.css */
-
-/* Telas muito grandes (1920px+) */

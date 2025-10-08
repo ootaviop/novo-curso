@@ -8,7 +8,6 @@
     }
 
     .lesson-container {
-
       margin: 0 auto;
       padding: clamp(2rem, 2rem + 1vw, 3rem);
       display: grid;
