@@ -24,7 +24,7 @@ class ScrollMinimap {
             sectionDetectionOffset: 'third', // 'top', 'center', 'third'
             
             // Responsividade
-            breakpointMobile: 468,
+            breakpointMobile: 1200,
             
             // Níveis (Hierarquia Visual)
             levelWidths: [48, 38, 31, 26, 22],
