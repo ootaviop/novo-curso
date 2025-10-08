@@ -1,0 +1,17 @@
+body {
+    cursor: none !important;
+  }
+  
+  /* Força cursor none em TODOS os elementos interativos */
+  a, button, input, textarea, select, 
+  [role="button"], [onclick], .morphable,
+  .audio-trigger-btn, .player-btn, .nav-link2 {
+    cursor: none !important;
+  }
+  
+  /* Exceção para mobile: mantém cursores nativos */
+  @media (max-width: 768px) {
+    body, body * {
+      cursor: auto !important;
+    }
+  }

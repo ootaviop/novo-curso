@@ -1,196 +1,273 @@
-// setTimeout(() => { 
-//     (function() {
-//     'use strict';
+/**
+ * ═══════════════════════════════════════════════════════════
+ * 🎯 SISTEMA DE CURSOR MODULAR
+ * ═══════════════════════════════════════════════════════════
+ * 
+ * 4 Modelos Disponíveis:
+ * - 'hand-craft': Mão artesanal detalhada
+ * - 'geometric': Formas geométricas Bauhaus
+ * - 'blob': Forma orgânica líquida
+ * - 'arrow-evolved': Seta com elementos dinâmicos
+ */
 
-//     const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || 
-//                     window.innerWidth < 768;
+class CursorSystem {
+    constructor(config = {}) {
+      // ═══════════════════════════════════════════════════════
+      // ⚙️ CONFIGURAÇÃO - ESCOLHA SEU MODELO AQUI!
+      // ═══════════════════════════════════════════════════════
+      this.selectedModel = config.model || 'hand-craft'; // 👈 MUDE AQUI!
+      
+      // Modelos disponíveis
+      this.availableModels = [
+        'hand-craft',    // Modelo 1
+        'geometric',     // Modelo 2
+        'blob',          // Modelo 3
+        'arrow-evolved'  // Modelo 4
+      ];
+      
+      // Valida modelo
+      if (!this.availableModels.includes(this.selectedModel)) {
+        console.warn(`Modelo "${this.selectedModel}" não encontrado. Usando "hand-craft".`);
+        this.selectedModel = 'hand-craft';
+      }
+      
+      // Elementos DOM
+      this.cursorSystem = document.getElementById('cursorSystem');
+      this.activeModel = null;
+      this.cursorDefault = null;
+      this.cursorHand = null;
+      this.cursorText = null;
+      this.cursorRipple = document.getElementById('cursorRipple');
+      this.trailPath = null;
+      
+      // Estado
+      this.position = { x: 0, y: 0 };
+      this.target = { x: 0, y: 0 };
+      this.currentState = 'default';
+      
+      // Trail (apenas para modelo 1)
+      this.trailPoints = [];
+      this.maxTrailLength = 8;
+      
+      // Mobile check
+      this.isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || 
+                      window.innerWidth < 768;
+      
+      if (this.isMobile) {
+        document.body.style.cursor = 'auto';
+        return;
+      }
+      
+      this.init();
+    }
     
-//     if (isMobile) {
-//     document.body.style.cursor = 'auto';
-//     return;
-//     }
-
-//     const cursor = document.getElementById('cursor');
-//     if (!cursor) return;
-
-//     // Estado
-//     const position = { x: 0, y: 0 };
-//     const target = { x: 0, y: 0 };
-//     let currentScale = 1;
-//     let targetScale = 1;
-//     let rafId = null;
-//     let currentMorphTarget = null;
-//     let isMorphed = false;
-
-//     function lerp(start, end, factor) {
-//     return start + (end - start) * factor;
-//     }
-
-//     function handleMouseMove(e) {
-//     if (!isMorphed) {
-//         target.x = e.clientX;
-//         target.y = e.clientY;
-//     }
-//     }
-
-//     /**
-//      * Morph para elemento - VERSÃO OUTLINE
-//      * 
-//      * Mudanças críticas vs versão anterior:
-//      * 1. NÃO adiciona background sólido
-//      * 2. Cursor vira BORDA ao redor do elemento
-//      * 3. Adiciona padding na expansão para border ficar visível
-//      * 
-//      * Por que funciona?
-//      * - background: transparent = conteúdo visível
-//      * - border: 3px solid = contorno claro
-//      * - Dimensões INCLUEM a borda (ajuste necessário)
-//      */
-//     function morphToElement(element) {
-//     if (!element) return;
+    init() {
+      this.activateModel(this.selectedModel);
+      this.cacheElements();
+      this.setupEventListeners();
+      this.animate();
+      
+      console.log(`✅ Cursor System: Modelo "${this.selectedModel}" ativado`);
+    }
     
-//     currentMorphTarget = element;
-//     isMorphed = true;
+    /**
+     * Ativa um modelo específico
+     */
+    activateModel(modelName) {
+      // Remove classe active de todos
+      const allModels = this.cursorSystem.querySelectorAll('.cursor-model');
+      allModels.forEach(m => m.classList.remove('active'));
+      
+      // Ativa o modelo escolhido
+      this.activeModel = this.cursorSystem.querySelector(`[data-model="${modelName}"]`);
+      
+      if (this.activeModel) {
+        this.activeModel.classList.add('active');
+      } else {
+        console.error(`Modelo "${modelName}" não encontrado no DOM`);
+      }
+    }
     
-//     const rect = element.getBoundingClientRect();
-//     const computedStyle = window.getComputedStyle(element);
-//     const borderRadius = computedStyle.borderRadius || '12px';
+    /**
+     * Cacheia elementos do modelo ativo
+     */
+    cacheElements() {
+      if (!this.activeModel) return;
+      
+      this.cursorDefault = this.activeModel.querySelector('.cursor-default');
+      this.cursorHand = this.activeModel.querySelector('.cursor-hand');
+      this.cursorText = this.activeModel.querySelector('.cursor-text');
+      this.trailPath = this.activeModel.querySelector('.trail-path');
+    }
     
-//     // Força cursor para o centro do elemento
-//     target.x = rect.left + (rect.width / 2);
-//     target.y = rect.top + (rect.height / 2);
-    
-//     /**
-//      * IMPORTANTE: Adicionamos 6px (3px de cada lado)
-//      * Por que?
-//      * - Cursor tem border: 3px
-//      * - Queremos que a BORDA envolva o elemento
-//      * - Se usarmos width exato, borda fica cortada
-//      */
-//     const borderWidth = 2;
-//     const offset = borderWidth * 2;
-    
-//     cursor.style.width = `${rect.width + offset}px`;
-//     cursor.style.height = `${rect.height + offset}px`;
-//     cursor.style.borderRadius = borderRadius;
-//     cursor.classList.add('morphed');
-//     }
-
-//     /**
-//      * Reset cursor para estado bolinha
-//      */
-//     function resetCursor() {
-//     currentMorphTarget = null;
-//     isMorphed = false;
-    
-//     cursor.style.width = '35px';
-//     cursor.style.height = '35px';
-//     cursor.style.borderRadius = '50%';
-//     cursor.classList.remove('morphed');
-//     }
-
-//     /**
-//      * Setup elementos morphable
-//      */
-//     function setupMorphableElements() {
-//     const morphables = document.querySelectorAll('.morphable');
-    
-//     morphables.forEach(element => {
-//         element.addEventListener('mouseenter', () => {
-//         morphToElement(element);
-//         });
+    setupEventListeners() {
+      // Mouse move
+      document.addEventListener('mousemove', (e) => {
+        this.target.x = e.clientX;
+        this.target.y = e.clientY;
         
-//         element.addEventListener('mouseleave', () => {
-//         resetCursor();
-//         });
-//     });
-//     }
-
-//     /**
-//      * Loop de animação
-//      */
-//     function animate() {
-//     // Se em morph, recalcula posição do elemento (importante para scroll)
-//     if (currentMorphTarget) {
-//         const rect = currentMorphTarget.getBoundingClientRect();
-//         target.x = rect.left + (rect.width / 2);
-//         target.y = rect.top + (rect.height / 2);
-//     }
+        // Trail (apenas modelo 1)
+        if (this.selectedModel === 'hand-craft' && this.trailPath) {
+          this.trailPoints.push({ x: e.clientX, y: e.clientY });
+          if (this.trailPoints.length > this.maxTrailLength) {
+            this.trailPoints.shift();
+          }
+        }
+      });
+      
+      // Click
+      document.addEventListener('click', (e) => {
+        this.triggerRipple(e.clientX, e.clientY);
+      });
+      
+      // Detecta elementos interativos
+      this.setupInteractiveElements();
+    }
     
-//     // Interpola posição
-//     const lerpFactor = isMorphed ? 0.2 : 0.15;
-//     position.x = lerp(position.x, target.x, lerpFactor);
-//     position.y = lerp(position.y, target.y, lerpFactor);
-
-//     // Interpola scale (transição suave)
-//     currentScale = lerp(currentScale, targetScale, 0.2);
-
-//     /**
-//      * Aplica transform combinado
-//      * - translate(x, y): posição absoluta
-//      * - translate(-50%, -50%): centraliza no ponto
-//      * - scale(): expande durante o click
-//      * 
-//      * CRÍTICO: Incluímos o scale no transform inline porque
-//      * o requestAnimationFrame sobrescreve qualquer CSS.
-//      * A interpolação garante transição suave.
-//      */
-//     cursor.style.transform = `translate(${position.x}px, ${position.y}px) translate(-50%, -50%) scale(${currentScale})`;
-
-//     rafId = requestAnimationFrame(animate);
-//     }
-
-//     /**
-//      * Left-click effect
-//      * NÃO previne comportamento padrão para permitir seleção de texto
-//      */
-//     function handleLeftClick() {
-//     // Define scale alvo
-//     targetScale = 1.5;
-//     // Adiciona classe de efeito (para opacity)
-//     cursor.classList.add('cursor-click-active');
-//     }
-
-//     function handleLeftClickRelease() {
-//     // Restaura scale
-//     targetScale = 1.0;
-//     // Remove classe de efeito
-//     cursor.classList.remove('cursor-click-active');
-//     }
-
-//     // Inicialização
-//     window.addEventListener('mousemove', handleMouseMove);
-//     window.addEventListener('mousedown', (e) => {
-//     if ((e.button === 0) && !isMorphed) { // Botão esquerdo
-//         handleLeftClick();
-//     }
-//     });
-//     window.addEventListener('mouseup', (e) => {
-//     if ((e.button === 0) && !isMorphed) { // Botão esquerdo
-//         handleLeftClickRelease();
-//     }
-//     });
-
-//     // muda a cor do cursor no mouseenter se o elemento em hover for um link ou button
-//     window.addEventListener('mouseenter', () => {
-//         const hoveredElement = document.elementFromPoint(event.clientX, event.clientY);
-//         if (hoveredElement && (hoveredElement.tagName === 'A' || hoveredElement.tagName === 'BUTTON')) {
-//             cursor.style.background = 'red';
-//         }
-//     });
+    setupInteractiveElements() {
+      // Links e botões
+      const interactiveElements = document.querySelectorAll(
+        'a, button, .morphable, [role="button"]'
+      );
+      
+      interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => this.setState('hand'));
+        el.addEventListener('mouseleave', () => this.setState('default'));
+      });
+      
+      // Campos de texto
+      const textElements = document.querySelectorAll(
+        'input[type="text"], textarea, [contenteditable="true"]'
+      );
+      
+      textElements.forEach(el => {
+        el.addEventListener('mouseenter', () => this.setState('text'));
+        el.addEventListener('mouseleave', () => this.setState('default'));
+      });
+    }
     
-
-//     setupMorphableElements();
-//     rafId = requestAnimationFrame(animate);
-
-//     // Cleanup
-//     window.addEventListener('beforeunload', () => {
-//     window.removeEventListener('mousemove', handleMouseMove);
-//     if (rafId) cancelAnimationFrame(rafId);
-//     });
-
-// })();
-//  }, 100)
-
-
- 
+    setState(newState) {
+      if (this.currentState === newState) return;
+      
+      // Remove todos os estados
+      this.cursorDefault.style.opacity = '0';
+      this.cursorHand.classList.remove('active');
+      this.cursorText.classList.remove('active');
+      
+      // Aplica novo estado
+      this.currentState = newState;
+      
+      switch(newState) {
+        case 'default':
+          this.cursorDefault.style.opacity = '1';
+          break;
+        case 'hand':
+          this.cursorHand.classList.add('active');
+          break;
+        case 'text':
+          this.cursorText.classList.add('active');
+          break;
+      }
+    }
+    
+    triggerRipple(x, y) {
+      this.cursorRipple.style.left = `${x}px`;
+      this.cursorRipple.style.top = `${y}px`;
+      this.cursorRipple.classList.remove('active');
+      
+      void this.cursorRipple.offsetWidth; // Force reflow
+      
+      this.cursorRipple.classList.add('active');
+    }
+    
+    lerp(start, end, factor) {
+      return start + (end - start) * factor;
+    }
+    
+    updateTrail() {
+      if (!this.trailPath || this.trailPoints.length < 2) return;
+      
+      let pathData = `M${this.trailPoints[0].x},${this.trailPoints[0].y}`;
+      
+      for (let i = 1; i < this.trailPoints.length; i++) {
+        pathData += ` L${this.trailPoints[i].x},${this.trailPoints[i].y}`;
+      }
+      
+      this.trailPath.setAttribute('d', pathData);
+    }
+    
+    animate() {
+      // Interpola posição
+      this.position.x = this.lerp(this.position.x, this.target.x, 0.15);
+      this.position.y = this.lerp(this.position.y, this.target.y, 0.15);
+      
+      // Atualiza posições
+      if (this.cursorDefault) {
+        this.cursorDefault.style.left = `${this.position.x}px`;
+        this.cursorDefault.style.top = `${this.position.y}px`;
+      }
+      
+      if (this.cursorHand) {
+        this.cursorHand.style.left = `${this.position.x}px`;
+        this.cursorHand.style.top = `${this.position.y}px`;
+      }
+      
+      if (this.cursorText) {
+        this.cursorText.style.left = `${this.position.x}px`;
+        this.cursorText.style.top = `${this.position.y}px`;
+      }
+      
+      // Atualiza trail (modelo 1)
+      if (this.selectedModel === 'hand-craft') {
+        this.updateTrail();
+      }
+      
+      requestAnimationFrame(() => this.animate());
+    }
+    
+    /**
+     * ═══════════════════════════════════════════════════════
+     * 🔄 TROCA DE MODELO EM RUNTIME (opcional)
+     * ═══════════════════════════════════════════════════════
+     */
+    switchModel(newModel) {
+      if (!this.availableModels.includes(newModel)) {
+        console.error(`Modelo "${newModel}" não existe`);
+        return;
+      }
+      
+      this.selectedModel = newModel;
+      this.activateModel(newModel);
+      this.cacheElements();
+      
+      // Reseta trail
+      this.trailPoints = [];
+      
+      console.log(`✅ Modelo alterado para: "${newModel}"`);
+    }
+  }
+  
+  // ═══════════════════════════════════════════════════════════
+  // 🚀 INICIALIZAÇÃO
+  // ═══════════════════════════════════════════════════════════
+  
+  let cursorSystem;
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    // ⚙️ CONFIGURE SEU MODELO AQUI!
+    cursorSystem = new CursorSystem({
+      model: 'arrow-evolved'  // 👈 Opções: 'hand-craft', 'geometric', 'blob', 'arrow-evolved'
+    });
+    
+    // Expõe globalmente para debug
+    window.cursorSystem = cursorSystem;
+  });
+  
+  // ═══════════════════════════════════════════════════════════
+  // 💡 EXEMPLO DE USO:
+  // ═══════════════════════════════════════════════════════════
+  // No console, você pode testar:
+  // cursorSystem.switchModel('geometric')
+  // cursorSystem.switchModel('blob')
+  // cursorSystem.switchModel('arrow-evolved')
+  // cursorSystem.switchModel('hand-craft')
