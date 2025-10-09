@@ -146,52 +146,65 @@ class AudioPlayer {
 
   /**
    * ═══════════════════════════════════════════════════════════
-   * 🎨 CRIAÇÃO DA UI
+   * 🎨 INICIALIZAÇÃO DA UI
    * ═══════════════════════════════════════════════════════════
    */
   createUI() {
-    this.createTriggerButton();
-    this.createPlayerBar();
+    this.initializeTriggerButton();
+    this.initializePlayerBar();
   }
 
   /**
-   * Cria botão "Ouvir esta aula"
+   * Inicializa botão "Ouvir esta aula" (elemento já existe no HTML)
    */
-  createTriggerButton() {
-    const lessonMeta = document.querySelector(".lesson-meta");
+  initializeTriggerButton() {
+    const button = document.querySelector(".audio-trigger-btn");
 
-    if (!lessonMeta) {
+    if (!button) {
       console.warn(
-        "[AudioPlayer] .lesson-meta não encontrado. Botão não será criado."
+        "[AudioPlayer] .audio-trigger-btn não encontrado. Botão não será inicializado."
       );
       return;
     }
 
-    const container = document.createElement("div");
-    container.className = "audio-trigger-container";
-
-    const button = document.createElement("button");
-    button.className = "audio-trigger-btn morphable";
-    button.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="${this.getIconSize()}" height="${this.getIconSize()}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headphones-icon lucide-headphones"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></svg>
-      <span>Ouvir esta aula</span>
-    `;
-
-    const info = document.createElement("div");
-    info.className = "audio-trigger-info";
-
-    const totalDuration = this.estimateTotalDuration();
-    info.innerHTML = `
-      <div><strong>${this.playlist.length} trechos</strong> de áudio disponíveis</div>
-      <div>Duração estimada: ~${totalDuration} minutos</div>
-    `;
-
-    container.appendChild(button);
-    container.appendChild(info);
-
-    lessonMeta.insertAdjacentElement("afterend", container);
-
     this.triggerBtn = button;
+    
+    // Aplica tamanho dinâmico ao ícone SVG
+    this.applyIconSize();
+    
+    // Atualiza informações dinâmicas (número de tracks e duração)
+    this.updateTriggerInfo();
+  }
+
+  /**
+   * Aplica tamanho calculado ao ícone SVG do botão trigger
+   */
+  applyIconSize() {
+    if (!this.triggerBtn) return;
+    
+    const svg = this.triggerBtn.querySelector("svg");
+    if (svg) {
+      const iconSize = this.getIconSize();
+      svg.setAttribute("width", iconSize);
+      svg.setAttribute("height", iconSize);
+    }
+  }
+
+  /**
+   * Atualiza informações dinâmicas do botão trigger
+   */
+  updateTriggerInfo() {
+    const tracksCountEl = document.getElementById("audioTracksCount");
+    const durationEl = document.getElementById("audioDuration");
+    
+    if (tracksCountEl) {
+      tracksCountEl.textContent = `${this.playlist.length} trechos`;
+    }
+    
+    if (durationEl) {
+      const totalDuration = this.estimateTotalDuration();
+      durationEl.textContent = totalDuration;
+    }
   }
 
   /**
@@ -204,68 +217,19 @@ class AudioPlayer {
   }
 
   /**
-   * Cria barra do player (bottom)
+   * Inicializa barra do player (elemento já existe no HTML)
    */
-  createPlayerBar() {
-    const bar = document.createElement("div");
-    bar.className = "audio-player-bar";
-    bar.innerHTML = `
-      <div class="player-info">
-        <div class="player-icon">
-          <span class="material-symbols-outlined">play_circle</span>
-        </div>
-        <div class="player-text">
-          <div class="player-title" id="playerTitle">Carregando...</div>
-          <div class="player-subtitle" id="playerSubtitle">Leitura guiada</div>
-        </div>
-      </div>
+  initializePlayerBar() {
+    const bar = document.querySelector(".audio-player-bar");
 
-      <div class="player-controls">
-        <div class="player-buttons">
-          <button class="player-btn btn-prev" id="btnPrev" title=" ">
-            <span class="material-symbols-outlined">skip_previous</span>
-          </button>
-          
-          <button class="player-btn btn-play-pause" id="btnPlayPause" title="Play">
-            <span class="material-symbols-outlined">play_arrow</span>
-          </button>
-          
-          <button class="player-btn btn-next" id="btnNext" title=" ">
-            <span class="material-symbols-outlined">skip_next</span>
-          </button>
-        </div>
+    if (!bar) {
+      console.error(
+        "[AudioPlayer] .audio-player-bar não encontrado no HTML."
+      );
+      return;
+    }
 
-        <div class="player-progress-container">
-          <span class="player-time" id="currentTime">0:00</span>
-          <div class="player-progress-bar" id="progressBar">
-            <div class="player-progress-fill" id="progressFill"></div>
-            <div class="player-progress-scrubber" id="progressScrubber"></div>
-            <div class="player-progress-tooltip" id="progressTooltip">0:00</div>
-          </div>
-          <span class="player-time" id="totalTime">0:00</span>
-        </div>
-      </div>
-
-      <div class="player-extras">
-
-        <div class="player-volume">
-          <button class="player-btn volume-btn" id="volumeBtn" title="Volume">
-            <span class="material-symbols-outlined">volume_up</span>
-          </button>
-          <div class="volume-slider-container">
-            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="100" title="Volume">
-          </div>
-        </div>
-        
-        <button class="player-btn player-close-btn" id="btnClose" title="Fechar">
-          <span class="material-symbols-outlined btnCloseIcon">close</span>
-        </button>
-      </div>
-    `;
-
-    document.body.appendChild(bar);
-
-    // Armazena referências
+    // Armazena referências aos elementos
     this.playerBar = bar;
     this.playPauseBtn = bar.querySelector("#btnPlayPause");
     this.prevBtn = bar.querySelector("#btnPrev");
@@ -281,7 +245,7 @@ class AudioPlayer {
     this.playerTitle = bar.querySelector("#playerTitle");
     this.playerSubtitle = bar.querySelector("#playerSubtitle");
 
-    // Reinicializa o sistema de cursor para incluir a nova barra de progresso
+    // Reinicializa o sistema de cursor para incluir a barra de progresso
     if (window.cursorSystem && typeof window.cursorSystem.reinitializeInteractiveElements === 'function') {
       window.cursorSystem.reinitializeInteractiveElements();
     }
