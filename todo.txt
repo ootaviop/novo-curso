@@ -68,3 +68,7 @@ Lista de tarefas
 [x] Setinha nos links externos
 [x] Desenhar svg's
 [x] Adicionar delay no aparecimento das notations
+
+
+O arquivo "audio-player.js" cria dinamicamente uma parcela importante do HTML, algo que não é necessário, visto que eu posso muito bem inserir diretamente e poupar o sistema de ter que criar e classificar os elementos.
+Eu gostaria de sua ajuda para ver o que podemos tirar do script e escrever diretamente no HTML para reduzir o tamanho e a complexidade desse arquivo que já está com 800 linhas.

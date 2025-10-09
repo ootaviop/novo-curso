@@ -14,6 +14,7 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="assets/css/components.css" />
   <link rel="stylesheet" href="assets/css/tooltip.css" />
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <!-- No <head>, adicione GSAP -->
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script> -->
@@ -134,7 +135,6 @@
             <span class="breadcrumb-current">Liderança escolar eficaz é transformacional e compartilhada
             </span>
           </nav>
-
           <!-- Título -->
           <h1 class="lesson-title" data-audio="titulo">
             Liderança escolar eficaz é transformacional e compartilhada
@@ -143,12 +143,26 @@
           <p class="lesson-meta" data-audio="tempo-leitura">
             <i class="icon-time" data-lucide="clock"></i><em>Tempo de leitura: 8 minutos</em>
           </p>
+
+          <!-- Botão para iniciar audio player -->
+          <div class="audio-trigger-container">
+            <button class="audio-trigger-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-headphones-icon lucide-headphones" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/>
+              </svg>
+              <span>Ouvir esta aula</span>
+            </button>
+            <div class="audio-trigger-info">
+              <div><strong id="audioTracksCount">0 trechos</strong> de áudio disponíveis</div>
+              <div>Duração estimada: ~<span id="audioDuration">0</span> minutos</div>
+            </div>
+          </div>
         </main>
       </div>
     </div>
   </div>
 
-  <div class="contentAula">
+  <div id="contentAula" class="contentAula">
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
@@ -188,6 +202,7 @@
               <p data-audio="p5">
                 Tendo em vista essa complexa dinâmica,
                 <span>não devemos</span>
+                
                 pensar na gestão escolar como limitada à coordenação de tarefas
                 isoladas. Muito mais do que isso, devemos imaginar a verdadeira
                 liderança escolar como o
@@ -594,29 +609,78 @@
     <div class="separador-medio"></div>
   </div>
 
+  <!-- Audio Player Bar -->
+  <div class="audio-player-bar">
+    <div class="player-info">
+      <div class="player-icon">
+        <span class="material-symbols-outlined">play_circle</span>
+      </div>
+      <div class="player-text">
+        <div class="player-title" id="playerTitle">Carregando...</div>
+        <div class="player-subtitle" id="playerSubtitle">Leitura guiada</div>
+      </div>
+    </div>
 
+    <div class="player-controls">
+      <div class="player-buttons">
+        <button class="player-btn btn-prev" id="btnPrev" title=" ">
+          <span class="material-symbols-outlined">skip_previous</span>
+        </button>
+        
+        <button class="player-btn btn-play-pause" id="btnPlayPause" title="Play">
+          <span class="material-symbols-outlined">play_arrow</span>
+        </button>
+        
+        <button class="player-btn btn-next" id="btnNext" title=" ">
+          <span class="material-symbols-outlined">skip_next</span>
+        </button>
+      </div>
+
+      <div class="player-progress-container">
+        <span class="player-time" id="currentTime">0:00</span>
+        <div class="player-progress-bar" id="progressBar">
+          <div class="player-progress-fill" id="progressFill"></div>
+          <div class="player-progress-scrubber" id="progressScrubber"></div>
+          <div class="player-progress-tooltip" id="progressTooltip">0:00</div>
+        </div>
+        <span class="player-time" id="totalTime">0:00</span>
+      </div>
+    </div>
+
+    <div class="player-extras">
+      <div class="player-volume">
+        <button class="player-btn volume-btn" id="volumeBtn" title="Volume">
+          <span class="material-symbols-outlined">volume_up</span>
+        </button>
+        <div class="volume-slider-container">
+          <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="100" title="Volume">
+        </div>
+      </div>
+      
+      <button class="player-btn player-close-btn" id="btnClose" title="Fechar">
+        <span class="material-symbols-outlined btnCloseIcon">close</span>
+      </button>
+    </div>
+  </div>
 
   <script src="https://unpkg.com/rough-notation@0.5.1/lib/rough-notation.iife.js"></script>
-
   <!-- Tippy.js para tooltips -->
   <script src="https://unpkg.com/@popperjs/core@2"></script>
   <script src="https://unpkg.com/tippy.js@6"></script>
-  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
-
   <script src="./assets/js/rough.js"></script>
-
   <script src="https://unpkg.com/lucide@latest"></script>
-
   <script src="./assets/js/minimap.js"></script>
   <!-- <script src="./assets/js/audio-scanner.js"></script> -->
-
   <!-- Configuração dos áudios -->
   <script src="./assets/js/audio-config.js"></script>
-
   <!-- Player -->
   <script src="./assets/js/audio-player.js"></script>
   <script src="./assets/js/cursor.js"></script>
   <script src="assets/js/drawSVG.js"></script>
+
+  <!-- Incluindo a biblioteca pdf-lib via CDN -->
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="assets/js/pdf-lib.js"></script>
   <script>
     lucide.createIcons();
   </script>
