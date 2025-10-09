@@ -70,6 +70,8 @@
       color: var(--gray);
       font-style: italic;
       margin-bottom: clamp(2rem, 2em + 1vw, 3rem);
+      display: flex;
+      align-items: center;
     }
 
     .lesson-intro {
@@ -86,4 +88,11 @@
 
     #first {
       padding-top: clamp(2rem, 2rem + 0vw, 2rem);
+    }
+
+    .icon-time{
+      width: calc(.85rem * var(--scale-multiplier));
+      height: calc(.85rem * var(--scale-multiplier));
+      margin-right: calc(0.4rem * var(--scale-multiplier));
+      /* padding-bottom: .2rem; */
     }

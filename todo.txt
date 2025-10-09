@@ -1,41 +1,37 @@
 # Pontos a melhorar
-    -> Cursor
-        >> Estou achando ele um pouco lento demais ao movimento do mouse. O delay está um pouco demais.
-        >> Talvez ao invés de ser uma bolinha laranja, possamos trabalhar com emojis ou desenhos de cursos diferentes.
-            >> Algo bem apple mesmo.
-        >> Talvez a animação de morphable nem seja mais necessária se trabalharmos com múltiplos tipos de cursores diferentes.
+    [x] Cursor
+        [x] Estou achando ele um pouco lento demais ao movimento do mouse. O delay está um pouco demais.
+        [x] Talvez ao invés de ser uma bolinha laranja, possamos trabalhar com emojis ou desenhos de cursos diferentes.
+            [x] Algo bem apple mesmo.
 
     -> Tipografia
         >> Separar tempo para escolher um fonte melhor.
-        >> Juntamente com o melhor aproveitamento de colunas, escolher para a aula fontes maiores e mais legíveis. 
-        >> Manter a escolha de usar fontes diferentes para o texto e para itálico. 
+        [x] Juntamente com o melhor aproveitamento de colunas, escolher para a aula fontes maiores e mais legíveis. 
+        [x] Manter a escolha de usar fontes diferentes para o texto e para itálico. 
 
-    -> Layout
-        >> É interessante aproveitar mais das colunas em telas 4K. 
-        >> Adicionar botões de anterior e próximo tópico.
+    [/] Layout
+        [x] É interessante aproveitar mais das colunas em telas 4K. 
+        [x] Adicionar botões de anterior e próximo tópico.
 
-    -> Minimap
-        >> Aumentar o tamanho do minimap
+    [x] Minimap
+        [x] Aumentar o tamanho do minimap
 
-    -> Componente Citação e Destaque
-        >> Estão muito pesados. Deveriam ser mais delicados.
-        >> Deveriam compartilhar entre si uma estrutura que fosse mais consistente.
+    [x] Componente Citação e Destaque
+        [x] Estão muito pesados. Deveriam ser mais delicados.
+        [x] Deveriam compartilhar entre si uma estrutura que fosse mais consistente.
 
-    -> A seleção de texto com o mouse está deixando um rastro muito gritante em relação ao restante da interface.
+    [x] A seleção de texto com o mouse está deixando um rastro muito gritante em relação ao restante da interface.
 
-    -> Leitura Guiada
-        >> A marcação do parágrafo que está sendo lido está exatamente igual ao componente citação. Isso ajuda na consistência, mas na hora da leitura
+    [x] Leitura Guiada
+        [x] A marcação do parágrafo que está sendo lido está exatamente igual ao componente citação. Isso ajuda na consistência, mas na hora da leitura
         de componentes citação fica esquisito, pois o mesmo design fica por fora e por dentro.
-        >> A barra do player está muito densa. Gosto da cor mais escura, mas talvez os espaçamentos não estejam dos melhores.
+        [x] A barra do player está muito densa. Gosto da cor mais escura, mas talvez os espaçamentos não estejam dos melhores.
 
 
 # Pontos a implementar
 
     -> Permitir que o usuário faça comentários rápidos na aula. 
         >> Para isso, ele selecionaria uma parte do texto e uma opção de adicionar comentário apareceria, dando a oportunidade dele digitar.
-
-    -> Sublinhado virando highlight
-        >> Para elementos de texto que abrem modais.
 
     -> Asterisco em elementos que precisem exibir tooltip.
 
@@ -44,12 +40,12 @@
 
 [PRIORIDADES]
 
--> Definir paleta de cores
+[x] Definir paleta de cores
 -> Definir fontes
--> Definir cursores personalizados
--> Arrumar componentes que estão pesados
--> Ajustar player da Leitura Guiada
--> 
+[x] Definir cursores personalizados
+[x] Arrumar componentes que estão pesados
+[x] Ajustar player da Leitura Guiada
+
 
 
 ### Partes desse sistema
@@ -61,3 +57,14 @@
 -> Cursor Effects
 
 -> Leitura Guiada
+
+
+
+-------------------------------------------------------------
+Lista de tarefas
+
+[ ] Escolher uma fonte melhor
+[x] Fazer cursor personalizado. (É PRIORIDADE)
+[x] Setinha nos links externos
+[x] Desenhar svg's
+[x] Adicionar delay no aparecimento das notations

@@ -1,111 +1,181 @@
+/* ═══════════════════════════════════════════════════════════
+   🎯 SISTEMA DE CURSOR CUSTOM - 2 ESTADOS
+   ═══════════════════════════════════════════════════════════ */
+
 body {
-     
-      /* cursor: none; */
-    }
+  cursor: none !important;
+}
 
-    /* ═══════════════════════════════════════════════════════════
-       🎯 CURSOR MORPHABLE - VERSÃO OUTLINE (SEM TAMPAR CONTEÚDO)
-       ═══════════════════════════════════════════════════════════ */
-    .cursor {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 35px;
-      height: 35px;
-      background: #ff6b35;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 10000;
-      transform: translate(-50%, -50%);
-      will-change: transform, width, height, border-radius, opacity;
-      
-      /**
-       * Transições suaves para morph e scale
-       * Por que cubic-bezier específico?
-       * - (0.23, 1, 0.32, 1) = easeOutQuint
-       * - Início rápido, fim suave = sensação orgânica
-       * 
-       * IMPORTANTE: Não colocamos transition em transform aqui
-       * porque o transform é atualizado a cada frame pelo JS
-       * A transição do scale será suave através do requestAnimationFrame
-       */
-      transition: 
-        width 0.5s cubic-bezier(0.23, 1, 0.32, 1),
-        height 0.5s cubic-bezier(0.23, 1, 0.32, 1),
-        border-radius 0.5s cubic-bezier(0.23, 1, 0.32, 1),
-        background 0.3s ease,
-        border 0.3s ease,
-        opacity 0.2s ease;
-    }
+/* Remove cursores nativos de TODOS os elementos */
+a, button, input, textarea, select, 
+[role="button"], [onclick], .morphable,
+.audio-trigger-btn, .player-btn, .nav-link2 {
+  cursor: none !important;
+}
 
-    /**
-     * Estado morphed: cursor vira OUTLINE
-     * Por que essa abordagem?
-     * - background: transparent = não cobre conteúdo
-     * - border: 3px = cria contorno visível
-     * - Conteúdo do elemento permanece legível ✅
-     */
-    .cursor.morphed {
-      background: transparent;
-      border: 3px solid #ffc107;
-      box-shadow: 
-        0 0 0 1px rgba(255, 107, 53, 0.2),
-        0 0 20px rgba(255, 107, 53, 0.3);
-    }
+/* Container do sistema */
+.cursor-system {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 999999;
+}
 
-    /**
-     * Estado click: fica 50% transparente
-     * O scale é controlado pelo JavaScript via interpolação (lerp)
-     * A opacity usa CSS transition para suavizar
-     */
-    .cursor.cursor-click-active {
-      opacity: 0.2;
-      transition: opacity 0.2s ease;
-    }
+/* ═══════════════════════════════════════════════════════════
+   ESTADOS BASE
+   ═══════════════════════════════════════════════════════════ */
 
-    /* ═══════════════════════════════════════════════════════════
-       📄 CONTEÚDO
-       ═══════════════════════════════════════════════════════════ */
-    .content {
-      max-width: 700px;
-      margin: 0 auto;
-      color: white;
-    }
+.cursor-default,
+.cursor-hand {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.1s cubic-bezier(0.4, 0.0, 0.2, 1);
+  will-change: transform, opacity;
+}
 
-    .subtitle {
-      text-align: center;
-      font-size: 1.1rem;
-      opacity: 0.9;
-      margin-bottom: 3rem;
-    }
+/* Estado inicial: default visível */
+.cursor-default {
+  opacity: 0;
+}
 
-    .demo-section {
-      margin-bottom: 3rem;
-    }
+/* Estado hover: escondido por padrão */
+.cursor-hand {
+  opacity: 0;
+  pointer-events: none;
+}
 
-    .demo-section h2 {
-      font-size: 0.875rem;
-      margin-bottom: 1.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-weight: 600;
-      opacity: 0.8;
-    }
+/* Quando hover está ativo */
+.cursor-hand.active {
+  opacity: 1;
+}
 
-    .highlight {
-      background: rgba(255, 193, 7, 0.1);
-      border: 2px solid rgba(255, 193, 7, 0.3);
-      padding: 1rem;
-      border-radius: 8px;
-      margin-top: 1rem;
-      color: #ffc107;
-    }
+.cursor-default.active {
+  opacity: 1;
+}
 
-    @media (max-width: 768px) {
-      body {
-        /* cursor: auto; */
-      }
-      .cursor {
-        /* display: none; */
-      }
-    }
+/* Quando hover está ativo, esconde o default */
+.cursor-hand.active ~ .cursor-default {
+  opacity: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ANIMAÇÕES (OPCIONAIS)
+   ═══════════════════════════════════════════════════════════ */
+
+/* Animação suave do hover (pode remover se não quiser) */
+.cursor-hand.active {
+  animation: handPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes handPulse {
+  0%, 100% { 
+    transform: translate(-50%, -50%) scale(1); 
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(1.05); 
+  }
+}
+
+/* Drop shadow sutil (opcional) */
+.cursor-default svg,
+.cursor-hand svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+/* Glow mais forte no hover (opcional) */
+.cursor-hand.active svg {
+  filter: drop-shadow(0 3px 8px rgba(255, 107, 53, 0.4));
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   ESTADO 3: GRAB (mousedown)
+   ═══════════════════════════════════════════════════════════ */
+
+.cursor-grab {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.1s cubic-bezier(0.4, 0.0, 0.2, 1);
+  will-change: transform, opacity;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cursor-grab.active {
+  opacity: 1;
+}
+
+/* Quando grab está ativo, esconde os outros */
+.cursor-grab.active ~ .cursor-default,
+.cursor-grab.active ~ .cursor-hand {
+  opacity: 0;
+}
+
+/* Animação de "squeeze" (apertar) */
+.cursor-grab.active {
+  animation: grabSqueeze 0.15s ease-out;
+}
+
+@keyframes grabSqueeze {
+  0% { 
+    transform: translate(-50%, -50%) scale(1); 
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(0.9); 
+  }
+  100% { 
+    transform: translate(-50%, -50%) scale(1); 
+  }
+}
+
+/* Drop shadow mais forte no grab */
+.cursor-grab.active svg {
+  filter: drop-shadow(0 4px 12px rgba(255, 107, 53, 0.6));
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   RIPPLE (feedback de click)
+   ═══════════════════════════════════════════════════════════ */
+
+.cursor-ripple {
+  position: absolute;
+  border: 2px solid var(--base);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cursor-ripple.active {
+  animation: rippleExpand 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+@keyframes rippleExpand {
+  0% {
+    width: 14px;
+    height: 14px;
+    opacity: 1;
+  }
+  100% {
+    width: 60px;
+    height: 60px;
+    opacity: 0;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVO
+   ═══════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  body, body * {
+    cursor: auto !important;
+  }
+  .cursor-system {
+    display: none;
+  }
+}
