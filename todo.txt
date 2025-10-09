@@ -35,7 +35,7 @@
 
     -> Asterisco em elementos que precisem exibir tooltip.
 
-    -> Ícone de setinha nos links externos.
+    [x] Ícone de setinha nos links externos.
 
 
 [PRIORIDADES]

@@ -76,7 +76,7 @@ class CursorSystem {
   }
   
   setupInteractiveElements() {
-    const interactiveSelector = 'a, button, [role="button"], [onclick], .morphable, .audio-trigger-btn, .player-btn, .nav-link2, #progressBar, #progressFill';
+    const interactiveSelector = 'a, button, [role="button"], [onclick], .morphable, .audio-trigger-btn, .player-btn, .nav-link2';
     
     const interactiveElements = document.querySelectorAll(interactiveSelector);
     
@@ -91,6 +91,29 @@ class CursorSystem {
         this.setState('default');
       });
     });
+
+    // Tratamento especial para a barra de progresso
+    this.setupProgressBarCursor();
+  }
+
+  setupProgressBarCursor() {
+    const progressBar = document.querySelector('#progressBar');
+    if (!progressBar) return;
+
+    progressBar.addEventListener('mouseenter', () => {
+      this.isOverInteractive = true;
+      this.setState('hover');
+    });
+    
+    progressBar.addEventListener('mouseleave', () => {
+      this.isOverInteractive = false;
+      this.setState('default');
+    });
+  }
+
+  // Método para reinicializar elementos interativos (útil quando elementos são criados dinamicamente)
+  reinitializeInteractiveElements() {
+    this.setupInteractiveElements();
   }
   
   setState(newState) {
@@ -138,17 +161,15 @@ class CursorSystem {
   
   animate() {
     // Interpolação suave
-    this.position.x = this.lerp(this.position.x, this.target.x, 0.35);
-    this.position.y = this.lerp(this.position.y, this.target.y, 0.35);
+    this.position.x = this.lerp(this.position.x, this.target.x, 0.75);
+    this.position.y = this.lerp(this.position.y, this.target.y, 0.75);
 
-    // Centraliza o cursor customizado na posição real do mouse
+    // Posiciona o cursor customizado na posição real do mouse
     const setCursorPos = (el) => {
       if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const w = rect.width;
-      const h = rect.height;
-      el.style.left = `${this.position.x + w / 2}px`;
-      el.style.top = `${this.position.y + h / 2}px`;
+      // O CSS já centraliza com translate(-50%, -50%), então posicionamos diretamente
+      el.style.left = `${this.position.x}px`;
+      el.style.top = `${this.position.y}px`;
     };
 
     setCursorPos(this.cursorDefault);
