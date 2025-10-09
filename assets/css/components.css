@@ -10,6 +10,7 @@
 @import "audio-player.css";
 @import "no-cursor.css";
 @import "nav-footer.css";
+@import "pdf.css";
 
 body {
   /* cursor: none!important; */

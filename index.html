@@ -135,28 +135,47 @@
             <span class="breadcrumb-current">Liderança escolar eficaz é transformacional e compartilhada
             </span>
           </nav>
-          <!-- Título -->
+          <div class="lesson-header">
+            <!-- Título -->
           <h1 class="lesson-title" data-audio="titulo">
             Liderança escolar eficaz é transformacional e compartilhada
           </h1>
+          <!-- Botão de Baixar PDF -->
+          </div>
+
           <!-- Meta (tempo de leitura) -->
           <p class="lesson-meta" data-audio="tempo-leitura">
             <i class="icon-time" data-lucide="clock"></i><em>Tempo de leitura: 8 minutos</em>
           </p>
 
           <!-- Botão para iniciar audio player -->
-          <div class="audio-trigger-container">
-            <button class="audio-trigger-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-headphones-icon lucide-headphones" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/>
-              </svg>
-              <span>Ouvir esta aula</span>
-            </button>
-            <div class="audio-trigger-info">
-              <div><strong id="audioTracksCount">0 trechos</strong> de áudio disponíveis</div>
-              <div>Duração estimada: ~<span id="audioDuration">0</span> minutos</div>
+          <div class="audio-trigger-container" style="display: flex; align-items: center; justify-content: flex-start; flex-direction: row;">
+            <div>
+              <button class="audio-trigger-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-headphones-icon lucide-headphones" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/>
+                </svg>
+                <span>Ouvir esta aula</span>
+                <span class="btn-badge" id="audioDuration">8 min</span>
+              </button>
             </div>
+
+            <div>
+              <button class="pdf-trigger-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-headphones-icon file-text" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
+                  <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
+                  <path d="M10 9H8"/>
+                  <path d="M16 13H8"/>
+                  <path d="M16 17H8"/>
+                </svg>
+                <span>Baixar PDF</span>
+                <span class="btn-badge" id="pdfSize">2.5 MB</span>
+              </button>
+            </div>
+            
           </div>
+          
         </main>
       </div>
     </div>
@@ -685,5 +704,4 @@
     lucide.createIcons();
   </script>
 </body>
-
 </html>

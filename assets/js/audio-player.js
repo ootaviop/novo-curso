@@ -152,6 +152,7 @@ class AudioPlayer {
   createUI() {
     this.initializeTriggerButton();
     this.initializePlayerBar();
+    this.applyPdfIconSize();
   }
 
   /**
@@ -191,19 +192,29 @@ class AudioPlayer {
   }
 
   /**
+   * Aplica tamanho calculado ao ícone SVG do botão PDF trigger
+   */
+  applyPdfIconSize() {
+    const pdfBtn = document.querySelector(".pdf-trigger-btn");
+    if (!pdfBtn) return;
+    
+    const svg = pdfBtn.querySelector("svg");
+    if (svg) {
+      const iconSize = this.getIconSize();
+      svg.setAttribute("width", iconSize);
+      svg.setAttribute("height", iconSize);
+    }
+  }
+
+  /**
    * Atualiza informações dinâmicas do botão trigger
    */
   updateTriggerInfo() {
-    const tracksCountEl = document.getElementById("audioTracksCount");
     const durationEl = document.getElementById("audioDuration");
-    
-    if (tracksCountEl) {
-      tracksCountEl.textContent = `${this.playlist.length} trechos`;
-    }
     
     if (durationEl) {
       const totalDuration = this.estimateTotalDuration();
-      durationEl.textContent = totalDuration;
+      durationEl.textContent = `${totalDuration} min`;
     }
   }
 
