@@ -13,7 +13,7 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="assets/css/components.css" />
-  <link rel="stylesheet" href="assets/css/audio-player.css" />
+  <link rel="stylesheet" href="assets/css/tooltip.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <!-- No <head>, adicione GSAP -->
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script> -->
@@ -232,7 +232,7 @@
           <div class="content-wrapper">
             <section data-nav-level="2" data-label="Múltiplas dimensões de uma gestão democrática">
               <h3 data-audio="p7">
-                <span class="cls-underline">Múltiplas dimensões</span>
+                <span class="cls-underline" data-tooltip="Gestão democrática abrange várias áreas de atuação">Múltiplas dimensões</span>
                 de uma gestão democrática
               </h3>
               <p data-audio="p8">
@@ -255,19 +255,19 @@
                 administração.
               </p>
               <p data-audio="p10">
-                Essa tendência está presente nos
+                Essa tendência está presente até mesmo nos
                 <strong>regramentos nacionais</strong>, que vão desde a
                 <a href="#" class="link-externo" target="_blank" rel="noopener noreferrer">Constituição Federal de
                   1988</a> e a LDB, passando pela BNCC até a
                 legislação que rege o funcionamento do
-                <strong>Fundeb Permanente</strong>, e expressa valores que desejamos cultivar em
+                <strong  class="cls-highlight" data-color="var(--rough-notation-soft-purple)">Fundeb Permanente</strong>, e expressa valores que desejamos cultivar em
                 nossa
                 sociedade
                 e em nossos estudantes, como participação, corresponsabilidade,
                 transparência…
               </p>
               <p data-audio="p11">
-                <span class="cls-highlight">Além de atender a esses valores maiores</span>, esse movimento também busca
+                <span>Além de atender a esses valores maiores</span>, esse movimento também busca
                 responder a um desafio muito
                 prático:
               </p>
@@ -313,7 +313,7 @@
               </h3>
               <p data-audio="p14">
                 Nesse sentido, a
-                <strong class="cls-circle">liderança distribuída</strong>
+                <strong>liderança distribuída</strong>
                 é – ao mesmo tempo – um fim e um meio. É um fim porque
                 representa a materialização de uma gestão democrática, coerente
                 com os valores de participação e corresponsabilidade que devem
@@ -341,7 +341,7 @@
                 <path
                   d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
-              <div class="callout-reflection-title">Reflita sobre isso</div>
+              <div class="callout-reflection-title"><span  class="cls-highlight" data-tooltip="Modelo de liderança compartilhada entre diversos atores escolares">Reflita sobre isso</span></div>
               <p>
                 Sem uma liderança eficaz, capaz de distribuir responsabilidades
                 e desenhar espaços de decisão compartilhada, que promova o
@@ -367,10 +367,11 @@
               dos estudantes.
             </p>
             <p data-audio="p18">
-              <span class="cls-box">Não sem motivo</span>,
+              <span>Não sem motivo</span>,
               quando o Instituto Unibanco e a Universidad Diego Portales (2021,
               p. 7) lançaram o informe
-              <i class="cls-highlight">Liderança escolar para a melhoria da educação: contribuições
+              <i><span  class="cls-underline" data-tooltip="Liderança escolar para a melhoria da educação: contribuições
+                para o debate público no Brasil">Liderança escolar</span> para a melhoria da educação: contribuições
                 para o debate público no Brasil</i>, mapeando diferentes modalidades de liderança escolar – cada uma
               com seu respectivo foco –, perceberam que delas vem ganhando
               especial atenção nas últimas décadas: justamente, a
@@ -411,7 +412,7 @@
             <p data-audio="p21">
               Uma liderança escolar com essas características também pode ser
               associada ao modelo de liderança transformacional, proposto por
-              <span class="cls-underline">Leithwood e Jantzi</span>
+              <span class="cls-underline" data-tooltip="Leithwood e Jantzi (1999) e posteriormente revisado por Leithwood e colaboradores (2019, p. 4 apud Vilardi 2021, p. 94)">Leithwood e Jantzi</span>
               (1999) e posteriormente revisado por Leithwood e colaboradores
               (2019, p. 4 apud Vilardi 2021, p. 94). De acordo com os autores,
               esse tipo de liderança se traduz em 19 práticas específicas,
@@ -430,14 +431,14 @@
           <div class="content-wrapper">
             <section data-nav-level="2" data-label="Domínios da prática">
               <h3>
-                <span class="cls-highlight">Domínios da prática</span>
+                <span>Domínios da prática</span>
               </h3>
               <p>
                 Todo gestor escolar – mesmo em ações aparentemente burocráticas
                 – afeta o que ocorre na comunidade escolar, pois sua atuação
                 sempre ocorre em uma teia de relações pessoais e contextuais
                 (Vilardi, 2021). Por ocupar essa posição central, o
-                <strong class="cls-underline">gestor influencia diretamente o clima institucional</strong>
+                <strong class="cls-underline" data-tooltip="O gestor influencia diretamente o clima institucional">gestor influencia diretamente o clima institucional</strong>
                 e o tom das atividades que o constroem. O gestor que adota
                 práticas transformacionais é, acima de tudo, aquele que
                 reconhece esse efeito e integra intencionalmente a dimensão
@@ -445,7 +446,7 @@
               </p>
               <p>
                 Esse poder (e também essa responsabilidade) de
-                <strong class="cls-box">“dar o tom da escola”</strong>
+                <strong class="cls-box">dar o tom da escola</strong>
                 não deve jamais ser subestimado.
               </p>
               <p>
@@ -486,7 +487,7 @@
       <div class="row">
         <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
           <div class="content-wrapper">
-            <p>
+            <p class="cls-bracket" data-color="var(--rough-notation-solid-blue)">
               Justamente porque define o clima organizacional e pedagógico, o
               efeito da liderança sobre a aprendizagem costuma se dar de forma
               indireta, principalmente por meio do trabalho dos professores.
@@ -512,8 +513,8 @@
               <p>
                 Entre os vários aspectos da liderança escolar, uma em especial
                 tem um impacto significativo:
-                <span class="cls-box">a promoção e participação na formação contínua dos
-                  professores.</span>
+                a promoção e participação na formação contínua dos
+                  professores.
               </p>
               <p>
                 Essa é uma das conclusões alcançadas pelos pesquisadores Jason
@@ -541,13 +542,14 @@
                 Mas como isso se articula, na prática,
                 com a
                 gestão do currículo
-                orientada por evidências? É o que veremos no próximo tópico.
+                orientada por evidências? <span class="cls-highlight" data-color="var(--rough-notation-soft-purple)">É o que veremos no próximo tópico.</span>
               </p>
             </section>
           </div>
         </div>
       </div>
     </div>
+    <div class="separador-medio"></div>
     <div class="separador-medio"></div>
 
     <div class="container-fluid">
@@ -595,6 +597,11 @@
 
 
   <script src="https://unpkg.com/rough-notation@0.5.1/lib/rough-notation.iife.js"></script>
+
+  <!-- Tippy.js para tooltips -->
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
 
   <script src="./assets/js/rough.js"></script>
 

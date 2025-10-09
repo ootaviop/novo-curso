@@ -13,6 +13,13 @@ a, button, input, textarea, select,
   cursor: none !important;
 }
 
+/* Exceção para a barra de progresso - mantém cursor nativo para melhor UX */
+.player-progress-container,
+.player-progress-bar,
+.player-progress-fill {
+  cursor: pointer !important;
+}
+
 /* Container do sistema */
 .cursor-system {
   position: fixed;
@@ -31,7 +38,7 @@ a, button, input, textarea, select,
 .cursor-default,
 .cursor-hand {
   position: absolute;
-  transform: translate(-50%, -50%);
+  transform: translate(-10px, -10px); /* Ajusta para que a ponta do cursor seja clicável */
   transition: opacity 0.1s cubic-bezier(0.4, 0.0, 0.2, 1);
   will-change: transform, opacity;
 }
@@ -72,10 +79,10 @@ a, button, input, textarea, select,
 
 @keyframes handPulse {
   0%, 100% { 
-    transform: translate(-50%, -50%) scale(1); 
+    transform: translate(-10px, -10px) scale(1); 
   }
   50% { 
-    transform: translate(-50%, -50%) scale(1.05); 
+    transform: translate(-10px, -10px) scale(1.05); 
   }
 }
 
@@ -97,7 +104,7 @@ a, button, input, textarea, select,
 
 .cursor-grab {
   position: absolute;
-  transform: translate(-50%, -50%);
+  transform: translate(-10px, -10px); /* Ajusta para que a ponta do cursor seja clicável */
   transition: opacity 0.1s cubic-bezier(0.4, 0.0, 0.2, 1);
   will-change: transform, opacity;
   opacity: 0;
@@ -121,13 +128,13 @@ a, button, input, textarea, select,
 
 @keyframes grabSqueeze {
   0% { 
-    transform: translate(-50%, -50%) scale(1); 
+    transform: translate(-10px, -10px) scale(1); 
   }
   50% { 
-    transform: translate(-50%, -50%) scale(0.9); 
+    transform: translate(-10px, -10px) scale(0.9); 
   }
   100% { 
-    transform: translate(-50%, -50%) scale(1); 
+    transform: translate(-10px, -10px) scale(1); 
   }
 }
 
@@ -145,7 +152,7 @@ a, button, input, textarea, select,
   position: absolute;
   border: 2px solid var(--base);
   border-radius: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); /* Ripple deve crescer do centro do clique */
   opacity: 0;
   pointer-events: none;
 }

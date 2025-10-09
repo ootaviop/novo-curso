@@ -1,6 +1,6 @@
 /**
  * ═══════════════════════════════════════════════════════════════
- * 🖍️ ROUGH NOTATION - SISTEMA COMPLETO
+ * 🖍️ ROUGH NOTATION - SISTEMA COMPLETO COM TOOLTIPS
  * ═══════════════════════════════════════════════════════════════
  *
  * CLASSES DISPONÍVEIS:
@@ -13,14 +13,20 @@
  * .cls-crossed     → Riscado (X cruzado)
  * .cls-bracket     → Colchetes nas laterais
  *
- * USO:
+ * USO BÁSICO:
  * <span class="cls-underline">texto</span>
  * <span class="cls-highlight">texto</span>
  *
+ * USO COM TOOLTIP:
+ * <span class="cls-underline" data-tooltip="Informação adicional">texto</span>
+ * <span class="cls-highlight" data-tooltip="Este é um destaque importante">texto</span>
+ *
  * Todos usam var(--base) como cor e aparecem 200px antes da viewport.
+ * Tooltips aparecem automaticamente após a animação da anotação.
  *
  * REQUISITOS:
  * - Rough Notation library carregada
+ * - Tippy.js e Popper.js carregadas (para tooltips)
  * - Variável CSS --base definida
  */
 
@@ -35,6 +41,9 @@ class RoughAnnotationSystem {
     this.queue = [];
     this.isProcessingQueue = false;
     this.shownElements = new Set();
+    
+    // Mapa de instâncias de tooltips
+    this.tooltipInstances = new Map();
 
     const colors = {
       base: "var(--rough-notation-base)",
@@ -292,6 +301,9 @@ class RoughAnnotationSystem {
       item.annotation.show();
       this.shownElements.add(el);
 
+      // Inicializa tooltip se disponível
+      this.initializeTooltip(el);
+
       // Depois de mostrar, não observar mais
       if (this.observer) {
         this.observer.unobserve(el);
@@ -309,6 +321,69 @@ class RoughAnnotationSystem {
   }
 
   /**
+   * Inicializa tooltip para um elemento, se ele possuir data-tooltip
+   */
+  initializeTooltip(element) {
+    // Verifica se elemento possui atributo data-tooltip
+    const tooltipContent = element.getAttribute('data-tooltip');
+    if (!tooltipContent) return;
+
+    // Valida se Tippy.js está disponível
+    if (typeof tippy === 'undefined') {
+      console.warn('[RoughAnnotationSystem] Tippy.js não encontrada. Tooltips não serão exibidas.');
+      return;
+    }
+
+    // Verifica se já existe tooltip para este elemento
+    if (this.tooltipInstances.has(element)) {
+      return;
+    }
+
+    // Cria instância Tippy.js com configuração inteligente
+    const tippyInstance = tippy(element, {
+      content: tooltipContent,
+      placement: 'top',
+      animation: 'fade',
+      theme: 'orange-rounded',
+      arrow: false,
+      interactive: false,
+      delay: [200, 0], // 200ms para aparecer, 0ms para desaparecer
+      // Fallback automático de posições se não couber
+      popperOptions: {
+        modifiers: [
+          {
+            name: 'flip',
+            options: {
+              fallbackPlacements: ['bottom', 'left', 'right'],
+            },
+          },
+          {
+            name: 'preventOverflow',
+            options: {
+              boundary: 'viewport',
+            },
+          },
+        ],
+      },
+    });
+
+    // Armazena instância no Map
+    this.tooltipInstances.set(element, tippyInstance);
+  }
+
+  /**
+   * Destroi todas as instâncias de tooltips
+   */
+  destroyTooltips() {
+    this.tooltipInstances.forEach((tippyInstance) => {
+      if (tippyInstance && tippyInstance.destroy) {
+        tippyInstance.destroy();
+      }
+    });
+    this.tooltipInstances.clear();
+  }
+
+  /**
    * Adiciona novos elementos dinamicamente
    * Útil se você adicionar conteúdo via AJAX/SPA
    */
@@ -316,6 +391,9 @@ class RoughAnnotationSystem {
     if (this.observer) {
       this.observer.disconnect();
     }
+
+    // Destroi tooltips existentes
+    this.destroyTooltips();
 
     this.annotationMap.clear();
     this.queue = [];
@@ -353,6 +431,9 @@ class RoughAnnotationSystem {
     if (this.observer) {
       this.observer.disconnect();
     }
+
+    // Destroi todas as tooltips antes de limpar
+    this.destroyTooltips();
 
     this.annotationMap.clear();
     this.queue = [];

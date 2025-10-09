@@ -1,0 +1,36 @@
+/**
+ * ═══════════════════════════════════════════════════════════════
+ * 💬 TOOLTIPS CUSTOMIZADAS - Rough Notation
+ * ═══════════════════════════════════════════════════════════════
+ */
+
+/* Tema customizado laranja com bordas arredondadas */
+.tippy-box[data-theme~='orange-rounded'] {
+  background-color: #fff;
+  color: #000;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 12px;
+  
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Seta removida - tooltips sem arrow */
+
+/* Ajustes finos */
+.tippy-box[data-theme~='orange-rounded'] .tippy-content {
+  padding: 0;
+  line-height: 1.5;
+}
+
+/* Animação suave ao aparecer */
+.tippy-box[data-theme~='orange-rounded'][data-animation='fade'][data-state='hidden'] {
+  opacity: 0;
+}
+
+.tippy-box[data-theme~='orange-rounded'][data-animation='fade'][data-state='visible'] {
+  opacity: 1;
+}
+

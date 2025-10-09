@@ -16,7 +16,7 @@
 
 const audioConfig = {
   // Caminho base dos arquivos de áudio
-  basePath: './audio/',
+  basePath: './audio/pos-cut/',
   
   // Mapeamento dos áudios
   // Chave: valor do data-audio no HTML
