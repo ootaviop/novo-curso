@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const downloadBtn = document.getElementById('downloadPdf');
+    const downloadBtn = document.querySelector('.pdf-trigger-btn');
     const contentDiv = document.getElementById('contentAula');
 
     // 1. DEFINIÇÃO DE ESTILOS (sem mudanças)
