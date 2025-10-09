@@ -171,11 +171,11 @@ class AudioPlayer {
     container.className = "audio-trigger-container";
 
     const button = document.createElement("button");
-    button.className = "audio-trigger-btn morphable";
+    button.className = "audio-trigger-btn";
     button.innerHTML = `
       <svg xmlns="http://www.w3.org/2000/svg" width="${this.getIconSize()}" height="${this.getIconSize()}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headphones-icon lucide-headphones"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></svg>
       <span>Ouvir esta aula</span>
-    `;
+    `;  
 
     const info = document.createElement("div");
     info.className = "audio-trigger-info";
