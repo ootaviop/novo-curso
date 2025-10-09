@@ -1,230 +1,181 @@
 /* ═══════════════════════════════════════════════════════════
-   🎯 SISTEMA DE CURSOR MODULAR - BASE
+   🎯 SISTEMA DE CURSOR CUSTOM - 2 ESTADOS
    ═══════════════════════════════════════════════════════════ */
 
-   body {
-    cursor: none !important;
+body {
+  cursor: none !important;
+}
+
+/* Remove cursores nativos de TODOS os elementos */
+a, button, input, textarea, select, 
+[role="button"], [onclick], .morphable,
+.audio-trigger-btn, .player-btn, .nav-link2 {
+  cursor: none !important;
+}
+
+/* Container do sistema */
+.cursor-system {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 999999;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ESTADOS BASE
+   ═══════════════════════════════════════════════════════════ */
+
+.cursor-default,
+.cursor-hand {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.1s cubic-bezier(0.4, 0.0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+/* Estado inicial: default visível */
+.cursor-default {
+  opacity: 0;
+}
+
+/* Estado hover: escondido por padrão */
+.cursor-hand {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Quando hover está ativo */
+.cursor-hand.active {
+  opacity: 1;
+}
+
+.cursor-default.active {
+  opacity: 1;
+}
+
+/* Quando hover está ativo, esconde o default */
+.cursor-hand.active ~ .cursor-default {
+  opacity: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ANIMAÇÕES (OPCIONAIS)
+   ═══════════════════════════════════════════════════════════ */
+
+/* Animação suave do hover (pode remover se não quiser) */
+.cursor-hand.active {
+  animation: handPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes handPulse {
+  0%, 100% { 
+    transform: translate(-50%, -50%) scale(1); 
   }
-  
-  a, button, input, textarea, select, 
-  [role="button"], [onclick], .morphable,
-  .audio-trigger-btn, .player-btn, .nav-link2 {
-    cursor: none !important;
+  50% { 
+    transform: translate(-50%, -50%) scale(1.05); 
   }
-  
-  .cursor-system {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 999999;
+}
+
+/* Drop shadow sutil (opcional) */
+.cursor-default svg,
+.cursor-hand svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+/* Glow mais forte no hover (opcional) */
+.cursor-hand.active svg {
+  filter: drop-shadow(0 3px 8px rgba(255, 107, 53, 0.4));
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   ESTADO 3: GRAB (mousedown)
+   ═══════════════════════════════════════════════════════════ */
+
+.cursor-grab {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.1s cubic-bezier(0.4, 0.0, 0.2, 1);
+  will-change: transform, opacity;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cursor-grab.active {
+  opacity: 1;
+}
+
+/* Quando grab está ativo, esconde os outros */
+.cursor-grab.active ~ .cursor-default,
+.cursor-grab.active ~ .cursor-hand {
+  opacity: 0;
+}
+
+/* Animação de "squeeze" (apertar) */
+.cursor-grab.active {
+  animation: grabSqueeze 0.15s ease-out;
+}
+
+@keyframes grabSqueeze {
+  0% { 
+    transform: translate(-50%, -50%) scale(1); 
   }
-  
-  /* Esconde todos os modelos por padrão */
-  .cursor-model {
-    display: none;
+  50% { 
+    transform: translate(-50%, -50%) scale(0.9); 
   }
-  
-  /* Mostra apenas o modelo ativo */
-  .cursor-model.active {
-    display: block;
+  100% { 
+    transform: translate(-50%, -50%) scale(1); 
   }
-  
-  /* ═══════════════════════════════════════════════════════════
-     ESTADOS BASE (todos os modelos)
-     ═══════════════════════════════════════════════════════════ */
-  
-  .cursor-default,
-  .cursor-hand,
-  .cursor-text {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    transition: opacity 0.2s ease;
-    will-change: transform;
-  }
-  
-  .cursor-default {
-    opacity: 1;
-  }
-  
-  .cursor-hand,
-  .cursor-text {
-    opacity: 0;
-    pointer-events: none;
-  }
-  
-  .cursor-hand.active,
-  .cursor-text.active {
-    opacity: 1;
-  }
-  
-  /* ═══════════════════════════════════════════════════════════
-     MODELO 1: MÃO ARTESANAL
-     ═══════════════════════════════════════════════════════════ */
-  
-  .cursor-model-1 .cursor-point {
+}
+
+/* Drop shadow mais forte no grab */
+.cursor-grab.active svg {
+  filter: drop-shadow(0 4px 12px rgba(255, 107, 53, 0.6));
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   RIPPLE (feedback de click)
+   ═══════════════════════════════════════════════════════════ */
+
+.cursor-ripple {
+  position: absolute;
+  border: 2px solid var(--base);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cursor-ripple.active {
+  animation: rippleExpand 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+@keyframes rippleExpand {
+  0% {
     width: 14px;
     height: 14px;
-    background: var(--base);
-    border-radius: 50%;
-    box-shadow: 0 0 8px rgba(255, 107, 53, 0.4);
+    opacity: 1;
   }
-  
-  .cursor-model-1 .cursor-trail {
-    position: absolute;
-    top: -50px;
-    left: -50px;
-  }
-  
-  .cursor-model-1 .cursor-hand {
-    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
-  }
-  
-  .cursor-model-1 .cursor-hand.active {
-    animation: handBounce 0.6s ease-in-out infinite;
-  }
-  
-  @keyframes handBounce {
-    0%, 100% { transform: translate(-50%, -50%) translateY(0); }
-    50% { transform: translate(-50%, -50%) translateY(-3px); }
-  }
-  
-  .cursor-model-1 .text-bar {
-    width: 2px;
-    height: 22px;
-    background: var(--base);
-    animation: textBlink 1s ease-in-out infinite;
-  }
-  
-  /* ═══════════════════════════════════════════════════════════
-     MODELO 2: GEOMÉTRICO BAUHAUS
-     ═══════════════════════════════════════════════════════════ */
-  
-  .cursor-model-2 .cursor-default svg {
-    filter: drop-shadow(0 2px 4px rgba(255, 107, 53, 0.3));
-  }
-  
-  .cursor-model-2 .cursor-hand {
-    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
-  }
-  
-  .cursor-model-2 .cursor-hand.active {
-    animation: triangleRotate 2s linear infinite;
-  }
-  
-  @keyframes triangleRotate {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
-  }
-  
-  .cursor-model-2 .cursor-text svg {
-    animation: linesPulse 1.2s ease-in-out infinite;
-  }
-  
-  @keyframes linesPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-  
-  /* ═══════════════════════════════════════════════════════════
-     MODELO 3: BLOB LÍQUIDO
-     ═══════════════════════════════════════════════════════════ */
-  
-  .cursor-model-3 .cursor-default {
-    filter: drop-shadow(0 2px 6px rgba(255, 107, 53, 0.4));
-  }
-  
-  .cursor-model-3 .blob-shape {
-    animation: blobMorph 3s ease-in-out infinite;
-    transform-origin: center;
-  }
-  
-  @keyframes blobMorph {
-    0%, 100% { 
-      d: path("M12,2 C16,2 20,6 20,10 C20,14 18,18 14,20 C10,22 6,20 4,16 C2,12 2,8 4,5 C6,2 9,2 12,2 Z");
-    }
-    50% { 
-      d: path("M12,3 C15,3 18,5 19,9 C20,13 19,17 15,19 C11,21 7,19 5,15 C3,11 3,7 5,5 C7,3 10,3 12,3 Z");
-    }
-  }
-  
-  .cursor-model-3 .cursor-hand.active {
-    animation: blobStretch 1s ease-in-out infinite;
-  }
-  
-  @keyframes blobStretch {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); }
-    50% { transform: translate(-50%, -50%) scale(1.1, 0.9); }
-  }
-  
-  /* ═══════════════════════════════════════════════════════════
-     MODELO 4: SETA EVOLUTIVA
-     ═══════════════════════════════════════════════════════════ */
-  
-  .cursor-model-4 .cursor-default,
-  .cursor-model-4 .cursor-hand {
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-  }
-  
-  .cursor-model-4 .cursor-hand.active {
-    animation: arrowGlow 1.5s ease-in-out infinite;
-  }
-  
-  @keyframes arrowGlow {
-    0%, 100% { 
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-    }
-    50% { 
-      filter: drop-shadow(0 4px 12px rgba(255, 107, 53, 0.6));
-    }
-  }
-  
-  /* ═══════════════════════════════════════════════════════════
-     RIPPLE (compartilhado)
-     ═══════════════════════════════════════════════════════════ */
-  
-  .cursor-ripple {
-    position: absolute;
-    border: 2px solid var(--base);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
+  100% {
+    width: 60px;
+    height: 60px;
     opacity: 0;
-    pointer-events: none;
   }
-  
-  .cursor-ripple.active {
-    animation: rippleExpand 0.6s ease-out;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVO
+   ═══════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  body, body * {
+    cursor: auto !important;
   }
-  
-  @keyframes rippleExpand {
-    0% {
-      width: 14px;
-      height: 14px;
-      opacity: 1;
-    }
-    100% {
-      width: 60px;
-      height: 60px;
-      opacity: 0;
-    }
+  .cursor-system {
+    display: none;
   }
-  
-  @keyframes textBlink {
-    0%, 49% { opacity: 1; }
-    50%, 100% { opacity: 0.3; }
-  }
-  
-  /* ═══════════════════════════════════════════════════════════
-     RESPONSIVO
-     ═══════════════════════════════════════════════════════════ */
-  
-  @media (max-width: 768px) {
-    body, body * {
-      cursor: auto !important;
-    }
-    .cursor-system {
-      display: none;
-    }
-  }
+}

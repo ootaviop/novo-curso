@@ -1,233 +1,155 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minimap de Navegação - 5 Níveis</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-    />
-    <link rel="stylesheet" href="assets/css/components.css" />
-    <link rel="stylesheet" href="assets/css/audio-player.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-  </head>
 
-  <body>
-<div class="cursor-system" id="cursorSystem">
-  
-  <!-- ═══════════════════════════════════════════════════════
-       MODELO 1: MÃO ARTESANAL
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minimap de Navegação - 5 Níveis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap"
+    rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/audio-player.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- No <head>, adicione GSAP -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+
+<body>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <div class="cursor-system" id="cursorSystem">
+
+    <!-- ═══════════════════════════════════════════════════════
+       MODELO CUSTOM (SEU DESIGN)
        ═══════════════════════════════════════════════════════ -->
-  <div class="cursor-model cursor-model-1" data-model="hand-craft">
-    <!-- Default: Ponto com cauda -->
-    <div class="cursor-default">
-      <div class="cursor-point"></div>
-      <svg class="cursor-trail" width="100" height="100" viewBox="0 0 100 100">
-        <path class="trail-path" d="M50,50" stroke="#ff6b35" stroke-width="2" fill="none" opacity="0.6"/>
-      </svg>
+    <div class="cursor-model cursor-model-custom" data-model="custom">
+
+      <!-- Estado 1: DEFAULT (navegação) -->
+      <div class="cursor-default active">
+        <!-- 👇 COLE SEU SVG DEFAULT AQUI -->
+        <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <!-- Exemplo: usando o arrow-evolved que você gostou -->
+          <g id="Objects">
+            <path class="cls-1" style="fill: #fff;"
+              d="M0,0l10.08,24,2.92-11,11-2.92L0,0ZM12.13,12.13l-2.28,8.6L1.98,1.98l18.75,7.87-8.6,2.28Z" />
+            <polygon class="cls-1" style="fill: #ff5c00;"
+              points="20.73 9.85 12.13 12.13 9.85 20.73 1.98 1.98 20.73 9.85" />
+          </g>
+        </svg>
+      </div>
+
+      <!-- Estado 2: HOVER (mão) -->
+      <div class="cursor-hand">
+        <!-- 👇 COLE SEU SVG DA MÃO AQUI -->
+        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <!-- Seu design de mão vai aqui -->
+          <g id="Objects">
+            <path class="cls-2" style="fill:#ff5c00;"
+              d="M21.11,12.37c0-.48.22-.92.56-1.23.35-.32.83-.51,1.36-.51,1.06,0,1.91.78,1.91,1.75v8.07c0,1.62-.46,3.21-1.33,4.62-.87,1.41-1.32,3-1.32,4.63v1.62h-11.93c0-2.72-1.19-5.32-3.3-7.24l-5.7-5.18c-.47-.42-.7-.97-.7-1.52s.24-1.1.69-1.52c.93-.85,2.44-.84,3.36,0l4.47,4.14V2.53c0-.54.24-1.02.63-1.37.42-.39,1.03-.61,1.69-.56,1.13.08,1.95,1.01,1.95,2.03v6.9c0-.48.22-.92.56-1.23.34-.32.83-.51,1.35-.51,1.06,0,1.91.78,1.91,1.74v1.31c0-.48.22-.92.56-1.23.35-.32.83-.51,1.36-.51,1.06,0,1.91.78,1.91,1.75v1.52Z" />
+            <path class="cls-2" style="fill:#ffffff;"
+              d="M17.28,11.44c-.36,0-.66-.27-.66-.6v-1.31c0-.64-.55-1.14-1.26-1.14-.34,0-.66.12-.88.33-.24.22-.38.51-.38.82,0,.33-.29.6-.66.6s-.66-.27-.66-.6c0-.62.27-1.21.76-1.66.47-.43,1.13-.68,1.81-.68,1.42,0,2.57,1.05,2.57,2.34v1.31c0,.33-.29.6-.66.6Z" />
+            <path class="cls-2" style="fill:#ffffff;"
+              d="M17.28,17.59c-.36,0-.66-.27-.66-.6v-3.12c0-.33.29-.6.66-.6s.66.27.66.6v3.12c0,.33-.29.6-.66.6Z" />
+            <path class="cls-2" style="fill:#ffffff;"
+              d="M17.28,14.47c-.36,0-.66-.27-.66-.6v-3.03c0-.62.27-1.21.76-1.66.49-.44,1.13-.69,1.82-.69,1.42,0,2.57,1.05,2.57,2.34v1.52c0,.33-.29.6-.66.6s-.66-.27-.66-.6v-1.52c0-.63-.56-1.15-1.26-1.15-.34,0-.65.12-.89.34-.24.22-.37.51-.37.81v3.03c0,.33-.29.6-.66.6Z" />
+            <path class="cls-2" style="fill:#ffffff;"
+              d="M21.11,18.79c-.36,0-.66-.27-.66-.6v-2.37c0-.33.29-.6.66-.6s.66.27.66.6v2.37c0,.33-.29.6-.66.6Z" />
+            <path class="cls-2" style="fill:#ffffff;"
+              d="M22.29,31.9h-11.94c-.36,0-.66-.27-.66-.6,0-2.58-1.1-5-3.1-6.82L.89,19.3c-.58-.52-.89-1.21-.89-1.94s.31-1.42.89-1.94c.57-.52,1.32-.82,2.15-.81.81,0,1.57.29,2.14.82l3.35,3.1V2.53c0-.68.29-1.32.83-1.8C9.91.22,10.71-.05,11.55,0c1.43.11,2.56,1.26,2.56,2.63v13.34c0,.33-.29.6-.66.6s-.66-.27-.66-.6V2.64c0-.75-.59-1.38-1.35-1.44-.44-.03-.87.11-1.17.38-.29.26-.44.59-.44.95v17.44c0,.24-.16.46-.41.55-.25.09-.53.04-.72-.13l-4.47-4.14c-.32-.29-.75-.46-1.21-.46h0c-.46,0-.89.16-1.21.46-.32.29-.5.69-.5,1.1s.18.8.51,1.1l5.7,5.18c2.09,1.91,3.31,4.4,3.47,7.07h10.64v-1.03c0-1.72.49-3.43,1.41-4.92.82-1.32,1.25-2.81,1.25-4.33v-8.07c0-.63-.56-1.15-1.26-1.15-.34,0-.65.12-.89.34-.24.22-.37.51-.37.81v3.45c0,.33-.29.6-.66.6s-.66-.27-.66-.6v-3.45c0-.62.27-1.21.76-1.66.49-.44,1.13-.69,1.82-.69,1.42,0,2.57,1.05,2.57,2.34v8.07c0,1.72-.49,3.42-1.42,4.91-.81,1.31-1.24,2.81-1.24,4.33v1.62c0,.33-.29.6-.66.6Z" />
+            <rect class="cls-2" style="fill:#ff5c00;" x="8.22" y="27.69" width="16.02" height="3.71" rx=".65"
+              ry=".65" />
+            <path class="cls-2" style="fill:#ffffff;"
+              d="M23.05,32h-13.64c-1.02,0-1.84-.75-1.84-1.68v-1.55c0-.93.83-1.68,1.84-1.68h13.64c1.02,0,1.84.75,1.84,1.68v1.55c0,.93-.83,1.68-1.84,1.68ZM9.41,28.29c-.29,0-.53.22-.53.49v1.55c0,.27.24.49.53.49h13.64c.29,0,.53-.22.53-.49v-1.55c0-.27-.24-.49-.53-.49h-13.64Z" />
+          </g>
+        </svg>
+      </div>
+
+      <!-- Estado 3: GRAB (click/mousedown) -->
+      <div class="cursor-grab">
+        <!-- 👇 SVG da mão FECHADA (você vai criar no Illustrator/Framer) -->
+        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <g id="cursor-mao-fechada">
+            <g>
+              <rect class="cls-3" style="fill: transparent;" width="25.6" height="32" />
+              <g>
+                <path class="cls-2" style="fill: #ff5c00;"
+                  d="M19.4,15.4c0-.5.2-.9.5-1.2s.8-.5,1.3-.5c1,0,1.8.8,1.8,1.8v5.1c0,1.6-.4,3.2-1.2,4.6s-1.2,3-1.2,4.6v1.6h-11c0-2.7-1.1-5.3-3-7.2l-3.64-4.23c-.4-.4-.6-1-.6-1.5s.2-1.1.6-1.5c.9-.9,2.2-.8,3.1,0l2.54,3.13.02-7.48c0-.5.2-1,.6-1.4.4-.4.9-.6,1.6-.6,1,0,1.8,1,1.8,2l-.02-.22c0-.5.2-.9.5-1.2s.8-.5,1.2-.5c1,0,1.8.8,1.8,1.7v1.3c0-.5.2-.9.5-1.2s.8-.5,1.3-.5c1,0,1.8.8,1.8,1.8v1.5h0l-.3.1Z" />
+                <path class="cls-1" style="fill: #fff;"
+                  d="M15.9,14.4c-.3,0-.6-.3-.6-.6v-1.3c0-.6-.5-1.1-1.2-1.1s-.6.1-.8.3-.34.67-.34.97-.36.43-.66.43-.36-.37-.36-.67c0-.6-.04-1.13.46-1.63.4-.4,1-.7,1.7-.7,1.3,0,2.4,1,2.4,2.3v1.3c0,.3-.3.6-.6.6h0v.1Z" />
+                <path class="cls-1" style="fill: #fff;"
+                  d="M15.95,20.33c-.33,0-.65-.3-.65-.6v-3.1c0-.3.33-.6.65-.6s.65.3.65.6v3.1c0,.3-.33.6-.65.6Z" />
+                <path class="cls-1" style="fill: #fff;"
+                  d="M15.9,17.5c-.3,0-.6-.3-.6-.6v-3c0-.6.2-1.2.7-1.7.5-.4,1-.7,1.7-.7,1.3,0,2.4,1.1,2.4,2.3v1.5c0,.3-.3.6-.6.6s-.6-.3-.6-.6v-1.5c0-.6-.5-1.1-1.2-1.1s-.6.1-.8.3-.3.5-.3.8v3c0,.3-.3.6-.6.6h0l-.1.1Z" />
+                <path class="cls-1" style="fill: #fff;"
+                  d="M19.5,21.1c-.3,0-.6-.3-.6-.6v-2.4c0-.3.3-.6.6-.6s.6.3.6.6v2.4c0,.3-.3.6-.6.6Z" />
+                <path class="cls-1" style="fill: #fff;"
+                  d="M20.4,31.9h-11c-.3,0-.6-.3-.6-.6,0-2.6-1-5-2.9-6.8l-3.64-4.23c-.5-.5-.8-1.2-.8-1.9s.3-1.4.8-1.9,1.2-.8,2-.8c.7,0,1.4.3,2,.8l1.54,2.13.02-5.98c0-.7.3-1.3.8-1.8s1.2-.8,2-.7c1.3.1,2.4,1.3,2.4,2.6l-.02,6.18c0,.3-.3.6-.6.6s-.6-.3-.6-.6l.02-6.18c0-.8-.5-1.4-1.2-1.4-.4,0-.8.1-1.1.4s-.4.6-.4.9l-.02,7.28c0,.2-.1.5-.4.5s-.5,0-.7-.1l-2.54-3.13c-.3-.3-.7-.5-1.1-.5h0c-.4,0-.8.2-1.1.5s-.5.7-.5,1.1.2.8.5,1.1l3.64,4.23c1.9,1.9,3,4.4,3.2,7.1h9.8v-1c0-1.7.5-3.4,1.3-4.9.8-1.3,1.2-2.8,1.2-4.3v-5.1c0-.6-.5-1.1-1.2-1.1s-.6.1-.8.3-.3.5-.3.8v3.4c0,.3-.3.6-.6.6s-.6-.3-.6-.6v-3.4c0-.6.2-1.2.7-1.7.5-.4,1-.7,1.7-.7,1.3,0,2.4,1.1,2.4,2.3v5.1c0,1.7-.5,3.4-1.3,4.9-.7,1.3-1.1,2.8-1.1,4.3v1.6c0,.3-.3.6-.6.6h0l-.3.1Z" />
+                <rect class="cls-2" style="fill: #ff5c00;" x="7.6" y="27.7" width="14.8" height="3.7" rx=".6" ry=".6" />
+                <path class="cls-1" style="fill: #fff;"
+                  d="M21.2,32h-12.6c-.9,0-1.7-.8-1.7-1.7v-1.5c0-.9.8-1.7,1.7-1.7h12.6c.9,0,1.7.8,1.7,1.7v1.5c0,.9-.8,1.7-1.7,1.7ZM8.7,28.3c-.3,0-.5.2-.5.5v1.5c0,.3.2.5.5.5h12.6c.3,0,.5-.2.5-.5v-1.5c0-.3-.2-.5-.5-.5,0,0-12.6,0-12.6,0Z" />
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+
     </div>
-    
-    <!-- Hover: Mão detalhada -->
-    <svg class="cursor-hand" width="28" height="32" viewBox="0 0 28 32">
-      <g transform="translate(2, 2)">
-        <!-- Palma -->
-        <path d="M8,18 L8,28 C8,29.5 9,30 10,30 L14,30 C15,30 16,29.5 16,28 L16,18" 
-              fill="#ff6b35" stroke="#fff" stroke-width="1.5"/>
-        <!-- Dedo indicador (ponto de precisão) -->
-        <path d="M10,18 L10,4 C10,2.5 11,2 12,2 C13,2 14,2.5 14,4 L14,18" 
-              fill="#ff6b35" stroke="#fff" stroke-width="1.5"/>
-        <!-- Dedo médio -->
-        <path d="M14,18 L14,6 C14,5 14.5,4.5 15,4.5 C15.5,4.5 16,5 16,6 L16,18" 
-              fill="#ff6b35" stroke="#fff" stroke-width="1"/>
-        <!-- Dedo anelar -->
-        <path d="M16,18 L16,8 C16,7 16.5,6.5 17,6.5 C17.5,6.5 18,7 18,8 L18,18" 
-              fill="#ff6b35" stroke="#fff" stroke-width="1"/>
-        <!-- Polegar -->
-        <path d="M8,18 L6,16 C5,15 5,14 6,13 C7,12 8,12 9,13 L10,14" 
-              fill="#ff6b35" stroke="#fff" stroke-width="1"/>
-        <!-- Ponto de precisão (ponta do indicador) -->
-        <circle cx="12" cy="2" r="1.5" fill="#fff" opacity="0.8"/>
-      </g>
-    </svg>
-    
-    <!-- Text: Barra -->
-    <div class="cursor-text">
-      <div class="text-bar"></div>
-    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+       RIPPLE (feedback de click)
+       ═══════════════════════════════════════════════════════ -->
+    <div class="cursor-ripple" id="cursorRipple"></div>
+
   </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       MODELO 2: GEOMÉTRICO BAUHAUS
-       ═══════════════════════════════════════════════════════ -->
-  <div class="cursor-model cursor-model-2" data-model="geometric">
-    <!-- Default: Círculo com anel -->
-    <div class="cursor-default">
-      <svg width="20" height="20" viewBox="0 0 20 20">
-        <circle cx="10" cy="10" r="8" fill="none" stroke="#ff6b35" stroke-width="2"/>
-        <circle cx="10" cy="10" r="3" fill="#ff6b35"/>
-      </svg>
-    </div>
-    
-    <!-- Hover: Triângulo apontando -->
-    <svg class="cursor-hand" width="24" height="24" viewBox="0 0 24 24">
-      <path d="M12,2 L22,20 L2,20 Z" 
-            fill="#ff6b35" 
-            stroke="#fff" 
-            stroke-width="2"/>
-      <circle cx="12" cy="4" r="2" fill="#fff"/>
-    </svg>
-    
-    <!-- Text: Linha dupla -->
-    <div class="cursor-text">
-      <svg width="4" height="24" viewBox="0 0 4 24">
-        <line x1="1" y1="0" x2="1" y2="24" stroke="#ff6b35" stroke-width="2"/>
-        <line x1="3" y1="0" x2="3" y2="24" stroke="#ff6b35" stroke-width="2" opacity="0.5"/>
-      </svg>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       MODELO 3: BLOB LÍQUIDO
-       ═══════════════════════════════════════════════════════ -->
-  <div class="cursor-model cursor-model-3" data-model="blob">
-    <!-- Default: Blob pulsante -->
-    <div class="cursor-default">
-      <svg width="24" height="24" viewBox="0 0 24 24">
-        <path class="blob-shape" 
-              d="M12,2 C16,2 20,6 20,10 C20,14 18,18 14,20 C10,22 6,20 4,16 C2,12 2,8 4,5 C6,2 9,2 12,2 Z"
-              fill="#ff6b35" 
-              opacity="0.9"/>
-        <circle cx="12" cy="12" r="3" fill="#fff" opacity="0.6"/>
-      </svg>
-    </div>
-    
-    <!-- Hover: Blob esticado -->
-    <svg class="cursor-hand" width="32" height="32" viewBox="0 0 32 32">
-      <ellipse class="blob-hover" 
-               cx="16" cy="16" 
-               rx="10" ry="14"
-               fill="#ff6b35"
-               opacity="0.9"/>
-      <circle cx="16" cy="10" r="3" fill="#fff" opacity="0.8"/>
-    </svg>
-    
-    <!-- Text: Blob vertical -->
-    <div class="cursor-text">
-      <svg width="8" height="28" viewBox="0 0 8 28">
-        <ellipse cx="4" cy="14" rx="4" ry="14" fill="#ff6b35" opacity="0.8"/>
-      </svg>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       MODELO 4: SETA EVOLUTIVA
-       ═══════════════════════════════════════════════════════ -->
-  <div class="cursor-model cursor-model-4" data-model="arrow-evolved">
-    <!-- Default: Seta minimalista -->
-    <div class="cursor-default">
-      <svg width="20" height="20" viewBox="0 0 20 20">
-        <path d="M2,2 L18,10 L10,12 L8,18 Z" 
-              fill="#ff6b35" 
-              stroke="#fff" 
-              stroke-width="1.5"/>
-        <circle cx="2" cy="2" r="2" fill="#fff"/>
-      </svg>
-    </div>
-    
-    <!-- Hover: Seta com "asas" -->
-    <svg class="cursor-hand" width="28" height="28" viewBox="0 0 28 28">
-      <!-- Seta principal -->
-      <path d="M2,2 L22,14 L14,16 L12,24 Z" 
-            fill="#ff6b35" 
-            stroke="#fff" 
-            stroke-width="2"/>
-      <!-- Asa esquerda -->
-      <path d="M2,2 L2,10 L10,14" 
-            fill="none" 
-            stroke="#ff6b35" 
-            stroke-width="2" 
-            opacity="0.6"/>
-      <!-- Asa direita -->
-      <path d="M2,2 L10,2 L14,10" 
-            fill="none" 
-            stroke="#ff6b35" 
-            stroke-width="2" 
-            opacity="0.6"/>
-      <!-- Ponto de precisão -->
-      <circle cx="2" cy="2" r="2.5" fill="#fff"/>
-    </svg>
-    
-    <!-- Text: Seta vertical -->
-    <div class="cursor-text">
-      <svg width="12" height="24" viewBox="0 0 12 24">
-        <path d="M6,0 L10,8 L8,8 L8,24 L4,24 L4,8 L2,8 Z" fill="#ff6b35"/>
-      </svg>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       RIPPLE (compartilhado por todos)
-       ═══════════════════════════════════════════════════════ -->
-  <div class="cursor-ripple" id="cursorRipple"></div>
-  
-</div>
-    <!-- ═══════════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════════
        🗺️ MINIMAP
        ═══════════════════════════════════════════════════════════ -->
-    <div class="minimap-container" id="minimap">
-      <div class="minimap-lines" id="minimapLines"></div>
-      <div class="scroll-indicator" id="scrollIndicator">
-        <svg class="indicator-arrow" width="10" height="8" viewBox="0 0 7 6">
-          <path d="M3.54688 6L0.515786 0.75L6.57796 0.75L3.54688 6Z" />
-        </svg>
-        <span class="indicator-label" id="indicatorLabel">Nível 1</span>
+  <div class="minimap-container" id="minimap">
+    <div class="minimap-lines" id="minimapLines"></div>
+    <div class="scroll-indicator" id="scrollIndicator">
+      <svg class="indicator-arrow" width="10" height="8" viewBox="0 0 7 6">
+        <path d="M3.54688 6L0.515786 0.75L6.57796 0.75L3.54688 6Z" />
+      </svg>
+      <span class="indicator-label" id="indicatorLabel">Nível 1</span>
+    </div>
+  </div>
+
+  <div id="first" class="container-fluid">
+    <div class="row">
+      <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <main class="lesson-main">
+          <!-- Breadcrumb -->
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="#" class="breadcrumb-item">Início</a>
+            <span class="breadcrumb-separator">›</span>
+            <a href="#" class="breadcrumb-item">Módulo 1</a>
+            <span class="breadcrumb-separator">›</span>
+            <a href="#" class="breadcrumb-item">Aula 2</a>
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current">Liderança escolar eficaz é transformacional e compartilhada
+            </span>
+          </nav>
+
+          <!-- Título -->
+          <h1 class="lesson-title" data-audio="titulo">
+            Liderança escolar eficaz é transformacional e compartilhada
+          </h1>
+          <!-- Meta (tempo de leitura) -->
+          <p class="lesson-meta" data-audio="tempo-leitura">
+            <i class="icon-time" data-lucide="clock"></i><em>Tempo de leitura: 8 minutos</em>
+          </p>
+        </main>
       </div>
     </div>
+  </div>
 
-    <div id="first" class="container-fluid">
-      <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
-          <main class="lesson-main">
-            <!-- Breadcrumb -->
-            <nav class="breadcrumb" aria-label="Breadcrumb">
-              <a href="#" class="breadcrumb-item">Início</a>
-              <span class="breadcrumb-separator">›</span>
-              <a href="#" class="breadcrumb-item">Módulo 1</a>
-              <span class="breadcrumb-separator">›</span>
-              <a href="#" class="breadcrumb-item">Aula 2</a>
-              <span class="breadcrumb-separator">›</span>
-              <span class="breadcrumb-current">Como é calculada?</span>
-            </nav>
-
-            <!-- Título -->
-            <h1 class="lesson-title" data-audio="titulo">
-              Liderança escolar eficaz é transformacional e compartilhada
-            </h1>
-            <!-- Meta (tempo de leitura) -->
-            <p class="lesson-meta" data-audio="tempo-leitura">
-              <i class="fa-regular fa-clock icon"></i
-              ><em>Tempo de leitura: 8 minutos</em>
-            </p>
-          </main>
-        </div>
-      </div>
-    </div>
-
-    <div id="" class="container-fluid">
+  <div class="contentAula">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
           <div class="content-wrapper">
@@ -240,11 +162,9 @@
                 muito singular.
               </p>
               <p data-audio="p2">
-                <span
-                  >Nesse conjunto musical, cada docente interpreta a partitura
+                <span>Nesse conjunto musical, cada docente interpreta a partitura
                   (os documentos curriculares e demais normativas) à sua
-                  maneira</span
-                >, de acordo com seu domínio sobre o instrumento, ou seja, seu
+                  maneira</span>, de acordo com seu domínio sobre o instrumento, ou seja, seu
                 conhecimento sobre os conteúdos que leciona e as práticas
                 pedagógicas que realiza.
               </p>
@@ -260,11 +180,9 @@
                 Esse grande conjunto, formado por todas as seções, só pode
                 alcançar sua melhor performance quando trabalha de forma
                 integrada,
-                <span
-                  >respeitando os tempos e espaços uns dos outros. Para que essa
+                <span>respeitando os tempos e espaços uns dos outros. Para que essa
                   harmonia seja possível, é essencial a atuação do diretor
-                  escolar</span
-                >. Cabe a ele o papel de maestro, capaz de orquestrar os
+                  escolar</span>. Cabe a ele o papel de maestro, capaz de orquestrar os
                 esforços individuais em prol de um projeto coletivo.
               </p>
               <p data-audio="p5">
@@ -290,8 +208,8 @@
                 
                 </p>
               </div> -->
-            <div class="callout-quote-author">
-              <p data-audio="p6">
+            <div data-audio="p6" class="callout-quote-author">
+              <p>
                 (...) processo para influenciar professores e outras partes
                 interessadas na melhoria contínua da escola e da aprendizagem
                 dos estudantes, não se limitando a ação de um único indivíduo.
@@ -312,14 +230,9 @@
       <div class="row">
         <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
           <div class="content-wrapper">
-            <section
-              data-nav-level="2"
-              data-label="Múltiplas dimensões de uma gestão democrática"
-            >
+            <section data-nav-level="2" data-label="Múltiplas dimensões de uma gestão democrática">
               <h3 data-audio="p7">
-                <span class="cls-underline"
-                  >Múltiplas dimensões</span
-                >
+                <span class="cls-underline">Múltiplas dimensões</span>
                 de uma gestão democrática
               </h3>
               <p data-audio="p8">
@@ -327,39 +240,35 @@
                 essa perspectiva apenas reforça o cenário que vimos na primeira
                 aula desta formação, quando discutimos a crescente complexidade
                 e diversidade de incumbências que recaem sobre a sua função.
-                <strong
-                  >O gestor, mais do que nunca, precisa lidar simultaneamente
-                  com múltiplas dimensões</strong
-                >
+                <strong>O gestor, mais do que nunca, precisa lidar simultaneamente
+                  com múltiplas dimensões</strong>
                 –
-                <span class="cls-highlight"
-                  >pedagógica, administrativa, humana e política</span
-                >
+                <span class="cls-highlight">pedagógica, administrativa, humana e política</span>
                 – e garantir que todas estejam a serviço da aprendizagem.
               </p>
               <p data-audio="p9">
                 Você deve ter percebido que, ao longo deste DP, temos
                 tangenciando um assunto –
-                <strong class="cls-underline"
-                  >o fortalecimento do caráter democrático das escolas</strong
-                >, tanto em suas práticas cotidianas quanto em sua forma de
+                <strong>o fortalecimento do caráter democrático das escolas</strong>, tanto em
+                suas
+                práticas cotidianas quanto em sua forma de
                 administração.
               </p>
               <p data-audio="p10">
                 Essa tendência está presente nos
                 <strong>regramentos nacionais</strong>, que vão desde a
-                Constituição Federal de 1988 e a LDB, passando pela BNCC até a
+                <a href="#" class="link-externo" target="_blank" rel="noopener noreferrer">Constituição Federal de
+                  1988</a> e a LDB, passando pela BNCC até a
                 legislação que rege o funcionamento do
-                <strong class="cls-circle" 
-                  >Fundeb Permanente</strong
-                >, e expressa valores que desejamos cultivar em nossa sociedade
+                <strong>Fundeb Permanente</strong>, e expressa valores que desejamos cultivar em
+                nossa
+                sociedade
                 e em nossos estudantes, como participação, corresponsabilidade,
                 transparência…
               </p>
               <p data-audio="p11">
-                <span class="cls-highlight" 
-                  >Além de atender a esses valores maiores</span
-                >, esse movimento também busca responder a um desafio muito
+                <span class="cls-highlight">Além de atender a esses valores maiores</span>, esse movimento também busca
+                responder a um desafio muito
                 prático:
               </p>
             </section>
@@ -373,16 +282,14 @@
       <div class="row">
         <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
           <section data-nav-level="3" data-label="Destaque">
-            <div class="callout-note">
+            <div class="callout-note" data-audio="p12">
               <svg class="callout-note-icon icon" viewBox="0 0 24 24">
-                <path
-                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-                />
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                 <polyline points="14 2 14 8 20 8" />
                 <line x1="12" y1="18" x2="12" y2="12" />
                 <line x1="9" y1="15" x2="15" y2="15" />
               </svg>
-              <p data-audio="p12">
+              <p>
                 Assegurar que a escola seja capaz de engajar alunos e
                 professores em torno de um projeto coletivo, sustentado por
                 evidências, capaz de dar respostas concretas aos desafios da
@@ -399,19 +306,14 @@
       <div class="row">
         <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
           <div class="content-wrapper">
-            <section
-              data-nav-level="2"
-              data-label="Uma liderança distribuída ecoa mais longe"
-            >
+            <section data-nav-level="2" data-label="Uma liderança distribuída ecoa mais longe">
               <h3 data-audio="p13">
                 Uma liderança distribuída
-                <span class="cls-underline">ecoa mais longe</span>
+                <span>ecoa mais longe</span>
               </h3>
               <p data-audio="p14">
                 Nesse sentido, a
-                <strong class="cls-circle" 
-                  >liderança distribuída</strong
-                >
+                <strong class="cls-circle">liderança distribuída</strong>
                 é – ao mesmo tempo – um fim e um meio. É um fim porque
                 representa a materialização de uma gestão democrática, coerente
                 com os valores de participação e corresponsabilidade que devem
@@ -434,14 +336,13 @@
       <div class="row">
         <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
           <section data-nav-level="3" data-label="Reflita sobre isso">
-            <div class="callout-reflection">
+            <div class="callout-reflection" data-audio="p16">
               <svg class="callout-reflection-icon icon" viewBox="0 0 24 24">
                 <path
-                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                />
+                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
               <div class="callout-reflection-title">Reflita sobre isso</div>
-              <p data-audio="p16">
+              <p>
                 Sem uma liderança eficaz, capaz de distribuir responsabilidades
                 e desenhar espaços de decisão compartilhada, que promova o
                 diálogo e construa consensos entre os diferentes atores
@@ -469,13 +370,11 @@
               <span class="cls-box">Não sem motivo</span>,
               quando o Instituto Unibanco e a Universidad Diego Portales (2021,
               p. 7) lançaram o informe
-              <i class="cls-highlight" 
-                >Liderança escolar para a melhoria da educação: contribuições
-                para o debate público no Brasil</i
-              >, mapeando diferentes modalidades de liderança escolar – cada uma
+              <i class="cls-highlight">Liderança escolar para a melhoria da educação: contribuições
+                para o debate público no Brasil</i>, mapeando diferentes modalidades de liderança escolar – cada uma
               com seu respectivo foco –, perceberam que delas vem ganhando
               especial atenção nas últimas décadas: justamente, a
-              <span class="cls-highlight">liderança distribuída</span>.
+              <span>liderança distribuída</span>.
             </p>
             <p data-audio="p19">
               Segundo os autores, ela se caracteriza como uma liderança
@@ -490,8 +389,8 @@
       <div class="row">
         <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
           <section data-nav-level="3" data-label="Citação">
-            <div class="callout-quote-author">
-              <p data-audio="p20">
+            <div class="callout-quote-author" data-audio="p20">
+              <p>
                 (...) executada por diferentes pessoas ou grupos que têm
                 participação na gestão, direção e tomada de decisões da
                 instituição de ensino. <br />É projetada para envolver toda a
@@ -531,18 +430,14 @@
           <div class="content-wrapper">
             <section data-nav-level="2" data-label="Domínios da prática">
               <h3>
-                <span class="cls-highlight"
-                  >Domínios da prática</span
-                >
+                <span class="cls-highlight">Domínios da prática</span>
               </h3>
               <p>
                 Todo gestor escolar – mesmo em ações aparentemente burocráticas
                 – afeta o que ocorre na comunidade escolar, pois sua atuação
                 sempre ocorre em uma teia de relações pessoais e contextuais
                 (Vilardi, 2021). Por ocupar essa posição central, o
-                <strong class="cls-circle" 
-                  >gestor influencia diretamente o clima institucional</strong
-                >
+                <strong class="cls-underline">gestor influencia diretamente o clima institucional</strong>
                 e o tom das atividades que o constroem. O gestor que adota
                 práticas transformacionais é, acima de tudo, aquele que
                 reconhece esse efeito e integra intencionalmente a dimensão
@@ -550,9 +445,7 @@
               </p>
               <p>
                 Esse poder (e também essa responsabilidade) de
-                <strong class="cls-box"
-                  >“dar o tom da escola”</strong
-                >
+                <strong class="cls-box">“dar o tom da escola”</strong>
                 não deve jamais ser subestimado.
               </p>
               <p>
@@ -579,10 +472,8 @@
                 A liderança escolar tem efeito significativo nas características
                 da organização escolar, o que influencia positivamente a
                 qualidade do ensino e da aprendizagem.
-                <span class="cls-highlight"
-                  >Embora moderado, esse efeito de liderança é vital para o
-                  sucesso da maioria dos esforços de melhoria escolar.</span
-                >
+                <span class="cls-highlight">Embora moderado, esse efeito de liderança é vital para o
+                  sucesso da maioria dos esforços de melhoria escolar.</span>
               </p>
             </div>
           </section>
@@ -614,36 +505,28 @@
       <div class="row">
         <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
           <div class="content-wrapper">
-            <section
-              data-nav-level="2"
-              data-label="Diretores eficazes crescem junto com seus professores"
-            >
+            <section data-nav-level="2" data-label="Diretores eficazes crescem junto com seus professores">
               <h3>
-                <span class="cls-highlight"
-                  >Diretores eficazes crescem junto com seus professores</span
-                >
+                <span>Diretores eficazes crescem junto com seus professores</span>
               </h3>
               <p>
                 Entre os vários aspectos da liderança escolar, uma em especial
                 tem um impacto significativo:
-                <span class="cls-box"
-                  >a promoção e participação na formação contínua dos
-                  professores.</span
-                >
+                <span class="cls-box">a promoção e participação na formação contínua dos
+                  professores.</span>
               </p>
               <p>
                 Essa é uma das conclusões alcançadas pelos pesquisadores Jason
                 Grissom, Anna Egalite e Constance Lindsay (2021 apud Instituto
                 Unibanco, 2021) no trabalho
-                <i class="cls-underline"
-                  >Como diretores impactam estudantes e escolas</i
-                >.
+                <i><a href="#" class="link-externo" target="_blank" rel="noopener noreferrer">Como
+                    diretores impactam estudantes e escolas</a></i>.
               </p>
               <p>
                 Segundo os autores, os
                 <strong>líderes mais eficazes</strong> não apenas
                 <strong>incentivam a formação</strong> dos profissionais da
-                escola, mas também <strong>participam ativamente</strong> desse
+                escola, mas também <strong class="cls-highlight">participam ativamente</strong> desse
                 processo, seja como aprendizes ou liderando a equipe.
               </p>
               <p>
@@ -655,7 +538,9 @@
                 vai de 0 (nenhum impacto) a 1 (máximo impacto).
               </p>
               <p>
-                Mas como isso se articula, na prática, com a gestão do currículo
+                Mas como isso se articula, na prática,
+                com a
+                gestão do currículo
                 orientada por evidências? É o que veremos no próximo tópico.
               </p>
             </section>
@@ -663,20 +548,71 @@
         </div>
       </div>
     </div>
-
-    <div class="separador-medio"></div>
     <div class="separador-medio"></div>
 
-    <script src="https://unpkg.com/rough-notation@0.5.1/lib/rough-notation.iife.js"></script>
-    <!-- <script src="./assets/js/rough.js"></script> -->
-    <script src="./assets/js/minimap.js"></script>
-    <!-- <script src="./assets/js/audio-scanner.js"></script> -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+          <div class="nav-lessons">
+            <a href="#" class="nav-item prev">
+              <div class="nav-icon icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="var(--black)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="lucide lucide-chevrons-left-icon lucide-chevrons-left">
+                  <path d="m11 17-5-5 5-5" />
+                  <path d="m18 17-5-5 5-5" />
+                </svg>
+              </div>
+              <div class="nav-text">
+                <span class="label">ANTERIOR</span>
+                <strong>Introdução</strong>
+              </div>
+            </a>
 
-    <!-- Configuração dos áudios -->
-    <script src="./assets/js/audio-config.js"></script>
+            <a href="#" class="nav-item next">
+              <div class="nav-text">
+                <span class="label">PRÓXIMO</span>
+                <strong>O papel do gestor escolar</strong>
+              </div>
+              <div class="nav-icon icon orange">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="lucide lucide-chevrons-right-icon lucide-chevrons-right">
+                  <path d="m6 17 5-5-5-5" />
+                  <path d="m13 17 5-5-5-5" />
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <!-- Player -->
-    <script src="./assets/js/audio-player.js"></script>
-    <script src="./assets/js/cursor.js"></script>
-  </body>
+
+    <div class="separador-medio"></div>
+  </div>
+
+
+
+  <script src="https://unpkg.com/rough-notation@0.5.1/lib/rough-notation.iife.js"></script>
+
+  <script src="./assets/js/rough.js"></script>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script src="./assets/js/minimap.js"></script>
+  <!-- <script src="./assets/js/audio-scanner.js"></script> -->
+
+  <!-- Configuração dos áudios -->
+  <script src="./assets/js/audio-config.js"></script>
+
+  <!-- Player -->
+  <script src="./assets/js/audio-player.js"></script>
+  <script src="./assets/js/cursor.js"></script>
+  <script src="assets/js/drawSVG.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+
 </html>

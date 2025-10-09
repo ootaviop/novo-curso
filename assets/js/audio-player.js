@@ -2,7 +2,7 @@
  * ═══════════════════════════════════════════════════════════════
  * 🎵 AUDIO PLAYER - ENGINE COMPLETO
  * ═══════════════════════════════════════════════════════════════
- * 
+ *
  * Sistema de leitura guiada com:
  * - Reprodução sequencial de áudios
  * - Highlight do parágrafo sendo lido
@@ -10,16 +10,14 @@
  * - Controles estilo Spotify (play/pause, próximo, anterior)
  * - Controle de velocidade
  * - Barra de progresso interativa
- * 
+ *
  * @author CAEd - Equipe de Cursos
  * @version 1.0.0
  */
 
 class AudioPlayer {
-  constructor() {
-    // ═══════════════════════════════════════════════════════════
-    // 🎯 ELEMENTOS DOM
-    // ═══════════════════════════════════════════════════════════
+  constructor(HTMLConfig = {}) {
+    // --- Referências de elementos DOM (inicializadas posteriormente)
     this.triggerBtn = null;
     this.playerBar = null;
     this.playPauseBtn = null;
@@ -34,21 +32,27 @@ class AudioPlayer {
     this.playerTitle = null;
     this.playerSubtitle = null;
 
-    // ═══════════════════════════════════════════════════════════
-    // 🎵 ÁUDIO
-    // ═══════════════════════════════════════════════════════════
+    // --- Estado do áudio e playlist
     this.audio = new Audio();
-    this.playlist = []; // Array de objetos: { element, audioFile, text }
+    this.playlist = []; // [{ element, audioFile, text, audioKey }]
     this.currentIndex = 0;
     this.isPlaying = false;
     this.speeds = [0.75, 1, 1.25, 1.5, 2];
     this.currentSpeedIndex = 1; // Começa em 1x
 
-    // ═══════════════════════════════════════════════════════════
-    // ⚙️ CONFIGURAÇÃO
-    // ═══════════════════════════════════════════════════════════
-    this.config = window.audioConfig || { basePath: './audio/', tracks: {} };
-    
+    // --- Configuração visual
+    this.HTMLConfig = {
+      iconSize: (() => {
+        const w = window.innerWidth;
+        return w >= 1920 ? 24 * 1.4 : 24 * 1;
+      })(),
+      ...HTMLConfig,
+    };
+
+    // --- Configuração de tracks
+    this.config = window.audioConfig || { basePath: "./audio/", tracks: {} };
+
+    // Inicialização
     this.init();
   }
 
@@ -59,24 +63,35 @@ class AudioPlayer {
    */
   init() {
     if (!this.validateConfig()) {
-      console.error('[AudioPlayer] Configuração inválida. Verifique se audio-config.js está carregado.');
+      console.error(
+        "[AudioPlayer] Configuração inválida. Verifique se audio-config.js está carregado."
+      );
       return;
     }
 
     this.buildPlaylist();
     this.createUI();
     this.setupEventListeners();
-    
-    console.log(`[AudioPlayer] ✅ Inicializado com ${this.playlist.length} tracks`);
+
+    console.log(
+      `[AudioPlayer] ✅ Inicializado com ${this.playlist.length} tracks`
+    );
+  }
+
+  getIconSize() {
+    const { iconSize } = this.HTMLConfig;
+    return iconSize;
   }
 
   /**
    * Valida se a configuração está presente
    */
   validateConfig() {
-    return this.config && 
-           this.config.tracks && 
-           Object.keys(this.config.tracks).length > 0;
+    return (
+      this.config &&
+      this.config.tracks &&
+      Object.keys(this.config.tracks).length > 0
+    );
   }
 
   /**
@@ -86,9 +101,9 @@ class AudioPlayer {
    */
   buildPlaylist() {
     // Busca todos os elementos que têm data-audio
-    const elementsWithAudio = document.querySelectorAll('[data-audio]');
+    const elementsWithAudio = document.querySelectorAll("[data-audio]");
 
-    elementsWithAudio.forEach(element => {
+    elementsWithAudio.forEach((element) => {
       const audioKey = element.dataset.audio;
       const audioFile = this.config.tracks[audioKey];
 
@@ -104,12 +119,14 @@ class AudioPlayer {
         element: element,
         audioFile: this.config.basePath + audioFile,
         text: text,
-        audioKey: audioKey
+        audioKey: audioKey,
       });
     });
 
     if (this.playlist.length === 0) {
-      console.error('[AudioPlayer] Nenhum elemento com data-audio encontrado no HTML.');
+      console.error(
+        "[AudioPlayer] Nenhum elemento com data-audio encontrado no HTML."
+      );
     }
   }
 
@@ -118,12 +135,12 @@ class AudioPlayer {
    */
   extractText(element) {
     let text = element.textContent.trim();
-    
+
     // Limita tamanho
     if (text.length > 80) {
-      text = text.substring(0, 80) + '...';
+      text = text.substring(0, 80) + "...";
     }
-    
+
     return text;
   }
 
@@ -141,26 +158,28 @@ class AudioPlayer {
    * Cria botão "Ouvir esta aula"
    */
   createTriggerButton() {
-    const lessonMeta = document.querySelector('.lesson-meta');
-    
+    const lessonMeta = document.querySelector(".lesson-meta");
+
     if (!lessonMeta) {
-      console.warn('[AudioPlayer] .lesson-meta não encontrado. Botão não será criado.');
+      console.warn(
+        "[AudioPlayer] .lesson-meta não encontrado. Botão não será criado."
+      );
       return;
     }
 
-    const container = document.createElement('div');
-    container.className = 'audio-trigger-container';
-    
-    const button = document.createElement('button');
-    button.className = 'audio-trigger-btn morphable';
+    const container = document.createElement("div");
+    container.className = "audio-trigger-container";
+
+    const button = document.createElement("button");
+    button.className = "audio-trigger-btn morphable";
     button.innerHTML = `
-      <span class="material-symbols-outlined icon">headphones</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="${this.getIconSize()}" height="${this.getIconSize()}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headphones-icon lucide-headphones"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></svg>
       <span>Ouvir esta aula</span>
     `;
 
-    const info = document.createElement('div');
-    info.className = 'audio-trigger-info';
-    
+    const info = document.createElement("div");
+    info.className = "audio-trigger-info";
+
     const totalDuration = this.estimateTotalDuration();
     info.innerHTML = `
       <div><strong>${this.playlist.length} trechos</strong> de áudio disponíveis</div>
@@ -170,7 +189,7 @@ class AudioPlayer {
     container.appendChild(button);
     container.appendChild(info);
 
-    lessonMeta.insertAdjacentElement('afterend', container);
+    lessonMeta.insertAdjacentElement("afterend", container);
 
     this.triggerBtn = button;
   }
@@ -188,8 +207,8 @@ class AudioPlayer {
    * Cria barra do player (bottom)
    */
   createPlayerBar() {
-    const bar = document.createElement('div');
-    bar.className = 'audio-player-bar';
+    const bar = document.createElement("div");
+    bar.className = "audio-player-bar";
     bar.innerHTML = `
       <div class="player-info">
         <div class="player-icon">
@@ -203,7 +222,7 @@ class AudioPlayer {
 
       <div class="player-controls">
         <div class="player-buttons">
-          <button class="player-btn btn-prev" id="btnPrev" title="Anterior">
+          <button class="player-btn btn-prev" id="btnPrev" title=" ">
             <span class="material-symbols-outlined">skip_previous</span>
           </button>
           
@@ -211,7 +230,7 @@ class AudioPlayer {
             <span class="material-symbols-outlined">play_arrow</span>
           </button>
           
-          <button class="player-btn btn-next" id="btnNext" title="Próximo">
+          <button class="player-btn btn-next" id="btnNext" title=" ">
             <span class="material-symbols-outlined">skip_next</span>
           </button>
         </div>
@@ -241,17 +260,17 @@ class AudioPlayer {
 
     // Armazena referências
     this.playerBar = bar;
-    this.playPauseBtn = bar.querySelector('#btnPlayPause');
-    this.prevBtn = bar.querySelector('#btnPrev');
-    this.nextBtn = bar.querySelector('#btnNext');
-    this.closeBtn = bar.querySelector('#btnClose');
-    this.progressBar = bar.querySelector('#progressBar');
-    this.progressFill = bar.querySelector('#progressFill');
-    this.currentTimeEl = bar.querySelector('#currentTime');
-    this.totalTimeEl = bar.querySelector('#totalTime');
-    this.speedBtn = bar.querySelector('#speedBtn');
-    this.playerTitle = bar.querySelector('#playerTitle');
-    this.playerSubtitle = bar.querySelector('#playerSubtitle');
+    this.playPauseBtn = bar.querySelector("#btnPlayPause");
+    this.prevBtn = bar.querySelector("#btnPrev");
+    this.nextBtn = bar.querySelector("#btnNext");
+    this.closeBtn = bar.querySelector("#btnClose");
+    this.progressBar = bar.querySelector("#progressBar");
+    this.progressFill = bar.querySelector("#progressFill");
+    this.currentTimeEl = bar.querySelector("#currentTime");
+    this.totalTimeEl = bar.querySelector("#totalTime");
+    this.speedBtn = bar.querySelector("#speedBtn");
+    this.playerTitle = bar.querySelector("#playerTitle");
+    this.playerSubtitle = bar.querySelector("#playerSubtitle");
   }
 
   /**
@@ -262,27 +281,27 @@ class AudioPlayer {
   setupEventListeners() {
     // Botão inicial
     if (this.triggerBtn) {
-      this.triggerBtn.addEventListener('click', () => this.start());
+      this.triggerBtn.addEventListener("click", () => this.start());
     }
 
     // Controles
-    this.playPauseBtn.addEventListener('click', () => this.togglePlayPause());
-    this.prevBtn.addEventListener('click', () => this.previous());
-    this.nextBtn.addEventListener('click', () => this.next());
-    this.closeBtn.addEventListener('click', () => this.close());
-    this.speedBtn.addEventListener('click', () => this.cycleSpeed());
+    this.playPauseBtn.addEventListener("click", () => this.togglePlayPause());
+    this.prevBtn.addEventListener("click", () => this.previous());
+    this.nextBtn.addEventListener("click", () => this.next());
+    this.closeBtn.addEventListener("click", () => this.close());
+    this.speedBtn.addEventListener("click", () => this.cycleSpeed());
 
     // Barra de progresso
-    this.progressBar.addEventListener('click', (e) => this.seekTo(e));
+    this.progressBar.addEventListener("click", (e) => this.seekTo(e));
 
     // Eventos do áudio
-    this.audio.addEventListener('timeupdate', () => this.updateProgress());
-    this.audio.addEventListener('ended', () => this.onTrackEnded());
-    this.audio.addEventListener('loadedmetadata', () => this.updateTotalTime());
-    this.audio.addEventListener('error', (e) => this.onAudioError(e));
+    this.audio.addEventListener("timeupdate", () => this.updateProgress());
+    this.audio.addEventListener("ended", () => this.onTrackEnded());
+    this.audio.addEventListener("loadedmetadata", () => this.updateTotalTime());
+    this.audio.addEventListener("error", (e) => this.onAudioError(e));
 
     // Atalhos de teclado
-    document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+    document.addEventListener("keydown", (e) => this.handleKeyboard(e));
   }
 
   /**
@@ -316,13 +335,14 @@ class AudioPlayer {
    * Play
    */
   play() {
-    this.audio.play()
+    this.audio
+      .play()
       .then(() => {
         this.isPlaying = true;
         this.updatePlayPauseButton();
       })
-      .catch(err => {
-        console.error('[AudioPlayer] Erro ao reproduzir:', err);
+      .catch((err) => {
+        console.error("[AudioPlayer] Erro ao reproduzir:", err);
       });
   }
 
@@ -379,12 +399,13 @@ class AudioPlayer {
     if (index < 0 || index >= this.playlist.length) return;
 
     const track = this.playlist[index];
-    
+
     this.audio.src = track.audioFile;
     this.audio.playbackRate = this.speeds[this.currentSpeedIndex];
-    
+
     this.updatePlayerInfo(track);
     this.highlightElement(track.element);
+    //this.addSvgToHighlight(track.element);
     this.scrollToElement(track.element);
   }
 
@@ -407,11 +428,11 @@ class AudioPlayer {
    * Trata erros de carregamento
    */
   onAudioError(e) {
-    console.error('[AudioPlayer] Erro ao carregar áudio:', e);
-    console.error('Arquivo:', this.audio.src);
-    
-    this.playerSubtitle.textContent = '❌ Erro ao carregar áudio';
-    
+    console.error("[AudioPlayer] Erro ao carregar áudio:", e);
+    console.error("Arquivo:", this.audio.src);
+
+    this.playerSubtitle.textContent = "❌ Erro ao carregar áudio";
+
     // Tenta próximo após 2s
     setTimeout(() => {
       if (this.currentIndex < this.playlist.length - 1) {
@@ -460,11 +481,11 @@ class AudioPlayer {
    * Formata tempo em mm:ss
    */
   formatTime(seconds) {
-    if (!seconds || isNaN(seconds)) return '0:00';
-    
+    if (!seconds || isNaN(seconds)) return "0:00";
+
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   }
 
   /**
@@ -479,7 +500,7 @@ class AudioPlayer {
   cycleSpeed() {
     this.currentSpeedIndex = (this.currentSpeedIndex + 1) % this.speeds.length;
     const speed = this.speeds[this.currentSpeedIndex];
-    
+
     this.audio.playbackRate = speed;
     this.speedBtn.textContent = `${speed}x`;
   }
@@ -494,9 +515,9 @@ class AudioPlayer {
    * Atualiza botão play/pause
    */
   updatePlayPauseButton() {
-    const icon = this.playPauseBtn.querySelector('.material-symbols-outlined');
-    icon.textContent = this.isPlaying ? 'pause' : 'play_arrow';
-    this.playPauseBtn.title = this.isPlaying ? 'Pausar' : 'Play';
+    const icon = this.playPauseBtn.querySelector(".material-symbols-outlined");
+    icon.textContent = this.isPlaying ? "pause" : "play_arrow";
+    this.playPauseBtn.title = this.isPlaying ? " " : " ";
   }
 
   /**
@@ -504,23 +525,25 @@ class AudioPlayer {
    */
   updatePlayerInfo(track) {
     this.playerTitle.textContent = track.text;
-    this.playerSubtitle.textContent = `${this.currentIndex + 1} de ${this.playlist.length}`;
+    this.playerSubtitle.textContent = `${this.currentIndex + 1} de ${
+      this.playlist.length
+    }`;
   }
 
   /**
    * Mostra a barra do player
    */
   showPlayer() {
-    this.playerBar.classList.add('active');
-    document.body.classList.add('audio-player-active');
+    this.playerBar.classList.add("active");
+    document.body.classList.add("audio-player-active");
   }
 
   /**
    * Esconde a barra do player
    */
   hidePlayer() {
-    this.playerBar.classList.remove('active');
-    document.body.classList.remove('audio-player-active');
+    this.playerBar.classList.remove("active");
+    document.body.classList.remove("audio-player-active");
   }
 
   /**
@@ -534,16 +557,16 @@ class AudioPlayer {
    */
   highlightElement(element) {
     this.removeHighlight();
-    element.classList.add('audio-highlight');
+    element.classList.add("audio-highlight");
   }
 
   /**
    * Remove highlight
    */
   removeHighlight() {
-    const highlighted = document.querySelector('.audio-highlight');
+    const highlighted = document.querySelector(".audio-highlight");
     if (highlighted) {
-      highlighted.classList.remove('audio-highlight');
+      highlighted.classList.remove("audio-highlight");
     }
   }
 
@@ -553,10 +576,10 @@ class AudioPlayer {
   scrollToElement(element) {
     const elementTop = element.getBoundingClientRect().top + window.scrollY;
     const offset = window.innerHeight / 3; // Posiciona no terço superior
-    
+
     window.scrollTo({
       top: elementTop - offset,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
   }
 
@@ -568,22 +591,22 @@ class AudioPlayer {
 
   handleKeyboard(e) {
     // Só ativa se player estiver visível
-    if (!this.playerBar.classList.contains('active')) return;
+    if (!this.playerBar.classList.contains("active")) return;
 
-    switch(e.key) {
-      case ' ':
+    switch (e.key) {
+      case " ":
         e.preventDefault();
         this.togglePlayPause();
         break;
-      case 'ArrowLeft':
+      case "ArrowLeft":
         e.preventDefault();
         this.previous();
         break;
-      case 'ArrowRight':
+      case "ArrowRight":
         e.preventDefault();
         this.next();
         break;
-      case 'Escape':
+      case "Escape":
         e.preventDefault();
         this.close();
         break;
@@ -597,8 +620,8 @@ class AudioPlayer {
 
 let audioPlayer;
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
     audioPlayer = new AudioPlayer();
   });
 } else {

@@ -14,8 +14,9 @@
   display: flex;
   align-items: center;
   gap: clamp(1rem, 1rem + 1vw, 2rem);
-  margin: clamp(0.8rem, .5rem + 1vw, 1.5rem) 0 clamp(0.8rem, .5rem + 1vw, 1.5rem);
-  padding: clamp(0.8rem, .5rem + 1vw, 1.5rem) 0;
+  margin: clamp(0.8rem, 0.5rem + 1vw, 1.5rem) 0
+    clamp(0.8rem, 0.5rem + 1vw, 1.5rem);
+  padding: clamp(0.8rem, 0.5rem + 1vw, 1.5rem) 0;
   border-top: 1px solid #f0f0f0;
   border-bottom: 1px solid #f0f0f0;
 }
@@ -24,7 +25,8 @@
   display: inline-flex;
   align-items: center;
   gap: clamp(0.5rem, 0.5rem + 0.25vw, 1rem);
-  padding: clamp(0.75rem, 0.75rem + 0.25vw, 1rem) clamp(1.5rem, 1.5rem + 0.25vw, 2rem);
+  padding: clamp(0.75rem, 0.75rem + 0.25vw, 1rem)
+    clamp(1.5rem, 1.5rem + 0.25vw, 2rem);
   background: var(--orange);
   color: white;
   border: none;
@@ -83,8 +85,7 @@
   z-index: 9999;
   transform: translateY(100%);
   opacity: 0;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.4s ease;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
   box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.3);
 }
 
@@ -249,7 +250,7 @@ body.audio-player-active {
 }
 
 .player-progress-fill::after {
-  content: '';
+  content: "";
   position: absolute;
   right: 0;
   top: 50%;
@@ -331,14 +332,34 @@ body.audio-player-active {
    ═══════════════════════════════════════════════════════════ */
 
 .audio-highlight {
-  background: linear-gradient(120deg, 
-    rgba(255, 107, 53, 0.15) 0%, 
-    rgba(255, 107, 53, 0.08) 100%);
-  border-left: 4px solid var(--orange);
+  background: linear-gradient(
+    120deg,
+    rgba(255, 107, 53, 0.15) 0%,
+    rgba(255, 107, 53, 0.08) 100%
+  );
+  border-left: 3px solid var(--orange);
   padding-left: 1rem;
   margin-left: -1rem;
-  transition: all 0.3s ease;
-  border-radius: 4px;
+  transition: background 0.3s ease;
+  position: relative;
+  box-sizing: border-box;
+  padding: calc(1rem * var(--scale-multiplier));
+}
+
+/* adicionar ícone no before do audio-highlight */
+.audio-highlight::before {
+  content: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZjVjMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1oZWFkcGhvbmVzLWljb24gbHVjaWRlLWhlYWRwaG9uZXMiPjxwYXRoIGQ9Ik0zIDE0aDNhMiAyIDAgMCAxIDIgMnYzYTIgMiAwIDAgMS0yIDJINWEyIDIgMCAwIDEtMi0ydi03YTkgOSAwIDAgMSAxOCAwdjdhMiAyIDAgMCAxLTIgMmgtMWEyIDIgMCAwIDEtMi0ydi0zYTIgMiAwIDAgMSAyLTJoMyIvPjwvc3ZnPg==");
+  display: inline-block;
+  width: 24px;
+  position: absolute;
+  left: -3rem; /* distância da borda esquerda */
+  top: 50%; /* ponto médio vertical */
+  transform: translateY(-50%); /* centraliza exatamente */
+
+  /* extras */
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  transition: all 0.1s ease;
 }
 
 /* ═══════════════════════════════════════════════════════════

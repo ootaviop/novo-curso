@@ -5,7 +5,9 @@ body {
   /* Força cursor none em TODOS os elementos interativos */
   a, button, input, textarea, select, 
   [role="button"], [onclick], .morphable,
-  .audio-trigger-btn, .player-btn, .nav-link2 {
+  .audio-trigger-btn, .player-btn, .nav-link2, 
+  .player-progress-container, .player-time, .player-progress-bar,
+  .player-progress-fill, .callout, .callout-tip, .callout-note, .callout-reflection {
     cursor: none !important;
   }
   

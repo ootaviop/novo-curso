@@ -1,0 +1,44 @@
+.nav-lessons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: calc(1.4rem * var(--scale-multiplier));
+  text-decoration: none;
+  color: #000;
+}
+
+.nav-item.next {
+  /* flex-direction: row-reverse; */
+  text-align: right;
+}
+
+.nav-icon {
+  width: 48px;
+  height: 48px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(1.25rem * var(--scale-multiplier));
+}
+
+.nav-icon.orange {
+  background-color: #ff4f00;
+  border: none;
+  color: #fff;
+}
+
+.nav-text .label {
+  display: block;
+  font-size: calc(0.8rem * var(--scale-multiplier));
+  color: #7a7a7a;
+  letter-spacing: 0.05em;
+  margin-bottom: calc(0.1rem * var(--scale-multiplier));
+}
