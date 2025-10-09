@@ -2,11 +2,11 @@
 
 /**
  * ═══════════════════════════════════════════════════════════════
- * 🎨 SCROLL MINIMAP - ESTILOS BASE
+ * 🎨 SCROLL MINIMAP + SIDEBAR NAVIGATION
  * ═══════════════════════════════════════════════════════════════
  * 
- * Estilos base para o minimap. Estilos da sidebar são injetados
- * dinamicamente pelo JavaScript para manter valores da config.
+ * Estilos completos do minimap e sidebar de navegação.
+ * Valores dinâmicos são injetados via CSS Custom Properties.
  */
 
 body {
@@ -30,10 +30,38 @@ section {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   🗺️ MINIMAP WRAPPER
+   🎯 CONTAINER PRINCIPAL
+   ═══════════════════════════════════════════════════════════ */
+.navigation-container {
+    position: fixed;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    width: var(--minimap-sidebar-width, 320px);
+    display: flex;
+    justify-content: flex-end;
+    pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   🗺️ MINIMAP WRAPPER (Estado Passivo)
    ═══════════════════════════════════════════════════════════ */
 .minimap-wrapper {
-    position: relative;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 1;
+    transition: opacity var(--minimap-minimap-transition, 0.25s) cubic-bezier(0.4, 0.0, 0.2, 1),
+                transform var(--minimap-minimap-transition, 0.25s) cubic-bezier(0.4, 0.0, 0.2, 1);
+    pointer-events: auto;
+}
+
+.navigation-container.sidebar-active .minimap-wrapper {
+    opacity: 0;
+    transform: translateY(-50%) translateX(20px);
+    pointer-events: none;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -60,6 +88,252 @@ section {
     .minimap-line {
         height: 1.3px;
     }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   📑 SIDEBAR (Estado Ativo)
+   ═══════════════════════════════════════════════════════════ */
+.navigation-sidebar {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) translateX(100%);
+    width: var(--minimap-sidebar-width, 320px);
+    max-height: 80vh;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 
+        0 0 0 1px rgba(0,0,0,0.03),
+        0 4px 12px rgba(0,0,0,0.03),
+        0 12px 32px rgba(0,0,0,0.06);
+    opacity: 0;
+    transition: all var(--minimap-sidebar-transition, 0.3s) cubic-bezier(0.4, 0.0, 0.2, 1);
+    transition-delay: 0.15s;
+    pointer-events: none;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Zona de buffer invisível à direita da sidebar */
+.navigation-sidebar::after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    top: 0;
+    width: 20px;
+    height: 100%;
+    pointer-events: auto;
+    opacity: 0;
+}
+
+.navigation-container.sidebar-active .navigation-sidebar {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+    pointer-events: auto;
+}
+
+/* Header */
+.sidebar-header {
+    padding: 1.25rem 1.5rem 1rem;
+    border-bottom: 1px solid #f5f5f5;
+    flex-shrink: 0;
+}
+
+.sidebar-title {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #aaa;
+    margin-bottom: 0.875rem;
+}
+
+.progress-info {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+.progress-percentage {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #ff6b35;
+    font-variant-numeric: tabular-nums;
+}
+
+.progress-bar-container {
+    flex: 1;
+    height: 4px;
+    background: #f5f5f5;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: #ff6b35;
+    border-radius: 2px;
+    transition: width 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    width: 0%;
+}
+
+/* Nav Items */
+.nav-items {
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.nav-items::-webkit-scrollbar {
+    width: 4px;
+}
+
+.nav-items::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.nav-items::-webkit-scrollbar-thumb {
+    background: #e8e8e8;
+    border-radius: 2px;
+}
+
+.nav-items::-webkit-scrollbar-thumb:hover {
+    background: #d8d8d8;
+}
+
+.nav-item {
+    position: relative;
+    user-select: none;
+}
+
+.nav-link2 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 1.5rem;
+    color: #303030ff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.15s ease;
+    position: relative;
+    border-left: 2px solid transparent;
+}
+
+/* Marcador */
+.nav-marker {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.5rem;
+    color: #424242ff;
+    flex-shrink: 0;
+    width: 8px;
+    transition: color 0.15s ease;
+}
+
+/* Hierarquia por tamanho de marcador + opacidade */
+.nav-item[data-level="1"] .nav-marker {
+    font-size: 0.625rem;
+    color: #565656ff;
+}
+
+.nav-item[data-level="2"] .nav-marker {
+    font-size: 0.5rem;
+    color: #6c6c6cff;
+}
+
+.nav-item[data-level="3"] .nav-marker {
+    font-size: 0.4375rem;
+    color: #bbb;
+}
+
+.nav-item[data-level="4"] .nav-marker {
+    font-size: 0.375rem;
+    color: #ccc;
+}
+
+.nav-item[data-level="5"] .nav-marker {
+    font-size: 0.375rem;
+    color: #ddd;
+}
+
+/* Hierarquia de texto */
+.nav-item[data-level="1"] .nav-link2 { 
+    padding-left: clamp(1.5rem, 1.5rem + 0.6vw, 1.2rem); 
+    font-weight: 600;
+    font-size: clamp(0.6rem, 0.5rem + 0.6vw, 1.2rem);
+    color: #1c1c1cff;
+}
+
+.nav-item[data-level="2"] .nav-link2 { 
+    padding-left: clamp(2.2rem, 2.2rem + 0.6vw, 1.2rem); 
+    font-size: clamp(0.6rem, 0.45rem + 0.58vw, 1.2rem);
+    color: #333333ff;
+    font-weight: 600;
+}
+
+.nav-item[data-level="3"] .nav-link2 { 
+    padding-left: clamp(2.7rem, 2.7rem + 0.6vw, 1.2rem); 
+    font-size: clamp(0.6rem, 0.4rem + 0.56vw, 1.2rem);
+    color: #373737ff;
+}
+
+.nav-item[data-level="4"] .nav-link2 { 
+    padding-left: clamp(3.2rem, 3.2rem + 0.6vw, 1.2rem); 
+    font-size: clamp(0.6rem, 0.35rem + 0.54vw, 1.2rem);
+    color: #888;
+}
+
+.nav-item[data-level="5"] .nav-link2 { 
+    padding-left: clamp(3.7rem, 3.7rem + 0.6vw, 1.2rem); 
+    font-size: clamp(0.6rem, 0.3rem + 0.52vw, 1.2rem);
+    color: #999;
+}
+
+/* Hover */
+.nav-link2:hover {
+    color: #333;
+    background: rgba(0,0,0,0.02);
+    border-left-color: rgba(255, 107, 53, 0.2);
+}
+
+.nav-link2:hover .nav-marker {
+    color: #ff6b35;
+}
+
+/* Ativo */
+.nav-item.active .nav-link2 {
+    color: #ff6b35;
+    background: rgba(255, 107, 53, 0.04);
+    font-weight: 500;
+    border-left-color: #ff6b35;
+}
+
+.nav-item.active .nav-marker {
+    color: #ff6b35;
+}
+
+.level-icon {
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.625rem;
+    color: #bbb;
+    flex-shrink: 0;
+}
+
+.nav-item[data-level="1"] .level-icon { 
+    color: #999;
+    font-size: 0.6875rem;
+}
+
+.nav-item.active .level-icon { 
+    color: #ff6b35;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -103,6 +377,7 @@ section {
     letter-spacing: 0.05em;
     display: none;
 }
+
 /* ═══════════════════════════════════════════════════════════
    📱 RESPONSIVIDADE
    ═══════════════════════════════════════════════════════════ */
@@ -113,6 +388,12 @@ section {
     }
     
     .indicator-arrow {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .navigation-container {
         display: none;
     }
 }
