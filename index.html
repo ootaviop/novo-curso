@@ -1,720 +1,977 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Módulo 1 - Aula 2 - Liderança Eficaz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/tooltip.css" />
+    <link rel="stylesheet" href="assets/css/braille.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Módulo 1 - Aula 2 - Liderança Eficaz</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap"
-    rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  <link rel="stylesheet" href="assets/css/components.css" />
-  <link rel="stylesheet" href="assets/css/tooltip.css" />
-  <link rel="stylesheet" href="assets/css/braille.css" />
-  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <!-- No <head>, adicione GSAP -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script> -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-</head>
+  <body>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <div class="cursor-system" id="cursorSystem">
+      <div class="cursor-model cursor-model-custom" data-model="custom">
+        <!-- Estado 1: DEFAULT (navegação) -->
+        <div class="cursor-default active">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <!-- Exemplo: usando o arrow-evolved que você gostou -->
+            <g id="Objects">
+              <path
+                class="cls-1"
+                style="fill: #fff"
+                d="M0,0l10.08,24,2.92-11,11-2.92L0,0ZM12.13,12.13l-2.28,8.6L1.98,1.98l18.75,7.87-8.6,2.28Z"
+              />
+              <polygon
+                class="cls-1"
+                style="fill: #ff5c00"
+                points="20.73 9.85 12.13 12.13 9.85 20.73 1.98 1.98 20.73 9.85"
+              />
+            </g>
+          </svg>
+        </div>
 
-<body>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <div class="cursor-system" id="cursorSystem">
+        <!-- Estado 2: HOVER (mão) -->
+        <div class="cursor-hand">
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="Objects">
+              <path
+                class="cls-2"
+                style="fill: #ff5c00"
+                d="M21.11,12.37c0-.48.22-.92.56-1.23.35-.32.83-.51,1.36-.51,1.06,0,1.91.78,1.91,1.75v8.07c0,1.62-.46,3.21-1.33,4.62-.87,1.41-1.32,3-1.32,4.63v1.62h-11.93c0-2.72-1.19-5.32-3.3-7.24l-5.7-5.18c-.47-.42-.7-.97-.7-1.52s.24-1.1.69-1.52c.93-.85,2.44-.84,3.36,0l4.47,4.14V2.53c0-.54.24-1.02.63-1.37.42-.39,1.03-.61,1.69-.56,1.13.08,1.95,1.01,1.95,2.03v6.9c0-.48.22-.92.56-1.23.34-.32.83-.51,1.35-.51,1.06,0,1.91.78,1.91,1.74v1.31c0-.48.22-.92.56-1.23.35-.32.83-.51,1.36-.51,1.06,0,1.91.78,1.91,1.75v1.52Z"
+              />
+              <path
+                class="cls-2"
+                style="fill: #ffffff"
+                d="M17.28,11.44c-.36,0-.66-.27-.66-.6v-1.31c0-.64-.55-1.14-1.26-1.14-.34,0-.66.12-.88.33-.24.22-.38.51-.38.82,0,.33-.29.6-.66.6s-.66-.27-.66-.6c0-.62.27-1.21.76-1.66.47-.43,1.13-.68,1.81-.68,1.42,0,2.57,1.05,2.57,2.34v1.31c0,.33-.29.6-.66.6Z"
+              />
+              <path
+                class="cls-2"
+                style="fill: #ffffff"
+                d="M17.28,17.59c-.36,0-.66-.27-.66-.6v-3.12c0-.33.29-.6.66-.6s.66.27.66.6v3.12c0,.33-.29.6-.66.6Z"
+              />
+              <path
+                class="cls-2"
+                style="fill: #ffffff"
+                d="M17.28,14.47c-.36,0-.66-.27-.66-.6v-3.03c0-.62.27-1.21.76-1.66.49-.44,1.13-.69,1.82-.69,1.42,0,2.57,1.05,2.57,2.34v1.52c0,.33-.29.6-.66.6s-.66-.27-.66-.6v-1.52c0-.63-.56-1.15-1.26-1.15-.34,0-.65.12-.89.34-.24.22-.37.51-.37.81v3.03c0,.33-.29.6-.66.6Z"
+              />
+              <path
+                class="cls-2"
+                style="fill: #ffffff"
+                d="M21.11,18.79c-.36,0-.66-.27-.66-.6v-2.37c0-.33.29-.6.66-.6s.66.27.66.6v2.37c0,.33-.29.6-.66.6Z"
+              />
+              <path
+                class="cls-2"
+                style="fill: #ffffff"
+                d="M22.29,31.9h-11.94c-.36,0-.66-.27-.66-.6,0-2.58-1.1-5-3.1-6.82L.89,19.3c-.58-.52-.89-1.21-.89-1.94s.31-1.42.89-1.94c.57-.52,1.32-.82,2.15-.81.81,0,1.57.29,2.14.82l3.35,3.1V2.53c0-.68.29-1.32.83-1.8C9.91.22,10.71-.05,11.55,0c1.43.11,2.56,1.26,2.56,2.63v13.34c0,.33-.29.6-.66.6s-.66-.27-.66-.6V2.64c0-.75-.59-1.38-1.35-1.44-.44-.03-.87.11-1.17.38-.29.26-.44.59-.44.95v17.44c0,.24-.16.46-.41.55-.25.09-.53.04-.72-.13l-4.47-4.14c-.32-.29-.75-.46-1.21-.46h0c-.46,0-.89.16-1.21.46-.32.29-.5.69-.5,1.1s.18.8.51,1.1l5.7,5.18c2.09,1.91,3.31,4.4,3.47,7.07h10.64v-1.03c0-1.72.49-3.43,1.41-4.92.82-1.32,1.25-2.81,1.25-4.33v-8.07c0-.63-.56-1.15-1.26-1.15-.34,0-.65.12-.89.34-.24.22-.37.51-.37.81v3.45c0,.33-.29.6-.66.6s-.66-.27-.66-.6v-3.45c0-.62.27-1.21.76-1.66.49-.44,1.13-.69,1.82-.69,1.42,0,2.57,1.05,2.57,2.34v8.07c0,1.72-.49,3.42-1.42,4.91-.81,1.31-1.24,2.81-1.24,4.33v1.62c0,.33-.29.6-.66.6Z"
+              />
+              <rect
+                class="cls-2"
+                style="fill: #ff5c00"
+                x="8.22"
+                y="27.69"
+                width="16.02"
+                height="3.71"
+                rx=".65"
+                ry=".65"
+              />
+              <path
+                class="cls-2"
+                style="fill: #ffffff"
+                d="M23.05,32h-13.64c-1.02,0-1.84-.75-1.84-1.68v-1.55c0-.93.83-1.68,1.84-1.68h13.64c1.02,0,1.84.75,1.84,1.68v1.55c0,.93-.83,1.68-1.84,1.68ZM9.41,28.29c-.29,0-.53.22-.53.49v1.55c0,.27.24.49.53.49h13.64c.29,0,.53-.22.53-.49v-1.55c0-.27-.24-.49-.53-.49h-13.64Z"
+              />
+            </g>
+          </svg>
+        </div>
 
-    <!-- ═══════════════════════════════════════════════════════
-       MODELO CUSTOM (SEU DESIGN)
-       ═══════════════════════════════════════════════════════ -->
-    <div class="cursor-model cursor-model-custom" data-model="custom">
-
-      <!-- Estado 1: DEFAULT (navegação) -->
-      <div class="cursor-default active">
-        <!-- 👇 COLE SEU SVG DEFAULT AQUI -->
-        <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <!-- Exemplo: usando o arrow-evolved que você gostou -->
-          <g id="Objects">
-            <path class="cls-1" style="fill: #fff;"
-              d="M0,0l10.08,24,2.92-11,11-2.92L0,0ZM12.13,12.13l-2.28,8.6L1.98,1.98l18.75,7.87-8.6,2.28Z" />
-            <polygon class="cls-1" style="fill: #ff5c00;"
-              points="20.73 9.85 12.13 12.13 9.85 20.73 1.98 1.98 20.73 9.85" />
-          </g>
-        </svg>
-      </div>
-
-      <!-- Estado 2: HOVER (mão) -->
-      <div class="cursor-hand">
-        <!-- 👇 COLE SEU SVG DA MÃO AQUI -->
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-          <!-- Seu design de mão vai aqui -->
-          <g id="Objects">
-            <path class="cls-2" style="fill:#ff5c00;"
-              d="M21.11,12.37c0-.48.22-.92.56-1.23.35-.32.83-.51,1.36-.51,1.06,0,1.91.78,1.91,1.75v8.07c0,1.62-.46,3.21-1.33,4.62-.87,1.41-1.32,3-1.32,4.63v1.62h-11.93c0-2.72-1.19-5.32-3.3-7.24l-5.7-5.18c-.47-.42-.7-.97-.7-1.52s.24-1.1.69-1.52c.93-.85,2.44-.84,3.36,0l4.47,4.14V2.53c0-.54.24-1.02.63-1.37.42-.39,1.03-.61,1.69-.56,1.13.08,1.95,1.01,1.95,2.03v6.9c0-.48.22-.92.56-1.23.34-.32.83-.51,1.35-.51,1.06,0,1.91.78,1.91,1.74v1.31c0-.48.22-.92.56-1.23.35-.32.83-.51,1.36-.51,1.06,0,1.91.78,1.91,1.75v1.52Z" />
-            <path class="cls-2" style="fill:#ffffff;"
-              d="M17.28,11.44c-.36,0-.66-.27-.66-.6v-1.31c0-.64-.55-1.14-1.26-1.14-.34,0-.66.12-.88.33-.24.22-.38.51-.38.82,0,.33-.29.6-.66.6s-.66-.27-.66-.6c0-.62.27-1.21.76-1.66.47-.43,1.13-.68,1.81-.68,1.42,0,2.57,1.05,2.57,2.34v1.31c0,.33-.29.6-.66.6Z" />
-            <path class="cls-2" style="fill:#ffffff;"
-              d="M17.28,17.59c-.36,0-.66-.27-.66-.6v-3.12c0-.33.29-.6.66-.6s.66.27.66.6v3.12c0,.33-.29.6-.66.6Z" />
-            <path class="cls-2" style="fill:#ffffff;"
-              d="M17.28,14.47c-.36,0-.66-.27-.66-.6v-3.03c0-.62.27-1.21.76-1.66.49-.44,1.13-.69,1.82-.69,1.42,0,2.57,1.05,2.57,2.34v1.52c0,.33-.29.6-.66.6s-.66-.27-.66-.6v-1.52c0-.63-.56-1.15-1.26-1.15-.34,0-.65.12-.89.34-.24.22-.37.51-.37.81v3.03c0,.33-.29.6-.66.6Z" />
-            <path class="cls-2" style="fill:#ffffff;"
-              d="M21.11,18.79c-.36,0-.66-.27-.66-.6v-2.37c0-.33.29-.6.66-.6s.66.27.66.6v2.37c0,.33-.29.6-.66.6Z" />
-            <path class="cls-2" style="fill:#ffffff;"
-              d="M22.29,31.9h-11.94c-.36,0-.66-.27-.66-.6,0-2.58-1.1-5-3.1-6.82L.89,19.3c-.58-.52-.89-1.21-.89-1.94s.31-1.42.89-1.94c.57-.52,1.32-.82,2.15-.81.81,0,1.57.29,2.14.82l3.35,3.1V2.53c0-.68.29-1.32.83-1.8C9.91.22,10.71-.05,11.55,0c1.43.11,2.56,1.26,2.56,2.63v13.34c0,.33-.29.6-.66.6s-.66-.27-.66-.6V2.64c0-.75-.59-1.38-1.35-1.44-.44-.03-.87.11-1.17.38-.29.26-.44.59-.44.95v17.44c0,.24-.16.46-.41.55-.25.09-.53.04-.72-.13l-4.47-4.14c-.32-.29-.75-.46-1.21-.46h0c-.46,0-.89.16-1.21.46-.32.29-.5.69-.5,1.1s.18.8.51,1.1l5.7,5.18c2.09,1.91,3.31,4.4,3.47,7.07h10.64v-1.03c0-1.72.49-3.43,1.41-4.92.82-1.32,1.25-2.81,1.25-4.33v-8.07c0-.63-.56-1.15-1.26-1.15-.34,0-.65.12-.89.34-.24.22-.37.51-.37.81v3.45c0,.33-.29.6-.66.6s-.66-.27-.66-.6v-3.45c0-.62.27-1.21.76-1.66.49-.44,1.13-.69,1.82-.69,1.42,0,2.57,1.05,2.57,2.34v8.07c0,1.72-.49,3.42-1.42,4.91-.81,1.31-1.24,2.81-1.24,4.33v1.62c0,.33-.29.6-.66.6Z" />
-            <rect class="cls-2" style="fill:#ff5c00;" x="8.22" y="27.69" width="16.02" height="3.71" rx=".65"
-              ry=".65" />
-            <path class="cls-2" style="fill:#ffffff;"
-              d="M23.05,32h-13.64c-1.02,0-1.84-.75-1.84-1.68v-1.55c0-.93.83-1.68,1.84-1.68h13.64c1.02,0,1.84.75,1.84,1.68v1.55c0,.93-.83,1.68-1.84,1.68ZM9.41,28.29c-.29,0-.53.22-.53.49v1.55c0,.27.24.49.53.49h13.64c.29,0,.53-.22.53-.49v-1.55c0-.27-.24-.49-.53-.49h-13.64Z" />
-          </g>
-        </svg>
-      </div>
-
-      <!-- Estado 3: GRAB (click/mousedown) -->
-      <div class="cursor-grab">
-        <!-- 👇 SVG da mão FECHADA (você vai criar no Illustrator/Framer) -->
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-          <g id="cursor-mao-fechada">
-            <g>
-              <rect class="cls-3" style="fill: transparent;" width="25.6" height="32" />
+        <!-- Estado 3: GRAB (click/mousedown) -->
+        <div class="cursor-grab">
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="cursor-mao-fechada">
               <g>
-                <path class="cls-2" style="fill: #ff5c00;"
-                  d="M19.4,15.4c0-.5.2-.9.5-1.2s.8-.5,1.3-.5c1,0,1.8.8,1.8,1.8v5.1c0,1.6-.4,3.2-1.2,4.6s-1.2,3-1.2,4.6v1.6h-11c0-2.7-1.1-5.3-3-7.2l-3.64-4.23c-.4-.4-.6-1-.6-1.5s.2-1.1.6-1.5c.9-.9,2.2-.8,3.1,0l2.54,3.13.02-7.48c0-.5.2-1,.6-1.4.4-.4.9-.6,1.6-.6,1,0,1.8,1,1.8,2l-.02-.22c0-.5.2-.9.5-1.2s.8-.5,1.2-.5c1,0,1.8.8,1.8,1.7v1.3c0-.5.2-.9.5-1.2s.8-.5,1.3-.5c1,0,1.8.8,1.8,1.8v1.5h0l-.3.1Z" />
-                <path class="cls-1" style="fill: #fff;"
-                  d="M15.9,14.4c-.3,0-.6-.3-.6-.6v-1.3c0-.6-.5-1.1-1.2-1.1s-.6.1-.8.3-.34.67-.34.97-.36.43-.66.43-.36-.37-.36-.67c0-.6-.04-1.13.46-1.63.4-.4,1-.7,1.7-.7,1.3,0,2.4,1,2.4,2.3v1.3c0,.3-.3.6-.6.6h0v.1Z" />
-                <path class="cls-1" style="fill: #fff;"
-                  d="M15.95,20.33c-.33,0-.65-.3-.65-.6v-3.1c0-.3.33-.6.65-.6s.65.3.65.6v3.1c0,.3-.33.6-.65.6Z" />
-                <path class="cls-1" style="fill: #fff;"
-                  d="M15.9,17.5c-.3,0-.6-.3-.6-.6v-3c0-.6.2-1.2.7-1.7.5-.4,1-.7,1.7-.7,1.3,0,2.4,1.1,2.4,2.3v1.5c0,.3-.3.6-.6.6s-.6-.3-.6-.6v-1.5c0-.6-.5-1.1-1.2-1.1s-.6.1-.8.3-.3.5-.3.8v3c0,.3-.3.6-.6.6h0l-.1.1Z" />
-                <path class="cls-1" style="fill: #fff;"
-                  d="M19.5,21.1c-.3,0-.6-.3-.6-.6v-2.4c0-.3.3-.6.6-.6s.6.3.6.6v2.4c0,.3-.3.6-.6.6Z" />
-                <path class="cls-1" style="fill: #fff;"
-                  d="M20.4,31.9h-11c-.3,0-.6-.3-.6-.6,0-2.6-1-5-2.9-6.8l-3.64-4.23c-.5-.5-.8-1.2-.8-1.9s.3-1.4.8-1.9,1.2-.8,2-.8c.7,0,1.4.3,2,.8l1.54,2.13.02-5.98c0-.7.3-1.3.8-1.8s1.2-.8,2-.7c1.3.1,2.4,1.3,2.4,2.6l-.02,6.18c0,.3-.3.6-.6.6s-.6-.3-.6-.6l.02-6.18c0-.8-.5-1.4-1.2-1.4-.4,0-.8.1-1.1.4s-.4.6-.4.9l-.02,7.28c0,.2-.1.5-.4.5s-.5,0-.7-.1l-2.54-3.13c-.3-.3-.7-.5-1.1-.5h0c-.4,0-.8.2-1.1.5s-.5.7-.5,1.1.2.8.5,1.1l3.64,4.23c1.9,1.9,3,4.4,3.2,7.1h9.8v-1c0-1.7.5-3.4,1.3-4.9.8-1.3,1.2-2.8,1.2-4.3v-5.1c0-.6-.5-1.1-1.2-1.1s-.6.1-.8.3-.3.5-.3.8v3.4c0,.3-.3.6-.6.6s-.6-.3-.6-.6v-3.4c0-.6.2-1.2.7-1.7.5-.4,1-.7,1.7-.7,1.3,0,2.4,1.1,2.4,2.3v5.1c0,1.7-.5,3.4-1.3,4.9-.7,1.3-1.1,2.8-1.1,4.3v1.6c0,.3-.3.6-.6.6h0l-.3.1Z" />
-                <rect class="cls-2" style="fill: #ff5c00;" x="7.6" y="27.7" width="14.8" height="3.7" rx=".6" ry=".6" />
-                <path class="cls-1" style="fill: #fff;"
-                  d="M21.2,32h-12.6c-.9,0-1.7-.8-1.7-1.7v-1.5c0-.9.8-1.7,1.7-1.7h12.6c.9,0,1.7.8,1.7,1.7v1.5c0,.9-.8,1.7-1.7,1.7ZM8.7,28.3c-.3,0-.5.2-.5.5v1.5c0,.3.2.5.5.5h12.6c.3,0,.5-.2.5-.5v-1.5c0-.3-.2-.5-.5-.5,0,0-12.6,0-12.6,0Z" />
+                <rect
+                  class="cls-3"
+                  style="fill: transparent"
+                  width="25.6"
+                  height="32"
+                />
+                <g>
+                  <path
+                    class="cls-2"
+                    style="fill: #ff5c00"
+                    d="M19.4,15.4c0-.5.2-.9.5-1.2s.8-.5,1.3-.5c1,0,1.8.8,1.8,1.8v5.1c0,1.6-.4,3.2-1.2,4.6s-1.2,3-1.2,4.6v1.6h-11c0-2.7-1.1-5.3-3-7.2l-3.64-4.23c-.4-.4-.6-1-.6-1.5s.2-1.1.6-1.5c.9-.9,2.2-.8,3.1,0l2.54,3.13.02-7.48c0-.5.2-1,.6-1.4.4-.4.9-.6,1.6-.6,1,0,1.8,1,1.8,2l-.02-.22c0-.5.2-.9.5-1.2s.8-.5,1.2-.5c1,0,1.8.8,1.8,1.7v1.3c0-.5.2-.9.5-1.2s.8-.5,1.3-.5c1,0,1.8.8,1.8,1.8v1.5h0l-.3.1Z"
+                  />
+                  <path
+                    class="cls-1"
+                    style="fill: #fff"
+                    d="M15.9,14.4c-.3,0-.6-.3-.6-.6v-1.3c0-.6-.5-1.1-1.2-1.1s-.6.1-.8.3-.34.67-.34.97-.36.43-.66.43-.36-.37-.36-.67c0-.6-.04-1.13.46-1.63.4-.4,1-.7,1.7-.7,1.3,0,2.4,1,2.4,2.3v1.3c0,.3-.3.6-.6.6h0v.1Z"
+                  />
+                  <path
+                    class="cls-1"
+                    style="fill: #fff"
+                    d="M15.95,20.33c-.33,0-.65-.3-.65-.6v-3.1c0-.3.33-.6.65-.6s.65.3.65.6v3.1c0,.3-.33.6-.65.6Z"
+                  />
+                  <path
+                    class="cls-1"
+                    style="fill: #fff"
+                    d="M15.9,17.5c-.3,0-.6-.3-.6-.6v-3c0-.6.2-1.2.7-1.7.5-.4,1-.7,1.7-.7,1.3,0,2.4,1.1,2.4,2.3v1.5c0,.3-.3.6-.6.6s-.6-.3-.6-.6v-1.5c0-.6-.5-1.1-1.2-1.1s-.6.1-.8.3-.3.5-.3.8v3c0,.3-.3.6-.6.6h0l-.1.1Z"
+                  />
+                  <path
+                    class="cls-1"
+                    style="fill: #fff"
+                    d="M19.5,21.1c-.3,0-.6-.3-.6-.6v-2.4c0-.3.3-.6.6-.6s.6.3.6.6v2.4c0,.3-.3.6-.6.6Z"
+                  />
+                  <path
+                    class="cls-1"
+                    style="fill: #fff"
+                    d="M20.4,31.9h-11c-.3,0-.6-.3-.6-.6,0-2.6-1-5-2.9-6.8l-3.64-4.23c-.5-.5-.8-1.2-.8-1.9s.3-1.4.8-1.9,1.2-.8,2-.8c.7,0,1.4.3,2,.8l1.54,2.13.02-5.98c0-.7.3-1.3.8-1.8s1.2-.8,2-.7c1.3.1,2.4,1.3,2.4,2.6l-.02,6.18c0,.3-.3.6-.6.6s-.6-.3-.6-.6l.02-6.18c0-.8-.5-1.4-1.2-1.4-.4,0-.8.1-1.1.4s-.4.6-.4.9l-.02,7.28c0,.2-.1.5-.4.5s-.5,0-.7-.1l-2.54-3.13c-.3-.3-.7-.5-1.1-.5h0c-.4,0-.8.2-1.1.5s-.5.7-.5,1.1.2.8.5,1.1l3.64,4.23c1.9,1.9,3,4.4,3.2,7.1h9.8v-1c0-1.7.5-3.4,1.3-4.9.8-1.3,1.2-2.8,1.2-4.3v-5.1c0-.6-.5-1.1-1.2-1.1s-.6.1-.8.3-.3.5-.3.8v3.4c0,.3-.3.6-.6.6s-.6-.3-.6-.6v-3.4c0-.6.2-1.2.7-1.7.5-.4,1-.7,1.7-.7,1.3,0,2.4,1.1,2.4,2.3v5.1c0,1.7-.5,3.4-1.3,4.9-.7,1.3-1.1,2.8-1.1,4.3v1.6c0,.3-.3.6-.6.6h0l-.3.1Z"
+                  />
+                  <rect
+                    class="cls-2"
+                    style="fill: #ff5c00"
+                    x="7.6"
+                    y="27.7"
+                    width="14.8"
+                    height="3.7"
+                    rx=".6"
+                    ry=".6"
+                  />
+                  <path
+                    class="cls-1"
+                    style="fill: #fff"
+                    d="M21.2,32h-12.6c-.9,0-1.7-.8-1.7-1.7v-1.5c0-.9.8-1.7,1.7-1.7h12.6c.9,0,1.7.8,1.7,1.7v1.5c0,.9-.8,1.7-1.7,1.7ZM8.7,28.3c-.3,0-.5.2-.5.5v1.5c0,.3.2.5.5.5h12.6c.3,0,.5-.2.5-.5v-1.5c0-.3-.2-.5-.5-.5,0,0-12.6,0-12.6,0Z"
+                  />
+                </g>
               </g>
             </g>
-          </g>
-        </svg>
+          </svg>
+        </div>
+
+        <!-- Estado 4: TOOLTIP (informação) -->
+        <div class="cursor-tooltip">
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="Camada_2-2">
+              <rect
+                class="cls-1"
+                style="fill: transparent"
+                width="24"
+                height="24"
+              />
+              <path
+                class="cls-1"
+                style="fill: #fff"
+                d="M12.01,22.67c-.8,0-1.52-.3-2.09-.87-.57-.57-.87-1.29-.87-2.09s.3-1.54.87-2.1c.57-.56,1.29-.86,2.09-.86s1.53.3,2.1.86.86,1.29.86,2.1-.3,1.52-.86,2.09c-.56.57-1.29.87-2.1.87ZM9.66,16.37v-2.27c0-1.04.22-1.98.67-2.79.44-.82,1.11-1.51,1.97-2.06.6-.37,1.04-.76,1.32-1.17.24-.36.36-.73.36-1.14,0-.47-.16-.66-.3-.78-.26-.21-.67-.32-1.24-.32-.68,0-1.33.17-1.99.51-.68.35-1.26.82-1.74,1.4l-.71.87-3.18-3.3.48-.68c.72-1.02,1.74-1.84,3.04-2.44,1.27-.59,2.66-.89,4.14-.89,1.95,0,3.52.47,4.64,1.4,1.19.98,1.79,2.35,1.79,4.08,0,1.16-.3,2.24-.88,3.2-.57.93-1.42,1.76-2.52,2.47-.44.29-.77.6-.97.91-.18.27-.26.57-.26.89v2.09h-4.6Z"
+              />
+              <path
+                class="cls-2"
+                style="fill: #ff5c00"
+                d="M16.47,3.5c-.95-.78-2.29-1.17-4.01-1.17-1.33,0-2.57.27-3.72.8-1.14.53-2.03,1.23-2.64,2.11l1.83,1.9c.57-.69,1.25-1.24,2.05-1.66s1.62-.62,2.45-.62,1.44.18,1.88.55c.44.37.66.88.66,1.54,0,.61-.18,1.18-.54,1.7-.36.53-.89,1.01-1.61,1.45-.72.46-1.27,1.02-1.63,1.69-.36.67-.54,1.44-.54,2.31v1.27h2.6v-1.09c0-.52.14-1,.42-1.44.28-.44.71-.84,1.27-1.21.98-.63,1.72-1.34,2.21-2.15s.74-1.7.74-2.68c0-1.42-.47-2.52-1.42-3.31Z"
+              />
+              <path
+                class="cls-2"
+                style="fill: #ff5c00"
+                d="M12.01,17.75c-.54,0-1,.19-1.38.57-.38.38-.58.84-.58,1.39s.19,1,.58,1.38.85.58,1.38.58,1.01-.19,1.39-.58c.38-.38.57-.85.57-1.38s-.19-1.01-.57-1.39-.84-.57-1.39-.57Z"
+              />
+            </g>
+          </svg>
+        </div>
       </div>
 
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════
+      <!-- ═══════════════════════════════════════════════════════
        RIPPLE (feedback de click)
        ═══════════════════════════════════════════════════════ -->
-    <div class="cursor-ripple" id="cursorRipple"></div>
-
-  </div>
-  <!-- ═══════════════════════════════════════════════════════════
+      <div class="cursor-ripple" id="cursorRipple"></div>
+    </div>
+    <!-- ═══════════════════════════════════════════════════════════
        🗺️ MINIMAP
        ═══════════════════════════════════════════════════════════ -->
-  <div class="minimap-container" id="minimap">
-    <div class="minimap-lines" id="minimapLines"></div>
-    <div class="scroll-indicator" id="scrollIndicator">
-      <svg class="indicator-arrow" width="10" height="8" viewBox="0 0 7 6">
-        <path d="M3.54688 6L0.515786 0.75L6.57796 0.75L3.54688 6Z" />
-      </svg>
-      <span class="indicator-label" id="indicatorLabel">Nível 1</span>
+    <div class="minimap-container" id="minimap">
+      <div class="minimap-lines" id="minimapLines"></div>
+      <div class="scroll-indicator" id="scrollIndicator">
+        <svg class="indicator-arrow" width="10" height="8" viewBox="0 0 7 6">
+          <path d="M3.54688 6L0.515786 0.75L6.57796 0.75L3.54688 6Z" />
+        </svg>
+        <span class="indicator-label" id="indicatorLabel">Nível 1</span>
+      </div>
     </div>
-  </div>
 
-  <div id="first" class="container-fluid">
-    <div class="row">
-      <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
-        <main class="lesson-main">
-          <!-- Breadcrumb -->
-          <nav class="breadcrumb" aria-label="Breadcrumb">
-            <a href="#" class="breadcrumb-item">Início</a>
-            <span class="breadcrumb-separator">›</span>
-            <a href="#" class="breadcrumb-item">Módulo 1</a>
-            <span class="breadcrumb-separator">›</span>
-            <a href="#" class="breadcrumb-item">Aula 2</a>
-            <span class="breadcrumb-separator">›</span>
-            <span class="breadcrumb-current">Liderança escolar eficaz é transformacional e compartilhada
-            </span>
-          </nav>
-          <div class="lesson-header">
-            <!-- Título -->
-          <h1 class="lesson-title" data-audio="titulo">
-            Liderança escolar eficaz é transformacional e compartilhada
-          </h1>
-          <!-- Botão de Baixar PDF -->
-          </div>
-
-          <!-- Meta (tempo de leitura) -->
-          <p class="lesson-meta" data-audio="tempo-leitura">
-            <i class="icon-time" data-lucide="clock"></i><em>Tempo de leitura: 8 minutos</em>
-          </p>
-
-          <!-- Botão para iniciar audio player -->
-          <div class="audio-trigger-container" style="display: flex; align-items: center; justify-content: flex-start; flex-direction: row;">
-            <div>
-              <button class="audio-trigger-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-headphones-icon lucide-headphones" width="24" height="24"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/>
-                </svg>
-                <span>Ouvir esta aula</span>
-                <span class="btn-badge" id="audioDuration">10 min</span>
-              </button>
+    <div id="first" class="container-fluid">
+      <div class="row">
+        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+          <main class="lesson-main">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <a href="#" class="breadcrumb-item">Início</a>
+              <span class="breadcrumb-separator">›</span>
+              <a href="#" class="breadcrumb-item">Módulo 1</a>
+              <span class="breadcrumb-separator">›</span>
+              <a href="#" class="breadcrumb-item">Aula 2</a>
+              <span class="breadcrumb-separator">›</span>
+              <span class="breadcrumb-current"
+                >Liderança escolar eficaz é transformacional e compartilhada
+              </span>
+            </nav>
+            <div class="lesson-header">
+              <!-- Título -->
+              <h1 class="lesson-title" data-audio="titulo">
+                Liderança escolar eficaz é transformacional e compartilhada
+              </h1>
+              <!-- Botão de Baixar PDF -->
             </div>
 
-            <div>
-              <button class="pdf-trigger-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-headphones-icon file-text" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
-                  <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
-                  <path d="M10 9H8"/>
-                  <path d="M16 13H8"/>
-                  <path d="M16 17H8"/>
-                </svg>
-                <span>Baixar em PDF</span>
-                <span class="btn-badge" id="pdfSize">2.5 MB</span>
-              </button>
-            </div>
-
-            <div>
-              <button class="braille-trigger-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-braille" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="4" cy="4" r="1"/>
-                  <circle cx="20" cy="4" r="1"/>
-                  <circle cx="4" cy="12" r="1"/>
-                  <circle cx="20" cy="12" r="1"/>
-                  <circle cx="4" cy="20" r="1"/>
-                  <circle cx="20" cy="20" r="1"/>
-                </svg>
-                <span>Baixar em Braille</span>
-                <span class="btn-badge">.BRF</span>
-              </button>
-            </div>
-            
-          </div>
-          
-        </main>
-      </div>
-    </div>
-  </div>
-
-  <div id="contentAula" class="contentAula">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
-          <div class="content-wrapper">
-            <section data-nav-level="1" data-label="Introdução">
-              <p data-audio="p1">
-                Na última aula, vimos como o professor atua em um constante
-                equilíbrio entre autonomia e colaboração, entre a liberdade
-                profissional e a necessidade de adequação às diretrizes da rede.
-                Essa dinâmica nos permite imaginar a escola como uma orquestra
-                muito singular.
-              </p>
-              <p data-audio="p2">
-                <span>Nesse conjunto musical, cada docente interpreta a partitura
-                  (os documentos curriculares e demais normativas) à sua
-                  maneira</span>, de acordo com seu domínio sobre o instrumento, ou seja, seu
-                conhecimento sobre os conteúdos que leciona e as práticas
-                pedagógicas que realiza.
-              </p>
-              <p data-audio="p3">
-                Tal como em uma orquestra, os professores se organizam em
-                seções, seja pelos anos escolares em que lecionam, seja pelos
-                componentes curriculares em que atuam. E, assim como a seção de
-                percussão pode entrar em descompasso caso um único músico erre o
-                tempo, todo o trabalho de ensino e de gestão do currículo
-                depende da articulação entre os docentes.
-              </p>
-              <p data-audio="p4">
-                Esse grande conjunto, formado por todas as seções, só pode
-                alcançar sua melhor performance quando trabalha de forma
-                integrada,
-                <span>respeitando os tempos e espaços uns dos outros. Para que essa
-                  harmonia seja possível, é essencial a atuação do diretor
-                  escolar</span>. Cabe a ele o papel de maestro, capaz de orquestrar os
-                esforços individuais em prol de um projeto coletivo.
-              </p>
-              <p data-audio="p5">
-                Tendo em vista essa complexa dinâmica,
-                <span>não devemos</span>
-                
-                pensar na gestão escolar como limitada à coordenação de tarefas
-                isoladas. Muito mais do que isso, devemos imaginar a verdadeira
-                liderança escolar como o
-              </p>
-            </section>
-          </div>
-        </div>
-      </div>
-      <div class="separador-medio"></div>
-    </div>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
-          <section data-nav-level="3" data-label="Citação">
-            <div data-audio="p6" class="callout-quote-author">
-              <p>
-                (...) processo para influenciar professores e outras partes
-                interessadas na melhoria contínua da escola e da aprendizagem
-                dos estudantes, não se limitando a ação de um único indivíduo.
-                <cite>(Instituto Unibanco, 2021, p. 7)</cite>
-              </p>
-            </div>
-          </section>
-        </div>
-      </div>
-      <div class="separador-medio"></div>
-    </div>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
-          <div class="content-wrapper">
-            <section data-nav-level="2" data-label="Múltiplas dimensões de uma gestão democrática">
-              <h3 data-audio="p7">
-                <span class="cls-underline" data-tooltip="Gestão democrática abrange várias áreas de atuação">Múltiplas dimensões</span>
-                de uma gestão democrática
-              </h3>
-              <p data-audio="p8">
-                Longe de diminuir a importância do trabalho do gestor escolar,
-                essa perspectiva apenas reforça o cenário que vimos na primeira
-                aula desta formação, quando discutimos a crescente complexidade
-                e diversidade de incumbências que recaem sobre a sua função.
-                <strong>O gestor, mais do que nunca, precisa lidar simultaneamente
-                  com múltiplas dimensões</strong>
-                –
-                <span class="cls-highlight">pedagógica, administrativa, humana e política</span>
-                – e garantir que todas estejam a serviço da aprendizagem.
-              </p>
-              <p data-audio="p9">
-                Você deve ter percebido que, ao longo deste DP, temos
-                tangenciando um assunto –
-                <strong>o fortalecimento do caráter democrático das escolas</strong>, tanto em
-                suas
-                práticas cotidianas quanto em sua forma de
-                administração.
-              </p>
-              <p data-audio="p10">
-                Essa tendência está presente até mesmo nos
-                <strong>regramentos nacionais</strong>, que vão desde a
-                <a href="#" class="link-externo" target="_blank" rel="noopener noreferrer">Constituição Federal de
-                  1988</a> e a LDB, passando pela BNCC até a
-                legislação que rege o funcionamento do
-                <strong  class="cls-highlight" data-color="var(--rough-notation-soft-purple)">Fundeb Permanente</strong>, e expressa valores que desejamos cultivar em
-                nossa
-                sociedade
-                e em nossos estudantes, como participação, corresponsabilidade,
-                transparência…
-              </p>
-              <p data-audio="p11">
-                <span>Além de atender a esses valores maiores</span>, esse movimento também busca
-                responder a um desafio muito
-                prático:
-              </p>
-            </section>
-          </div>
-        </div>
-      </div>
-      <div class="separador-medio"></div>
-    </div>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
-          <section data-nav-level="3" data-label="Destaque">
-            <div class="callout-note" data-audio="p12">
-              <svg class="callout-note-icon icon" viewBox="0 0 24 24">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                <polyline points="14 2 14 8 20 8" />
-                <line x1="12" y1="18" x2="12" y2="12" />
-                <line x1="9" y1="15" x2="15" y2="15" />
-              </svg>
-              <p>
-                Assegurar que a escola seja capaz de engajar alunos e
-                professores em torno de um projeto coletivo, sustentado por
-                evidências, capaz de dar respostas concretas aos desafios da
-                vida contemporânea.
-              </p>
-            </div>
-          </section>
-        </div>
-      </div>
-      <div class="separador-medio"></div>
-    </div>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
-          <div class="content-wrapper">
-            <section data-nav-level="2" data-label="Uma liderança distribuída ecoa mais longe">
-              <h3 data-audio="p13">
-                Uma liderança distribuída
-                <span>ecoa mais longe</span>
-              </h3>
-              <p data-audio="p14">
-                Nesse sentido, a
-                <strong>liderança distribuída</strong>
-                é – ao mesmo tempo – um fim e um meio. É um fim porque
-                representa a materialização de uma gestão democrática, coerente
-                com os valores de participação e corresponsabilidade que devem
-                orientar a educação contemporânea.
-              </p>
-              <p data-audio="p15">
-                É também um meio, pois constitui a condição necessária para
-                viabilizar as ações que sustentam a construção de um projeto
-                coletivo – como é, eminentemente, a
-                <strong>gestão do currículo</strong>.
-              </p>
-            </section>
-          </div>
-        </div>
-      </div>
-      <div class="separador-medio"></div>
-    </div>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
-          <section data-nav-level="3" data-label="Reflita sobre isso">
-            <div class="callout-reflection" data-audio="p16">
-              <svg class="callout-reflection-icon icon" viewBox="0 0 24 24">
-                <path
-                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-              </svg>
-              <div class="callout-reflection-title"><span  class="cls-highlight" data-tooltip="Modelo de liderança compartilhada entre diversos atores escolares">Reflita sobre isso</span></div>
-              <p>
-                Sem uma liderança eficaz, capaz de distribuir responsabilidades
-                e desenhar espaços de decisão compartilhada, que promova o
-                diálogo e construa consensos entre os diferentes atores
-                educacionais, a tendência é que o trabalho de gestão curricular
-                se fragmente ou que fique restrito a poucos indivíduos.
-              </p>
-            </div>
-          </section>
-        </div>
-      </div>
-      <div class="separador-medio"></div>
-    </div>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
-          <div class="content-wrapper">
-            <p data-audio="p17">
-              Com uma liderança distribuída – e, justamente por ser distribuída,
-              mais eficaz – a escola se torna capaz de mobilizar todos os seus
-              recursos humanos em direção a uma mesma finalidade: a aprendizagem
-              dos estudantes.
+            <!-- Meta (tempo de leitura) -->
+            <p class="lesson-meta" data-audio="tempo-leitura">
+              <i class="icon-time" data-lucide="clock"></i
+              ><em>Tempo de leitura: 8 minutos</em>
             </p>
-            <p data-audio="p18">
-              <span>Não sem motivo</span>,
-              quando o Instituto Unibanco e a Universidad Diego Portales (2021,
-              p. 7) lançaram o informe
-              <i><span  class="cls-underline" data-tooltip="Liderança escolar para a melhoria da educação: contribuições
-                para o debate público no Brasil">Liderança escolar</span> para a melhoria da educação: contribuições
-                para o debate público no Brasil</i>, mapeando diferentes modalidades de liderança escolar – cada uma
-              com seu respectivo foco –, perceberam que delas vem ganhando
-              especial atenção nas últimas décadas: justamente, a
-              <span>liderança distribuída</span>.
-            </p>
-            <p data-audio="p19">
-              Segundo os autores, ela se caracteriza como uma liderança
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="separador-medio"></div>
-    </div>
 
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
-          <section data-nav-level="3" data-label="Citação">
-            <div class="callout-quote-author" data-audio="p20">
-              <p>
-                (...) executada por diferentes pessoas ou grupos que têm
-                participação na gestão, direção e tomada de decisões da
-                instituição de ensino. <br />É projetada para envolver toda a
-                experiência existente na organização, em vez de procurá-la em
-                uma posição ou papel formal.
-              </p>
-            </div>
-          </section>
-        </div>
-      </div>
-      <div class="separador-medio"></div>
-    </div>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
-          <div class="content-wrapper">
-            <p data-audio="p21">
-              Uma liderança escolar com essas características também pode ser
-              associada ao modelo de liderança transformacional, proposto por
-              <span class="cls-underline" data-tooltip="Leithwood e Jantzi (1999) e posteriormente revisado por Leithwood e colaboradores (2019, p. 4 apud Vilardi 2021, p. 94)">Leithwood e Jantzi</span>
-              (1999) e posteriormente revisado por Leithwood e colaboradores
-              (2019, p. 4 apud Vilardi 2021, p. 94). De acordo com os autores,
-              esse tipo de liderança se traduz em 19 práticas específicas,
-              organizadas em quatro grandes domínios, como você pode ver nos
-              quadros a seguir:
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="separador-medio"></div>
-    </div>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
-          <div class="content-wrapper">
-            <section data-nav-level="2" data-label="Domínios da prática">
-              <h3>
-                <span>Domínios da prática</span>
-              </h3>
-              <p>
-                Todo gestor escolar – mesmo em ações aparentemente burocráticas
-                – afeta o que ocorre na comunidade escolar, pois sua atuação
-                sempre ocorre em uma teia de relações pessoais e contextuais
-                (Vilardi, 2021). Por ocupar essa posição central, o
-                <strong class="cls-underline" data-tooltip="O gestor influencia diretamente o clima institucional">gestor influencia diretamente o clima institucional</strong>
-                e o tom das atividades que o constroem. O gestor que adota
-                práticas transformacionais é, acima de tudo, aquele que
-                reconhece esse efeito e integra intencionalmente a dimensão
-                relacional da liderança à sua dimensão administrativa..
-              </p>
-              <p>
-                Esse poder (e também essa responsabilidade) de
-                <strong class="cls-box">dar o tom da escola</strong>
-                não deve jamais ser subestimado.
-              </p>
-              <p>
-                Pesquisas mais recentes – como o informe do Instituto Unibanco
-                (2021) que conhecemos acima e a revisão conduzida por Leithwood
-                e outros pesquisadores (2020, p. 6 apud Vilardi, 2021, p. 96) –
-                evidenciam a forte relação entre a atuação da gestão escolar e a
-                melhoria da aprendizagem dos estudantes. Sobretudo – embora não
-                apenas – em sua dimensão pedagógica.
-              </p>
-            </section>
-          </div>
-        </div>
-      </div>
-      <div class="separador-medio"></div>
-    </div>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
-          <section data-nav-level="3" data-label="Citação">
-            <div class="callout-quote">
-              <p>
-                A liderança escolar tem efeito significativo nas características
-                da organização escolar, o que influencia positivamente a
-                qualidade do ensino e da aprendizagem.
-                <span class="cls-highlight">Embora moderado, esse efeito de liderança é vital para o
-                  sucesso da maioria dos esforços de melhoria escolar.</span>
-              </p>
-            </div>
-          </section>
-        </div>
-      </div>
-      <div class="separador-medio"></div>
-    </div>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
-          <div class="content-wrapper">
-            <p class="cls-bracket" data-color="var(--rough-notation-solid-blue)">
-              Justamente porque define o clima organizacional e pedagógico, o
-              efeito da liderança sobre a aprendizagem costuma se dar de forma
-              indireta, principalmente por meio do trabalho dos professores.
-              Isso porque, como vimos, o sucesso das iniciativas dos docentes
-              depende da criação de um ambiente fértil, cultivado pela gestão,
-              no qual essas práticas possam florescer e gerar impacto real na
-              aprendizagem.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="separador-medio"></div>
-    </div>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
-          <div class="content-wrapper">
-            <section data-nav-level="2" data-label="Diretores eficazes crescem junto com seus professores">
-              <h3>
-                <span>Diretores eficazes crescem junto com seus professores</span>
-              </h3>
-              <p>
-                Entre os vários aspectos da liderança escolar, uma em especial
-                tem um impacto significativo:
-                a promoção e participação na formação contínua dos
-                  professores.
-              </p>
-              <p>
-                Essa é uma das conclusões alcançadas pelos pesquisadores Jason
-                Grissom, Anna Egalite e Constance Lindsay (2021 apud Instituto
-                Unibanco, 2021) no trabalho
-                <i><a href="#" class="link-externo" target="_blank" rel="noopener noreferrer">Como
-                    diretores impactam estudantes e escolas</a></i>.
-              </p>
-              <p>
-                Segundo os autores, os
-                <strong>líderes mais eficazes</strong> não apenas
-                <strong>incentivam a formação</strong> dos profissionais da
-                escola, mas também <strong class="cls-highlight">participam ativamente</strong> desse
-                processo, seja como aprendizes ou liderando a equipe.
-              </p>
-              <p>
-                Esse fenômeno fica ainda mais evidente quando olhamos a tabela
-                abaixo, elaborada pela pesquisadora Viviane Robinson e seus
-                colegas (2008 apud Instituto Unibanco, 2021, p. 10). Ela destaca
-                diferentes aspectos práticos da liderança escolar e mostra como
-                cada um impacta o aprendizado dos estudantes, em uma escala que
-                vai de 0 (nenhum impacto) a 1 (máximo impacto).
-              </p>
-              <p>
-                Mas como isso se articula, na prática,
-                com a
-                gestão do currículo
-                orientada por evidências? <span class="cls-highlight" data-color="var(--rough-notation-soft-purple)">É o que veremos no próximo tópico.</span>
-              </p>
-            </section>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="separador-medio"></div>
-    <div class="separador-medio"></div>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
-          <div class="nav-lessons">
-            <a href="#" class="nav-item prev">
-              <div class="nav-icon icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                  stroke="var(--black)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="lucide lucide-chevrons-left-icon lucide-chevrons-left">
-                  <path d="m11 17-5-5 5-5" />
-                  <path d="m18 17-5-5 5-5" />
-                </svg>
+            <!-- Botão para iniciar audio player -->
+            <div
+              class="audio-trigger-container"
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                flex-direction: row;
+              "
+            >
+              <div>
+                <button class="audio-trigger-btn">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="lucide lucide-headphones-icon lucide-headphones"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"
+                    />
+                  </svg>
+                  <span>Ouvir esta aula</span>
+                  <span class="btn-badge" id="audioDuration">10 min</span>
+                </button>
               </div>
-              <div class="nav-text">
-                <span class="label">ANTERIOR</span>
-                <strong>Introdução</strong>
-              </div>
-            </a>
 
-            <a href="#" class="nav-item next">
-              <div class="nav-text">
-                <span class="label">PRÓXIMO</span>
-                <strong>O papel do gestor escolar</strong>
+              <div>
+                <button class="pdf-trigger-btn">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="lucide lucide-headphones-icon file-text"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                    />
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                    <path d="M10 9H8" />
+                    <path d="M16 13H8" />
+                    <path d="M16 17H8" />
+                  </svg>
+                  <span>Baixar em PDF</span>
+                  <span class="btn-badge" id="pdfSize">2.5 MB</span>
+                </button>
               </div>
-              <div class="nav-icon icon orange">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                  stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="lucide lucide-chevrons-right-icon lucide-chevrons-right">
-                  <path d="m6 17 5-5-5-5" />
-                  <path d="m13 17 5-5-5-5" />
+
+              <div>
+                <button class="braille-trigger-btn">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="lucide lucide-braille"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="4" cy="4" r="1" />
+                    <circle cx="20" cy="4" r="1" />
+                    <circle cx="4" cy="12" r="1" />
+                    <circle cx="20" cy="12" r="1" />
+                    <circle cx="4" cy="20" r="1" />
+                    <circle cx="20" cy="20" r="1" />
+                  </svg>
+                  <span>Baixar em Braille</span>
+                  <span class="btn-badge">.BRF</span>
+                </button>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+
+    <div id="contentAula" class="contentAula">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+            <div class="content-wrapper">
+              <section data-nav-level="1" data-label="Introdução">
+                <p data-audio="p1">
+                  Na última aula, vimos como o professor atua em um constante
+                  equilíbrio entre autonomia e colaboração, entre a liberdade
+                  profissional e a necessidade de adequação às diretrizes da
+                  rede. Essa dinâmica nos permite imaginar a escola como uma
+                  orquestra muito singular.
+                </p>
+                <p data-audio="p2">
+                  <span
+                    >Nesse conjunto musical, cada docente interpreta a partitura
+                    (os documentos curriculares e demais normativas) à sua
+                    maneira</span
+                  >, de acordo com seu domínio sobre o instrumento, ou seja, seu
+                  conhecimento sobre os conteúdos que leciona e as práticas
+                  pedagógicas que realiza.
+                </p>
+                <p data-audio="p3">
+                  Tal como em uma orquestra, os professores se organizam em
+                  seções, seja pelos anos escolares em que lecionam, seja pelos
+                  componentes curriculares em que atuam. E, assim como a seção
+                  de percussão pode entrar em descompasso caso um único músico
+                  erre o tempo, todo o trabalho de ensino e de gestão do
+                  currículo depende da articulação entre os docentes.
+                </p>
+                <p data-audio="p4">
+                  Esse grande conjunto, formado por todas as seções, só pode
+                  alcançar sua melhor performance quando trabalha de forma
+                  integrada,
+                  <span
+                    >respeitando os tempos e espaços uns dos outros. Para que
+                    essa harmonia seja possível, é essencial a atuação do
+                    diretor escolar</span
+                  >. Cabe a ele o papel de maestro, capaz de orquestrar os
+                  esforços individuais em prol de um projeto coletivo.
+                </p>
+                <p data-audio="p5">
+                  Tendo em vista essa complexa dinâmica,
+                  <span>não devemos</span>
+
+                  pensar na gestão escolar como limitada à coordenação de
+                  tarefas isoladas. Muito mais do que isso, devemos imaginar a
+                  verdadeira liderança escolar como o
+                </p>
+              </section>
+            </div>
+          </div>
+        </div>
+        <div class="separador-medio"></div>
+      </div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+            <section data-nav-level="3" data-label="Citação">
+              <div data-audio="p6" class="callout-quote-author">
+                <p>
+                  (...) processo para influenciar professores e outras partes
+                  interessadas na melhoria contínua da escola e da aprendizagem
+                  dos estudantes, não se limitando a ação de um único indivíduo.
+                  <cite>(Instituto Unibanco, 2021, p. 7)</cite>
+                </p>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div class="separador-medio"></div>
+      </div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+            <div class="content-wrapper">
+              <section
+                data-nav-level="2"
+                data-label="Múltiplas dimensões de uma gestão democrática"
+              >
+                <h3 data-audio="p7">
+                  <span
+                    class="cls-underline"
+                    data-tooltip="Gestão democrática abrange várias áreas de atuação"
+                    >Múltiplas dimensões</span
+                  >
+                  de uma gestão democrática
+                </h3>
+                <p data-audio="p8">
+                  Longe de diminuir a importância do trabalho do gestor escolar,
+                  essa perspectiva apenas reforça o cenário que vimos na
+                  primeira aula desta formação, quando discutimos a crescente
+                  complexidade e diversidade de incumbências que recaem sobre a
+                  sua função.
+                  <strong
+                    >O gestor, mais do que nunca, precisa lidar simultaneamente
+                    com múltiplas dimensões</strong
+                  >
+                  –
+                  <span class="cls-highlight"
+                    >pedagógica, administrativa, humana e política</span
+                  >
+                  – e garantir que todas estejam a serviço da aprendizagem.
+                </p>
+                <p data-audio="p9">
+                  Você deve ter percebido que, ao longo deste DP, temos
+                  tangenciando um assunto –
+                  <strong
+                    >o fortalecimento do caráter democrático das escolas</strong
+                  >, tanto em suas práticas cotidianas quanto em sua forma de
+                  administração.
+                </p>
+                <p data-audio="p10">
+                  Essa tendência está presente até mesmo nos
+                  <strong>regramentos nacionais</strong>, que vão desde a
+                  <a
+                    href="#"
+                    class="link-externo"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Constituição Federal de 1988</a
+                  >
+                  e a LDB, passando pela BNCC até a legislação que rege o
+                  funcionamento do
+                  <strong
+                    class="cls-highlight"
+                    data-color="var(--rough-notation-soft-purple)"
+                    >Fundeb Permanente</strong
+                  >, e expressa valores que desejamos cultivar em nossa
+                  sociedade e em nossos estudantes, como participação,
+                  corresponsabilidade, transparência…
+                </p>
+                <p data-audio="p11">
+                  <span>Além de atender a esses valores maiores</span>, esse
+                  movimento também busca responder a um desafio muito prático:
+                </p>
+              </section>
+            </div>
+          </div>
+        </div>
+        <div class="separador-medio"></div>
+      </div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+            <section data-nav-level="3" data-label="Destaque">
+              <div class="callout-note" data-audio="p12">
+                <svg class="callout-note-icon icon" viewBox="0 0 24 24">
+                  <path
+                    d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                  />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="12" y1="18" x2="12" y2="12" />
+                  <line x1="9" y1="15" x2="15" y2="15" />
                 </svg>
+                <p>
+                  Assegurar que a escola seja capaz de engajar alunos e
+                  professores em torno de um projeto coletivo, sustentado por
+                  evidências, capaz de dar respostas concretas aos desafios da
+                  vida contemporânea.
+                </p>
               </div>
-            </a>
+            </section>
+          </div>
+        </div>
+        <div class="separador-medio"></div>
+      </div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+            <div class="content-wrapper">
+              <section
+                data-nav-level="2"
+                data-label="Uma liderança distribuída ecoa mais longe"
+              >
+                <h3 data-audio="p13">
+                  Uma liderança distribuída
+                  <span>ecoa mais longe</span>
+                </h3>
+                <p data-audio="p14">
+                  Nesse sentido, a
+                  <strong>liderança distribuída</strong>
+                  é – ao mesmo tempo – um fim e um meio. É um fim porque
+                  representa a materialização de uma gestão democrática,
+                  coerente com os valores de participação e corresponsabilidade
+                  que devem orientar a educação contemporânea.
+                </p>
+                <p data-audio="p15">
+                  É também um meio, pois constitui a condição necessária para
+                  viabilizar as ações que sustentam a construção de um projeto
+                  coletivo – como é, eminentemente, a
+                  <strong>gestão do currículo</strong>.
+                </p>
+              </section>
+            </div>
+          </div>
+        </div>
+        <div class="separador-medio"></div>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+            <section data-nav-level="3" data-label="Reflita sobre isso">
+              <div class="callout-reflection" data-audio="p16">
+                <svg class="callout-reflection-icon icon" viewBox="0 0 24 24">
+                  <path
+                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                  />
+                </svg>
+                <div class="callout-reflection-title">
+                  <span
+                    class="cls-highlight"
+                    data-tooltip="Modelo de liderança compartilhada entre diversos atores escolares"
+                    >Reflita sobre isso</span
+                  >
+                </div>
+                <p>
+                  Sem uma liderança eficaz, capaz de distribuir
+                  responsabilidades e desenhar espaços de decisão compartilhada,
+                  que promova o diálogo e construa consensos entre os diferentes
+                  atores educacionais, a tendência é que o trabalho de gestão
+                  curricular se fragmente ou que fique restrito a poucos
+                  indivíduos.
+                </p>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div class="separador-medio"></div>
+      </div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+            <div class="content-wrapper">
+              <p data-audio="p17">
+                Com uma liderança distribuída – e, justamente por ser
+                distribuída, mais eficaz – a escola se torna capaz de mobilizar
+                todos os seus recursos humanos em direção a uma mesma
+                finalidade: a aprendizagem dos estudantes.
+              </p>
+              <p data-audio="p18">
+                <span>Não sem motivo</span>, quando o Instituto Unibanco e a
+                Universidad Diego Portales (2021, p. 7) lançaram o informe
+                <i
+                  ><span
+                    class="cls-underline"
+                    data-tooltip="Liderança escolar para a melhoria da educação: contribuições
+                para o debate público no Brasil"
+                    >Liderança escolar</span
+                  >
+                  para a melhoria da educação: contribuições para o debate
+                  público no Brasil</i
+                >, mapeando diferentes modalidades de liderança escolar – cada
+                uma com seu respectivo foco –, perceberam que delas vem ganhando
+                especial atenção nas últimas décadas: justamente, a
+                <span>liderança distribuída</span>.
+              </p>
+              <p data-audio="p19">
+                Segundo os autores, ela se caracteriza como uma liderança
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="separador-medio"></div>
+      </div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+            <section data-nav-level="3" data-label="Citação">
+              <div class="callout-quote-author" data-audio="p20">
+                <p>
+                  (...) executada por diferentes pessoas ou grupos que têm
+                  participação na gestão, direção e tomada de decisões da
+                  instituição de ensino. <br />É projetada para envolver toda a
+                  experiência existente na organização, em vez de procurá-la em
+                  uma posição ou papel formal.
+                </p>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div class="separador-medio"></div>
+      </div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+            <div class="content-wrapper">
+              <p data-audio="p21">
+                Uma liderança escolar com essas características também pode ser
+                associada ao modelo de liderança transformacional, proposto por
+                <span
+                  class="cls-underline"
+                  data-tooltip="Leithwood e Jantzi (1999) e posteriormente revisado por Leithwood e colaboradores (2019, p. 4 apud Vilardi 2021, p. 94)"
+                  >Leithwood e Jantzi</span
+                >
+                (1999) e posteriormente revisado por Leithwood e colaboradores
+                (2019, p. 4 apud Vilardi 2021, p. 94). De acordo com os autores,
+                esse tipo de liderança se traduz em 19 práticas específicas,
+                organizadas em quatro grandes domínios, como você pode ver nos
+                quadros a seguir:
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="separador-medio"></div>
+      </div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+            <div class="content-wrapper">
+              <section data-nav-level="2" data-label="Domínios da prática">
+                <h3>
+                  <span>Domínios da prática</span>
+                </h3>
+                <p>
+                  Todo gestor escolar – mesmo em ações aparentemente
+                  burocráticas – afeta o que ocorre na comunidade escolar, pois
+                  sua atuação sempre ocorre em uma teia de relações pessoais e
+                  contextuais (Vilardi, 2021). Por ocupar essa posição central,
+                  o
+                  <strong
+                    class="cls-underline"
+                    data-tooltip="O gestor influencia diretamente o clima institucional"
+                    >gestor influencia diretamente o clima institucional</strong
+                  >
+                  e o tom das atividades que o constroem. O gestor que adota
+                  práticas transformacionais é, acima de tudo, aquele que
+                  reconhece esse efeito e integra intencionalmente a dimensão
+                  relacional da liderança à sua dimensão administrativa..
+                </p>
+                <p>
+                  Esse poder (e também essa responsabilidade) de
+                  <strong class="cls-box">dar o tom da escola</strong>
+                  não deve jamais ser subestimado.
+                </p>
+                <p>
+                  Pesquisas mais recentes – como o informe do Instituto Unibanco
+                  (2021) que conhecemos acima e a revisão conduzida por
+                  Leithwood e outros pesquisadores (2020, p. 6 apud Vilardi,
+                  2021, p. 96) – evidenciam a forte relação entre a atuação da
+                  gestão escolar e a melhoria da aprendizagem dos estudantes.
+                  Sobretudo – embora não apenas – em sua dimensão pedagógica.
+                </p>
+              </section>
+            </div>
+          </div>
+        </div>
+        <div class="separador-medio"></div>
+      </div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+            <section data-nav-level="3" data-label="Citação">
+              <div class="callout-quote">
+                <p>
+                  A liderança escolar tem efeito significativo nas
+                  características da organização escolar, o que influencia
+                  positivamente a qualidade do ensino e da aprendizagem.
+                  <span class="cls-highlight"
+                    >Embora moderado, esse efeito de liderança é vital para o
+                    sucesso da maioria dos esforços de melhoria escolar.</span
+                  >
+                </p>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div class="separador-medio"></div>
+      </div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+            <div class="content-wrapper">
+              <p
+                class="cls-bracket"
+                data-color="var(--rough-notation-solid-blue)"
+              >
+                Justamente porque define o clima organizacional e pedagógico, o
+                efeito da liderança sobre a aprendizagem costuma se dar de forma
+                indireta, principalmente por meio do trabalho dos professores.
+                Isso porque, como vimos, o sucesso das iniciativas dos docentes
+                depende da criação de um ambiente fértil, cultivado pela gestão,
+                no qual essas práticas possam florescer e gerar impacto real na
+                aprendizagem.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="separador-medio"></div>
+      </div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+            <div class="content-wrapper">
+              <section
+                data-nav-level="2"
+                data-label="Diretores eficazes crescem junto com seus professores"
+              >
+                <h3>
+                  <span
+                    >Diretores eficazes crescem junto com seus professores</span
+                  >
+                </h3>
+                <p>
+                  Entre os vários aspectos da liderança escolar, uma em especial
+                  tem um impacto significativo: a promoção e participação na
+                  formação contínua dos professores.
+                </p>
+                <p>
+                  Essa é uma das conclusões alcançadas pelos pesquisadores Jason
+                  Grissom, Anna Egalite e Constance Lindsay (2021 apud Instituto
+                  Unibanco, 2021) no trabalho
+                  <i
+                    ><a
+                      href="#"
+                      class="link-externo"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >Como diretores impactam estudantes e escolas</a
+                    ></i
+                  >.
+                </p>
+                <p>
+                  Segundo os autores, os
+                  <strong>líderes mais eficazes</strong> não apenas
+                  <strong>incentivam a formação</strong> dos profissionais da
+                  escola, mas também
+                  <strong class="cls-highlight">participam ativamente</strong>
+                  desse processo, seja como aprendizes ou liderando a equipe.
+                </p>
+                <p>
+                  Esse fenômeno fica ainda mais evidente quando olhamos a tabela
+                  abaixo, elaborada pela pesquisadora Viviane Robinson e seus
+                  colegas (2008 apud Instituto Unibanco, 2021, p. 10). Ela
+                  destaca diferentes aspectos práticos da liderança escolar e
+                  mostra como cada um impacta o aprendizado dos estudantes, em
+                  uma escala que vai de 0 (nenhum impacto) a 1 (máximo impacto).
+                </p>
+                <p>
+                  Mas como isso se articula, na prática, com a gestão do
+                  currículo orientada por evidências?
+                  <span
+                    class="cls-highlight"
+                    data-color="var(--rough-notation-soft-purple)"
+                    >É o que veremos no próximo tópico.</span
+                  >
+                </p>
+              </section>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <div class="separador-medio"></div>
+      <div class="separador-medio"></div>
 
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+            <div class="nav-lessons">
+              <a href="#" class="nav-item prev">
+                <div class="nav-icon icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--black)"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-chevrons-left-icon lucide-chevrons-left"
+                  >
+                    <path d="m11 17-5-5 5-5" />
+                    <path d="m18 17-5-5 5-5" />
+                  </svg>
+                </div>
+                <div class="nav-text">
+                  <span class="label">ANTERIOR</span>
+                  <strong>Introdução</strong>
+                </div>
+              </a>
 
-    <div class="separador-medio"></div>
-  </div>
-
-  <!-- Audio Player Bar -->
-  <div class="audio-player-bar">
-    <div class="player-info">
-      <div class="player-icon">
-        <span class="material-symbols-outlined">play_circle</span>
-      </div>
-      <div class="player-text">
-        <div class="player-title" id="playerTitle">Carregando...</div>
-        <div class="player-subtitle" id="playerSubtitle">Leitura guiada</div>
-      </div>
-    </div>
-
-    <div class="player-controls">
-      <div class="player-buttons">
-        <button class="player-btn btn-prev" id="btnPrev" title=" ">
-          <span class="material-symbols-outlined">skip_previous</span>
-        </button>
-        
-        <button class="player-btn btn-play-pause" id="btnPlayPause" title="Play">
-          <span class="material-symbols-outlined">play_arrow</span>
-        </button>
-        
-        <button class="player-btn btn-next" id="btnNext" title=" ">
-          <span class="material-symbols-outlined">skip_next</span>
-        </button>
-      </div>
-
-      <div class="player-progress-container">
-        <span class="player-time" id="currentTime">0:00</span>
-        <div class="player-progress-bar" id="progressBar">
-          <div class="player-progress-fill" id="progressFill"></div>
-          <div class="player-progress-scrubber" id="progressScrubber"></div>
-          <div class="player-progress-tooltip" id="progressTooltip">0:00</div>
-        </div>
-        <span class="player-time" id="totalTime">0:00</span>
-      </div>
-    </div>
-
-    <div class="player-extras">
-      <div class="player-volume">
-        <button class="player-btn volume-btn" id="volumeBtn" title="Volume">
-          <span class="material-symbols-outlined">volume_up</span>
-        </button>
-        <div class="volume-slider-container">
-          <div class="volume-slider-bar" id="volumeBar">
-            <div class="volume-slider-fill" id="volumeFill"></div>
-            <div class="volume-slider-scrubber" id="volumeScrubber"></div>
+              <a href="#" class="nav-item next">
+                <div class="nav-text">
+                  <span class="label">PRÓXIMO</span>
+                  <strong>O papel do gestor escolar</strong>
+                </div>
+                <div class="nav-icon icon orange">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#fff"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-chevrons-right-icon lucide-chevrons-right"
+                  >
+                    <path d="m6 17 5-5-5-5" />
+                    <path d="m13 17 5-5-5-5" />
+                  </svg>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-      
-      <button class="player-btn player-close-btn" id="btnClose" title="Fechar">
-        <span class="material-symbols-outlined btnCloseIcon">close</span>
-      </button>
+
+      <div class="separador-medio"></div>
     </div>
-  </div>
 
-  <script src="https://unpkg.com/rough-notation@0.5.1/lib/rough-notation.iife.js"></script>
-  <!-- Tippy.js para tooltips -->
-  <script src="https://unpkg.com/@popperjs/core@2"></script>
-  <script src="https://unpkg.com/tippy.js@6"></script>
-  <script src="./assets/js/rough.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="./assets/js/minimap.js"></script>
-  <!-- <script src="./assets/js/audio-scanner.js"></script> -->
-  <!-- Configuração dos áudios -->
-  <script src="./assets/js/audio-config.js"></script>
-  <!-- Player -->
-  <script src="./assets/js/audio-player.js"></script>
-  <script src="./assets/js/cursor.js"></script>
-  <script src="assets/js/drawSVG.js"></script>
+    <!-- Audio Player Bar -->
+    <div class="audio-player-bar">
+      <div class="player-info">
+        <div class="player-icon">
+          <span class="material-symbols-outlined">play_circle</span>
+        </div>
+        <div class="player-text">
+          <div class="player-title" id="playerTitle">Carregando...</div>
+          <div class="player-subtitle" id="playerSubtitle">Leitura guiada</div>
+        </div>
+      </div>
 
-  <!-- Incluindo a biblioteca pdf-lib via CDN -->
-  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-  <script src="assets/js/pdf-lib.js"></script>
-  
-  <!-- Incluindo a biblioteca liblouis-js para conversão Braille -->
-  <script src="https://cdn.jsdelivr.net/npm/liblouis-build/build-no-tables-utf16.js"></script>
-  <script src="assets/js/braille-lib.js"></script>
-  <script>
-    lucide.createIcons();
-  </script>
-</body>
+      <div class="player-controls">
+        <div class="player-buttons">
+          <button class="player-btn btn-prev" id="btnPrev" title=" ">
+            <span class="material-symbols-outlined">skip_previous</span>
+          </button>
+
+          <button
+            class="player-btn btn-play-pause"
+            id="btnPlayPause"
+            title="Play"
+          >
+            <span class="material-symbols-outlined">play_arrow</span>
+          </button>
+
+          <button class="player-btn btn-next" id="btnNext" title=" ">
+            <span class="material-symbols-outlined">skip_next</span>
+          </button>
+        </div>
+
+        <div class="player-progress-container">
+          <span class="player-time" id="currentTime">0:00</span>
+          <div class="player-progress-bar" id="progressBar">
+            <div class="player-progress-fill" id="progressFill"></div>
+            <div class="player-progress-scrubber" id="progressScrubber"></div>
+            <div class="player-progress-tooltip" id="progressTooltip">0:00</div>
+          </div>
+          <span class="player-time" id="totalTime">0:00</span>
+        </div>
+      </div>
+
+      <div class="player-extras">
+        <div class="player-volume">
+          <button class="player-btn volume-btn" id="volumeBtn" title="Volume">
+            <span class="material-symbols-outlined">volume_up</span>
+          </button>
+          <div class="volume-slider-container">
+            <div class="volume-slider-bar" id="volumeBar">
+              <div class="volume-slider-fill" id="volumeFill"></div>
+              <div class="volume-slider-scrubber" id="volumeScrubber"></div>
+            </div>
+          </div>
+        </div>
+
+        <button
+          class="player-btn player-close-btn"
+          id="btnClose"
+          title="Fechar"
+        >
+          <span class="material-symbols-outlined btnCloseIcon">close</span>
+        </button>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/rough-notation@0.5.1/lib/rough-notation.iife.js"></script>
+    <!-- Tippy.js para tooltips -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="./assets/js/rough.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="./assets/js/minimap.js"></script>
+    <!-- <script src="./assets/js/audio-scanner.js"></script> -->
+    <!-- Configuração dos áudios -->
+    <script src="./assets/js/audio-config.js"></script>
+    <!-- Player -->
+    <script src="./assets/js/audio-player.js"></script>
+    <script src="./assets/js/cursor.js"></script>
+    <script src="assets/js/drawSVG.js"></script>
+
+    <!-- Incluindo a biblioteca pdf-lib via CDN -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="assets/js/pdf-lib.js"></script>
+
+    <!-- Incluindo a biblioteca liblouis-js para conversão Braille -->
+    <script src="https://cdn.jsdelivr.net/npm/liblouis-build/build-no-tables-utf16.js"></script>
+    <script src="assets/js/braille-lib.js"></script>
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
 </html>

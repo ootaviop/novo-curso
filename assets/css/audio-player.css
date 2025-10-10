@@ -42,6 +42,21 @@
   box-shadow: 0 2px 8px rgba(255, 107, 53, 0.1);
 }
 
+/* Esconder SVGs inicialmente para evitar piscar */
+.audio-trigger-btn svg,
+.pdf-trigger-btn svg,
+.braille-trigger-btn svg {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Mostrar SVGs quando a classe 'svg-ready' for adicionada */
+.audio-trigger-btn.svg-ready svg,
+.pdf-trigger-btn.svg-ready svg,
+.braille-trigger-btn.svg-ready svg {
+  opacity: 1;
+}
+
 .audio-trigger-btn:hover {
   background: var(--orange);
   color: white;
@@ -591,3 +606,41 @@ body.audio-player-active svg[class*="rough-annotation"] {
 .volume-slider-bar.dragging .volume-slider-fill {
   transition: none;
 }
+
+@keyframes showSpan {
+  from{
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+  }
+}
+
+
+.audio-trigger-btn span, .audio-trigger-btn .btn-badge{
+  animation: showSpan 0.5s ease-in-out;
+  animation-delay: 0.4s;
+  animation-fill-mode: both;
+  opacity: 0;
+}
+
+@keyframes showBorder {
+  from{
+    border: 2px solid transparent;
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.0);
+  }
+  to{
+    border: 2px solid var(--orange);
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.1);
+    transform: translateY(-1px);
+  }
+}
+
+.audio-trigger-btn{
+  animation: showBorder 0.5s ease-in-out;
+  animation-delay: 0.4s;
+  animation-fill-mode: both;
+  opacity: 1;
+}
+
+
