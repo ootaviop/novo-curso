@@ -305,7 +305,7 @@ section {
 .nav-link2:hover {
     color: #333;
     background: rgba(0,0,0,0.02);
-    border-left-color: rgba(255, 107, 53, 0.2);
+    /* border-left-color: rgba(255, 107, 53, 0.2); */
 }
 
 .nav-link2:hover .nav-marker {
