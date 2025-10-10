@@ -31,6 +31,10 @@ class AudioPlayer {
     this.speedBtn = null;
     this.playerTitle = null;
     this.playerSubtitle = null;
+    this.volumeBar = null;
+    this.volumeFill = null;
+    this.volumeScrubber = null;
+    this.volumeBtn = null;
 
     // --- Estado do áudio e playlist
     this.audio = new Audio();
@@ -39,6 +43,8 @@ class AudioPlayer {
     this.isPlaying = false;
     this.speeds = [0.75, 1, 1.25, 1.5, 2];
     this.currentSpeedIndex = 1; // Começa em 1x
+    this.volume = 1; // Volume atual (0-1)
+    this.isMuted = false; // Estado do mute
 
     // --- Configuração visual
     this.HTMLConfig = {
@@ -255,6 +261,10 @@ class AudioPlayer {
     this.speedBtn = bar.querySelector("#speedBtn");
     this.playerTitle = bar.querySelector("#playerTitle");
     this.playerSubtitle = bar.querySelector("#playerSubtitle");
+    this.volumeBar = bar.querySelector("#volumeBar");
+    this.volumeFill = bar.querySelector("#volumeFill");
+    this.volumeScrubber = bar.querySelector("#volumeScrubber");
+    this.volumeBtn = bar.querySelector("#volumeBtn");
 
     // Reinicializa o sistema de cursor para incluir a barra de progresso
     if (window.cursorSystem && typeof window.cursorSystem.reinitializeInteractiveElements === 'function') {
@@ -283,6 +293,10 @@ class AudioPlayer {
     // Barra de progresso - clique e arrastar
     this.setupProgressBarEvents();
 
+    // Volume slider - clique e arrastar
+    this.setupVolumeSliderEvents();
+    this.volumeBtn.addEventListener("click", () => this.toggleMute());
+
     // Eventos do áudio
     this.audio.addEventListener("timeupdate", () => this.updateProgress());
     this.audio.addEventListener("ended", () => this.onTrackEnded());
@@ -306,6 +320,7 @@ class AudioPlayer {
     this.currentIndex = 0;
     this.loadTrack(0);
     this.showPlayer();
+    this.initializeVolumeSlider();
     this.play();
   }
 
@@ -649,6 +664,150 @@ class AudioPlayer {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${mins}:${secs.toString().padStart(2, "0")}`;
+  }
+
+  /**
+   * ═══════════════════════════════════════════════════════════
+   * 🔊 CONTROLE DE VOLUME
+   * ═══════════════════════════════════════════════════════════
+   */
+
+  /**
+   * Configura eventos do volume slider (clique e arrastar)
+   */
+  setupVolumeSliderEvents() {
+    let isDragging = false;
+
+    // Clique simples
+    this.volumeBar.addEventListener("click", (e) => {
+      if (!isDragging) {
+        this.seekVolume(e);
+      }
+    });
+
+    // Início do arraste
+    this.volumeBar.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      isDragging = true;
+      this.volumeBar.classList.add("dragging");
+      this.seekVolume(e);
+    });
+
+    // Arrastar
+    document.addEventListener("mousemove", (e) => {
+      if (isDragging) {
+        e.preventDefault();
+        this.seekVolume(e);
+      }
+    });
+
+    // Fim do arraste
+    document.addEventListener("mouseup", (e) => {
+      if (isDragging) {
+        isDragging = false;
+        this.volumeBar.classList.remove("dragging");
+      }
+    });
+
+    // Cancelar arraste se sair da janela
+    document.addEventListener("mouseleave", () => {
+      if (isDragging) {
+        isDragging = false;
+        this.volumeBar.classList.remove("dragging");
+      }
+    });
+
+    // Suporte a touch para dispositivos móveis
+    this.volumeBar.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      isDragging = true;
+      this.volumeBar.classList.add("dragging");
+      const touch = e.touches[0];
+      this.seekVolume({ clientX: touch.clientX });
+    });
+
+    document.addEventListener("touchmove", (e) => {
+      if (isDragging) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        this.seekVolume({ clientX: touch.clientX });
+      }
+    });
+
+    document.addEventListener("touchend", (e) => {
+      if (isDragging) {
+        isDragging = false;
+        this.volumeBar.classList.remove("dragging");
+      }
+    });
+  }
+
+  /**
+   * Navega para um volume específico baseado na posição do clique
+   */
+  seekVolume(e) {
+    const rect = this.volumeBar.getBoundingClientRect();
+    const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    this.setVolume(percent);
+  }
+
+  /**
+   * Define volume do áudio (0-1) e atualiza UI
+   */
+  setVolume(percent) {
+    this.volume = Math.max(0, Math.min(1, percent));
+    this.audio.volume = this.volume;
+    this.updateVolumeBar(this.volume);
+    this.updateVolumeIcon();
+  }
+
+  /**
+   * Alterna mute/unmute
+   */
+  toggleMute() {
+    if (this.isMuted) {
+      // Desmutar
+      this.audio.volume = this.volume;
+      this.isMuted = false;
+    } else {
+      // Mutar
+      this.audio.volume = 0;
+      this.isMuted = true;
+    }
+    this.updateVolumeIcon();
+  }
+
+  /**
+   * Atualiza visualmente a barra de volume
+   */
+  updateVolumeBar(percent) {
+    const fillPercent = this.isMuted ? 0 : percent;
+    this.volumeFill.style.width = `${fillPercent * 100}%`;
+    this.volumeScrubber.style.right = `${(1 - fillPercent) * 100}%`;
+  }
+
+  /**
+   * Atualiza ícone do botão de volume
+   */
+  updateVolumeIcon() {
+    const icon = this.volumeBtn.querySelector(".material-symbols-outlined");
+    
+    if (this.isMuted || this.volume === 0) {
+      icon.textContent = "volume_off";
+    } else if (this.volume < 0.5) {
+      icon.textContent = "volume_down";
+    } else {
+      icon.textContent = "volume_up";
+    }
+  }
+
+  /**
+   * Inicializa o volume slider com valores padrão
+   */
+  initializeVolumeSlider() {
+    this.audio.volume = this.volume;
+    this.updateVolumeBar(this.volume);
+    this.updateVolumeIcon();
   }
 
   /**
