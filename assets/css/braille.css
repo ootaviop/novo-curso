@@ -15,8 +15,9 @@
   display: inline-flex;
   align-items: center;
   gap: clamp(0.5rem, 0.5rem + 0.25vw, 1rem);
-  padding: clamp(0.75rem, 0.75rem + 0.25vw, 1rem)
-    clamp(1.5rem, 1.5rem + 0.25vw, 2rem);
+  /* padding: clamp(0.75rem, 0.75rem + 0.25vw, 1rem)
+    clamp(1.5rem, 1.5rem + 0.25vw, 2rem); */
+  padding: 0.9rem 1.4rem;
   background: white;
   color: var(--orange);
   border: 2px solid var(--orange);

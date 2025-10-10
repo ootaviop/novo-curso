@@ -3,7 +3,7 @@
        ═══════════════════════════════════════════════════════ */
 
     .lesson-main {
-      padding-bottom: clamp(2rem, 2rem + 1vw, 3rem);
+      padding-bottom: clamp(1rem, 1rem + 1vw, 2rem);
 
     }
 
