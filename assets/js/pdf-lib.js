@@ -135,13 +135,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 yPosition -= style.spaceAfter;
             }
-
+            const title = document.querySelector('.lesson-title').textContent.replace(/\s+/g, ' ').trim();
             const pdfBytes = await pdfDoc.save();
             const blob = new Blob([pdfBytes], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'documento-corrigido.pdf';
+            a.download = `${title}.pdf`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

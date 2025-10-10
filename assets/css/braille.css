@@ -1,4 +1,4 @@
-.pdf-trigger-container {
+.braille-trigger-container {
     display: flex;
     /* align-items: center; */
     gap: clamp(1rem, 0rem + 1vw, 2rem);
@@ -11,7 +11,7 @@
     align-items: start;
   }
   
-.pdf-trigger-btn {
+.braille-trigger-btn {
   display: inline-flex;
   align-items: center;
   gap: clamp(0.5rem, 0.5rem + 0.25vw, 1rem);
@@ -29,18 +29,18 @@
   box-shadow: 0 2px 8px rgba(255, 107, 53, 0.1);
 }
   
-  .pdf-trigger-btn:hover {
+  .braille-trigger-btn:hover {
     background: var(--orange);
     color: white;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
   }
   
-.pdf-trigger-btn:active {
+.braille-trigger-btn:active {
   transform: translateY(0);
 }
 
-.pdf-trigger-btn .btn-badge {
+.braille-trigger-btn .btn-badge {
   background: rgba(255, 107, 53, 0.1);
   color: var(--orange);
   min-width: 3.5rem;  /* NOVO - herda comportamento consistente */
@@ -48,16 +48,16 @@
   text-align: center;  /* NOVO */
 }
 
-.pdf-trigger-btn:hover .btn-badge {
+.braille-trigger-btn:hover .btn-badge {
   background: rgba(255, 255, 255, 0.2);
   color: white;
 }
   
-  .pdf-trigger-btn .icon {
+  .braille-trigger-btn .icon {
     font-size: clamp(1.25rem, 1rem + 1vw, 1.5rem);
   }
   
-  .pdf-trigger-info {
+  .braille-trigger-info {
     display: flex;
     flex-direction: column;
     gap: clamp(0.25rem, 0.25rem + 0.25vw, 0.5rem);
@@ -65,8 +65,7 @@
     color: var(--gray);
   }
   
-  .pdf-trigger-info strong {
+  .braille-trigger-info strong {
     color: var(--text);
     font-weight: 600;
   }
-  

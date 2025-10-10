@@ -343,6 +343,7 @@ class RoughAnnotationSystem {
     const tippyInstance = tippy(element, {
       content: tooltipContent,
       placement: 'top',
+      followCursor: true,
       animation: 'fade',
       theme: 'orange-rounded',
       arrow: false,

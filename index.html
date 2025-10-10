@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Minimap de Navegação - 5 Níveis</title>
+  <title>Módulo 1 - Aula 2 - Liderança Eficaz</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap"
@@ -14,6 +14,7 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="assets/css/components.css" />
   <link rel="stylesheet" href="assets/css/tooltip.css" />
+  <link rel="stylesheet" href="assets/css/braille.css" />
   <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <!-- No <head>, adicione GSAP -->
@@ -152,11 +153,11 @@
           <div class="audio-trigger-container" style="display: flex; align-items: center; justify-content: flex-start; flex-direction: row;">
             <div>
               <button class="audio-trigger-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-headphones-icon lucide-headphones" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-headphones-icon lucide-headphones" width="24" height="24"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/>
                 </svg>
                 <span>Ouvir esta aula</span>
-                <span class="btn-badge" id="audioDuration">8 min</span>
+                <span class="btn-badge" id="audioDuration">10 min</span>
               </button>
             </div>
 
@@ -171,6 +172,21 @@
                 </svg>
                 <span>Baixar PDF</span>
                 <span class="btn-badge" id="pdfSize">2.5 MB</span>
+              </button>
+            </div>
+
+            <div>
+              <button class="braille-trigger-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-braille" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="4" cy="4" r="1"/>
+                  <circle cx="20" cy="4" r="1"/>
+                  <circle cx="4" cy="12" r="1"/>
+                  <circle cx="20" cy="12" r="1"/>
+                  <circle cx="4" cy="20" r="1"/>
+                  <circle cx="20" cy="20" r="1"/>
+                </svg>
+                <span>Baixar Braille</span>
+                <span class="btn-badge">.BRF</span>
               </button>
             </div>
             
@@ -672,7 +688,7 @@
           <span class="material-symbols-outlined">volume_up</span>
         </button>
         <div class="volume-slider-container">
-          <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="100" title="Volume">
+          <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="100" title="Volume" color="var(--orange)">
         </div>
       </div>
       
@@ -700,6 +716,10 @@
   <!-- Incluindo a biblioteca pdf-lib via CDN -->
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
   <script src="assets/js/pdf-lib.js"></script>
+  
+  <!-- Incluindo a biblioteca liblouis-js para conversão Braille -->
+  <script src="https://cdn.jsdelivr.net/npm/liblouis-build/build-no-tables-utf16.js"></script>
+  <script src="assets/js/braille-lib.js"></script>
   <script>
     lucide.createIcons();
   </script>

@@ -27,8 +27,9 @@
   display: inline-flex;
   align-items: center;
   gap: clamp(0.5rem, 0.5rem + 0.25vw, 1rem);
-  padding: clamp(0.75rem, 0.75rem + 0.25vw, 1rem)
-    clamp(1.5rem, 1.5rem + 0.25vw, 2rem);
+  /* padding: clamp(0.75rem, 0.75rem + 0.25vw, 1rem)
+    clamp(1.5rem, 1.5rem + 0.25vw, 2rem); */
+    padding: 0.9rem 1.4rem;
   background: white;
   color: var(--orange);
   border: 2px solid var(--orange);
@@ -60,6 +61,7 @@
 .btn-badge {
   display: inline-flex;
   align-items: center;
+  justify-content: center;  /* NOVO */
   padding: 0.2rem 0.6rem;
   background: rgba(255, 107, 53, 0.1);
   color: var(--orange);
@@ -69,6 +71,9 @@
   margin-left: calc(0.4rem * var(--scale-multiplier));
   letter-spacing: 0.01em;
   transition: all 0.2s ease;
+  min-width: 3.5rem;  /* NOVO - reserva espaço fixo */
+  font-variant-numeric: tabular-nums;  /* NOVO - números de largura fixa */
+  text-align: center;  /* NOVO - centraliza texto */
 }
 
 .audio-trigger-btn:hover .btn-badge {
@@ -527,4 +532,22 @@ body.audio-player-active svg[class*="rough-annotation"] {
   background: #4d4d4d;
   border-radius: 2px;
   cursor: pointer;
+}
+
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none!important; /* Override default look */
+  appearance: none!important;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #04AA6D!important; /* Green background */
+}
+
+input[type="range"]::-moz-range-thumb {
+  -webkit-appearance: none!important; /* Override default look */
+  appearance: none!important;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #04AA6D!important; /* Green background */
+  cursor: pointer; /* Cursor on hover */
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="braile-container">
+        <button class="braile-btn">Convert to Braile</button>
+        <textarea class="braile-textarea"></textarea>
+    </div>
+    
+    <script>
+        const braileBtn = document.querySelector('.braile-btn');
+        const braileTextarea = document.querySelector('.braile-textarea');
+        const braileContainer = document.querySelector('.braile-container');
+        braileBtn.addEventListener('click', () => {
+            const text = braileTextarea.value;
+            const braile = text.toUpperCase().split("").map(c => "⠀⠁⠂⠃⠄⠅⠆⠇⠈⠉⠊⠋⠌⠍⠎⠏⠐⠑⠒⠓⠔⠕⠖⠗⠘⠙⠚⠛⠜⠝⠞⠟⠠⠡⠢⠣⠤⠥⠦⠧⠨⠩⠪⠫⠬⠭⠮⠯⠰⠱⠲⠳⠴⠵⠶⠷⠸⠹⠺⠻⠼⠽⠾⠿"[" A1B'K2L@CIF/MSP\"E3H9O6R^DJG>NTQ,*5<-U8V.%[$+X!&;:4\\0Z7(_?W]#Y)=".indexOf(c)]).join("");
+            braileContainer.innerHTML = braile;
+        });
+    </script>
+</body>
+</html>
