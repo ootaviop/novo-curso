@@ -187,6 +187,11 @@ section {
     flex: 1;
 }
 
+/* Indicador visual de scroll ativo */
+.nav-items.scrolling {
+    scrollbar-color: #ff6b35 transparent;
+}
+
 .nav-items::-webkit-scrollbar {
     width: 4px;
 }
@@ -207,6 +212,7 @@ section {
 .nav-item {
     position: relative;
     user-select: none;
+    width: 100%;
 }
 
 .nav-link2 {
@@ -220,6 +226,8 @@ section {
     transition: all 0.15s ease;
     position: relative;
     border-left: 2px solid transparent;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Marcador */
