@@ -76,7 +76,7 @@ class CursorSystem {
   }
   
   setupInteractiveElements() {
-    const interactiveSelector = 'a, button, [role="button"], [onclick], .morphable, .audio-trigger-btn, .player-btn, .nav-link2';
+    const interactiveSelector = 'a, button, [role="button"], [onclick], .morphable, .audio-trigger-btn, .player-btn, .nav-link2, .volume-slider-container';
     
     const interactiveElements = document.querySelectorAll(interactiveSelector);
     
