@@ -137,6 +137,7 @@ class ScrollMinimap {
     this.buildMinimap();
     this.setupScrollListener();
     this.setupSidebarBehavior();
+    this.setupScrollIsolation();
     this.updateIndicatorPosition();
 
     // Inicializa estado visual
@@ -419,6 +420,31 @@ class ScrollMinimap {
         this.navContainer.classList.remove("sidebar-active");
       }, this.config.sidebarHideDelay);
     });
+  }
+
+  /**
+   * ═══════════════════════════════════════════════════════════
+   * 🔒 ISOLAMENTO DE SCROLL DA SIDEBAR
+   * ═══════════════════════════════════════════════════════════
+   */
+  setupScrollIsolation() {
+    const navItems = this.navItems;
+    
+    navItems.addEventListener('wheel', (e) => {
+      const { scrollTop, scrollHeight, clientHeight } = navItems;
+      const isScrollingDown = e.deltaY > 0;
+      const isScrollingUp = e.deltaY < 0;
+      
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+      const isAtTop = scrollTop <= 1;
+      
+      // Bloqueia scroll da página se a sidebar ainda pode scrollar
+      if ((isScrollingDown && !isAtBottom) || (isScrollingUp && !isAtTop)) {
+        e.stopPropagation();
+        e.preventDefault();
+        navItems.scrollTop += e.deltaY;
+      }
+    }, { passive: false });
   }
 
   /**
