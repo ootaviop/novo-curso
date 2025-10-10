@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   🎯 SISTEMA DE CURSOR CUSTOM - 2 ESTADOS
+   🎯 SISTEMA DE CURSOR CUSTOM - 4 ESTADOS
    ═══════════════════════════════════════════════════════════ */
 
 body {
@@ -88,8 +88,10 @@ a, button, input, textarea, select,
 
 /* Drop shadow sutil (opcional) */
 .cursor-default svg,
-.cursor-hand svg {
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+.cursor-hand svg,
+.cursor-grab svg,
+.cursor-tooltip svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 /* Glow mais forte no hover (opcional) */
@@ -172,6 +174,35 @@ a, button, input, textarea, select,
     height: 60px;
     opacity: 0;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ESTADO 4: TOOLTIP (informação)
+   ═══════════════════════════════════════════════════════════ */
+
+.cursor-tooltip {
+  position: absolute;
+  transform: translate(-10px, -10px);
+  transition: opacity 0.1s cubic-bezier(0.4, 0.0, 0.2, 1);
+  will-change: transform, opacity;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cursor-tooltip.active {
+  opacity: 1;
+}
+
+/* Quando tooltip está ativo, esconde os outros */
+.cursor-tooltip.active ~ .cursor-default,
+.cursor-tooltip.active ~ .cursor-hand,
+.cursor-tooltip.active ~ .cursor-grab {
+  opacity: 0;
+}
+
+/* Animação sutil de "info" */
+.cursor-tooltip.active svg {
+  filter: drop-shadow(0 3px 8px rgba(100, 150, 255, 0.4));
 }
 
 /* ═══════════════════════════════════════════════════════════

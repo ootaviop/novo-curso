@@ -1,12 +1,13 @@
 /**
  * ═══════════════════════════════════════════════════════════
- * 🎯 SISTEMA DE CURSOR CUSTOM - 3 ESTADOS
+ * 🎯 SISTEMA DE CURSOR CUSTOM - 4 ESTADOS
  * ═══════════════════════════════════════════════════════════
  * 
  * Estados:
  * - default: navegação normal
  * - hover: mão aberta sobre elementos clicáveis
  * - grab: mão fechada durante mousedown
+ * - tooltip: cursor de informação sobre elementos com tooltip (não-clicáveis)
  */
 
 class CursorSystem {
@@ -15,6 +16,7 @@ class CursorSystem {
     this.cursorDefault = document.querySelector('.cursor-default');
     this.cursorHand = document.querySelector('.cursor-hand');
     this.cursorGrab = document.querySelector('.cursor-grab');
+    this.cursorTooltip = document.querySelector('.cursor-tooltip');
     this.cursorRipple = document.getElementById('cursorRipple');
     
     // Estado
@@ -73,6 +75,9 @@ class CursorSystem {
     
     // Detecta elementos interativos
     this.setupInteractiveElements();
+    
+    // Detecta elementos com tooltip
+    this.setupTooltipElements();
   }
   
   setupInteractiveElements() {
@@ -111,9 +116,31 @@ class CursorSystem {
     });
   }
 
+  setupTooltipElements() {
+    const tooltipElements = document.querySelectorAll('[data-tooltip]');
+    const interactiveSelector = 'a, button, [role="button"], [onclick], .morphable, .audio-trigger-btn, .player-btn, .nav-link2, .volume-slider-container';
+    
+    tooltipElements.forEach(el => {
+      // Verifica se NÃO é um elemento interativo
+      const isInteractive = el.matches(interactiveSelector);
+      
+      if (!isInteractive) {
+        el.addEventListener('mouseenter', () => {
+          this.isOverInteractive = false;
+          this.setState('tooltip');
+        });
+        
+        el.addEventListener('mouseleave', () => {
+          this.setState('default');
+        });
+      }
+    });
+  }
+
   // Método para reinicializar elementos interativos (útil quando elementos são criados dinamicamente)
   reinitializeInteractiveElements() {
     this.setupInteractiveElements();
+    this.setupTooltipElements();
   }
   
   setState(newState) {
@@ -122,6 +149,7 @@ class CursorSystem {
     // Remove todos os estados
     this.cursorHand.classList.remove('active');
     this.cursorGrab.classList.remove('active');
+    this.cursorTooltip.classList.remove('active');
     
     // Aplica novo estado
     this.currentState = newState;
@@ -134,12 +162,21 @@ class CursorSystem {
       case 'hover':
         this.cursorHand.classList.add('active');
         this.cursorGrab.classList.remove('active');
+        this.cursorTooltip.classList.remove('active');
         this.cursorDefault.classList.remove('active');
         break;
         
       case 'grab':
         this.cursorGrab.classList.add('active');
         this.cursorHand.classList.remove('active');
+        this.cursorTooltip.classList.remove('active');
+        this.cursorDefault.classList.remove('active');
+        break;
+        
+      case 'tooltip':
+        this.cursorTooltip.classList.add('active');
+        this.cursorHand.classList.remove('active');
+        this.cursorGrab.classList.remove('active');
         this.cursorDefault.classList.remove('active');
         break;
     }
@@ -175,6 +212,7 @@ class CursorSystem {
     setCursorPos(this.cursorDefault);
     setCursorPos(this.cursorHand);
     setCursorPos(this.cursorGrab);
+    setCursorPos(this.cursorTooltip);
 
     requestAnimationFrame(() => this.animate());
   }
