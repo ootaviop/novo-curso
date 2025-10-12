@@ -1,0 +1,34 @@
+/* ==========================================================================
+   MOBILE RESPONSIVE - BREAKPOINT CONTROL
+   ========================================================================== */
+
+/* Por padrão, mostra desktop e esconde mobile */
+.desktop-experience {
+  display: block;
+}
+
+.mobile-experience {
+  display: none;
+}
+
+/* Mobile: max-width: 768px */
+@media (max-width: 768px) {
+  .desktop-experience {
+    display: none !important;
+  }
+  
+  .mobile-experience {
+    display: block;
+  }
+}
+
+/* Desktop: min-width: 769px */
+@media (min-width: 769px) {
+  .desktop-experience {
+    display: block;
+  }
+  
+  .mobile-experience {
+    display: none !important;
+  }
+}

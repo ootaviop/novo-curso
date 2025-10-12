@@ -18,21 +18,32 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
+    
+    <!-- 1. Estilos Compartilhados (sempre carregam) -->
+    <link rel="stylesheet" href="assets/css/variables.css" />
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/tipografia.css" />
     <link rel="stylesheet" href="assets/css/components.css" />
-    <link rel="stylesheet" href="assets/css/tooltip.css" />
-    <link rel="stylesheet" href="assets/css/braille.css" />
+    <link rel="stylesheet" href="assets/css/skeleton.css" />
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script> -->
+    
+    <!-- 2. ExperienceRouter - PRIMEIRO SCRIPT -->
+    <script src="assets/js/core/experience-router.js"></script>
+    
+    <!-- 3. Anime.js para animações -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
   </head>
 
   <body>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <div class="cursor-system" id="cursorSystem">
+    
+    <!-- DESKTOP EXPERIENCE -->
+    <div class="desktop-experience">
+      <div class="cursor-system" id="cursorSystem">
       <div class="cursor-model cursor-model-custom" data-model="custom">
         <!-- Estado 1: DEFAULT (navegação) -->
         <div class="cursor-default active">
@@ -235,8 +246,8 @@
         </svg>
         <span class="indicator-label" id="indicatorLabel">Nível 1</span>
       </div>
-    </div>
-
+      </div>
+      
     <div id="first" class="container-fluid">
       <div class="row">
         <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
@@ -947,29 +958,197 @@
         </button>
       </div>
     </div>
+    <!-- FIM DESKTOP EXPERIENCE -->
+    </div>
 
+
+    <!-- MOBILE EXPERIENCE -->
+    <div class="mobile-experience">
+      <div class="mobile-container">
+        <!-- Navegação Superior Mobile -->
+        <nav class="mobile-navigation">
+          <button class="mobile-nav-back">
+            <span class="mobile-nav-back-icon">←</span>
+            Voltar
+          </button>
+          <h1 class="mobile-nav-title">Selecionar Modo</h1>
+          <div class="mobile-nav-actions">
+            <button class="mobile-nav-action" data-action="settings">
+              <span class="mobile-nav-action-icon">⚙️</span>
+            </button>
+          </div>
+          <div class="mobile-mode-indicator" style="display: none;">
+            <span class="mobile-mode-indicator-icon">📱</span>
+            <span class="mobile-mode-indicator-text">Modo</span>
+          </div>
+        </nav>
+
+        <!-- Seletor de Modos -->
+        <div class="mobile-mode-selector">
+          <h1 class="mobile-mode-selector-title">Como você deseja consumir essa aula?</h1>
+          
+          <div class="mobile-mode-grid">
+            <!-- Podcast -->
+            <div class="mobile-mode-quadrant mobile-mode-podcast" data-mode="podcast">
+              <div class="mobile-mode-quadrant-content">
+                <span class="mobile-mode-icon">🎧</span>
+                <span class="mobile-mode-text">PODCAST</span>
+              </div>
+            </div>
+            
+            <!-- Texto Corrido -->
+            <div class="mobile-mode-quadrant mobile-mode-texto" data-mode="texto">
+              <div class="mobile-mode-quadrant-content">
+                <span class="mobile-mode-icon">📖</span>
+                <span class="mobile-mode-text">TEXTO CORRIDO</span>
+              </div>
+            </div>
+            
+            <!-- PDF -->
+            <div class="mobile-mode-quadrant mobile-mode-pdf" data-mode="pdf">
+              <div class="mobile-mode-quadrant-content">
+                <span class="mobile-mode-icon">📄</span>
+                <span class="mobile-mode-text">PDF</span>
+              </div>
+            </div>
+            
+            <!-- Braille -->
+            <div class="mobile-mode-quadrant mobile-mode-braille" data-mode="braille">
+              <div class="mobile-mode-quadrant-content">
+                <span class="mobile-mode-icon">⠃⠗⠁</span>
+                <span class="mobile-mode-text">BRAILLE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navegação Inferior Mobile -->
+        <nav class="mobile-mode-nav">
+          <div class="mobile-mode-nav-list">
+            <div class="mobile-mode-nav-item" data-mode="podcast">
+              <span class="mobile-mode-nav-item-icon">🎧</span>
+              <span class="mobile-mode-nav-item-text">Podcast</span>
+            </div>
+            <div class="mobile-mode-nav-item" data-mode="texto">
+              <span class="mobile-mode-nav-item-icon">📖</span>
+              <span class="mobile-mode-nav-item-text">Texto</span>
+            </div>
+            <div class="mobile-mode-nav-item" data-mode="pdf">
+              <span class="mobile-mode-nav-item-icon">📄</span>
+              <span class="mobile-mode-nav-item-text">PDF</span>
+            </div>
+            <div class="mobile-mode-nav-item" data-mode="braille">
+              <span class="mobile-mode-nav-item-icon">⠃⠗⠁</span>
+              <span class="mobile-mode-nav-item-text">Braille</span>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <!-- FIM MOBILE EXPERIENCE -->
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SKELETON SCREEN - Transições entre experiências
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="experience-skeleton" id="experienceSkeleton">
+      <!-- Skeleton Desktop -->
+      <div class="skeleton-desktop" id="skeletonDesktop">
+        <div class="skeleton-desktop-content">
+          <!-- Sidebar Esquerda (Minimap) -->
+          <div class="skeleton-desktop-sidebar-left">
+            <div class="skeleton-element skeleton-minimap-item"></div>
+            <div class="skeleton-element skeleton-minimap-item"></div>
+            <div class="skeleton-element skeleton-minimap-item"></div>
+            <div class="skeleton-element skeleton-minimap-item"></div>
+            <div class="skeleton-element skeleton-minimap-item"></div>
+          </div>
+
+          <!-- Conteúdo Principal -->
+          <div class="skeleton-desktop-main">
+            <div class="skeleton-element skeleton-desktop-title"></div>
+            <div class="skeleton-element skeleton-desktop-paragraph"></div>
+            <div class="skeleton-element skeleton-desktop-paragraph medium"></div>
+            <div class="skeleton-element skeleton-desktop-paragraph short"></div>
+            <div class="skeleton-element skeleton-desktop-paragraph"></div>
+            <div class="skeleton-element skeleton-desktop-paragraph medium"></div>
+            <div class="skeleton-element skeleton-desktop-paragraph"></div>
+            <div class="skeleton-element skeleton-desktop-paragraph short"></div>
+          </div>
+
+          <!-- Sidebar Direita (Navegação) -->
+          <div class="skeleton-desktop-sidebar-right">
+            <div class="skeleton-element skeleton-nav-item"></div>
+            <div class="skeleton-element skeleton-nav-item"></div>
+            <div class="skeleton-element skeleton-nav-item"></div>
+            <div class="skeleton-element skeleton-nav-item"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skeleton Mobile -->
+      <div class="skeleton-mobile" id="skeletonMobile">
+        <div class="skeleton-mobile-content">
+          <!-- Quadrante 1: Podcast -->
+          <div class="skeleton-mobile-quadrant">
+            <div class="skeleton-element skeleton-mobile-icon"></div>
+            <div class="skeleton-element skeleton-mobile-text"></div>
+          </div>
+
+          <!-- Quadrante 2: Texto -->
+          <div class="skeleton-mobile-quadrant">
+            <div class="skeleton-element skeleton-mobile-icon"></div>
+            <div class="skeleton-element skeleton-mobile-text"></div>
+          </div>
+
+          <!-- Quadrante 3: PDF -->
+          <div class="skeleton-mobile-quadrant">
+            <div class="skeleton-element skeleton-mobile-icon"></div>
+            <div class="skeleton-element skeleton-mobile-text"></div>
+          </div>
+
+          <!-- Quadrante 4: Braille -->
+          <div class="skeleton-mobile-quadrant">
+            <div class="skeleton-element skeleton-mobile-icon"></div>
+            <div class="skeleton-element skeleton-mobile-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SCRIPTS - Carregamento Organizado
+         ExperienceRouter (no head) gerencia quais scripts executam
+         ══════════════════════════════════════════════════════════════ -->
+    
+    <!-- 1. Bibliotecas Compartilhadas -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- 2. Desktop Scripts (com guards experience:ready) -->
     <script src="https://unpkg.com/rough-notation@0.5.1/lib/rough-notation.iife.js"></script>
-    <!-- Tippy.js para tooltips -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script src="./assets/js/rough.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="./assets/js/minimap.js"></script>
-    <!-- <script src="./assets/js/audio-scanner.js"></script> -->
-    <!-- Configuração dos áudios -->
-    <script src="./assets/js/audio-config.js"></script>
-    <!-- Player -->
-    <script src="./assets/js/audio-player.js"></script>
     <script src="./assets/js/cursor.js"></script>
     <script src="assets/js/drawSVG.js"></script>
-
-    <!-- Incluindo a biblioteca pdf-lib via CDN -->
+    
+    <!-- Audio Player Desktop -->
+    <script src="./assets/js/audio-config.js"></script>
+    <script src="./assets/js/audio-player.js"></script>
+    
+    <!-- PDF Generator Desktop -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <script src="assets/js/pdf-lib.js"></script>
-
-    <!-- Incluindo a biblioteca liblouis-js para conversão Braille -->
+    
+    <!-- Braille Generator Desktop -->
     <script src="https://cdn.jsdelivr.net/npm/liblouis-build/build-no-tables-utf16.js"></script>
     <script src="assets/js/braille-lib.js"></script>
+    
+    <!-- 3. Mobile Scripts -->
+    <script src="assets/js/mobile/mobile-experience.js"></script>
+    <script src="assets/js/mobile/mode-navigation.js"></script>
+    
+    <!-- 4. Inicialização Final -->
     <script>
       lucide.createIcons();
     </script>

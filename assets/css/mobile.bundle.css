@@ -1,0 +1,14 @@
+/**
+ * MOBILE BUNDLE - Estilos carregados apenas no mobile
+ * Carregado dinamicamente pelo ExperienceRouter
+ */
+
+/* Base Mobile */
+@import url('./mobile/mobile-base.css');
+@import url('./mobile/mobile-responsive.css');
+@import url('./mobile/mobile-transitions.css');
+
+/* Componentes Mobile */
+@import url('./mobile/mode-selector.css');
+@import url('./mobile/mobile-navigation.css');
+

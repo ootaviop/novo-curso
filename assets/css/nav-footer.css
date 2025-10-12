@@ -14,20 +14,24 @@
 }
 
 .nav-item.next {
-  /* flex-direction: row-reverse; */
-  text-align: right;
+flex-direction: row;
+    text-align: right;
+    justify-content: end;
 }
 
 .nav-icon {
-  width: 48px;
-  height: 48px;
+  width: 48px !important;
+  height: 48px !important;
   border: 2px solid #ccc;
   border-radius: 50%;
-  display: flex;
+  display: flex;  
   align-items: center;
   justify-content: center;
   font-size: calc(1.25rem * var(--scale-multiplier));
+  display: inline-flex !important;
 }
+
+
 
 .nav-icon.orange {
   background-color: #ff4f00;

@@ -1,0 +1,25 @@
+/**
+ * DESKTOP BUNDLE - Estilos carregados apenas no desktop
+ * Carregado dinamicamente pelo ExperienceRouter
+ */
+
+/* Sistema de Cursor Custom */
+@import url('./cursor.css');
+@import url('./no-cursor.css');
+
+/* Navegação e Layout Desktop */
+@import url('./minimap.css');
+@import url('./nav-footer.css');
+@import url('./hero.css');
+@import url('./layout.css');
+
+/* Componentes Desktop */
+@import url('./audio-player.css');
+@import url('./arrow.css');
+@import url('./pdf.css');
+
+/* Funcionalidades Desktop */
+@import url('./tooltip.css');
+@import url('./callout.css');
+@import url('./braille.css');
+

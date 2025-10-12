@@ -735,11 +735,22 @@ class ScrollMinimap {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🚀 INICIALIZAÇÃO
+// 🚀 INICIALIZAÇÃO - COM GUARD PARA DESKTOP ONLY
 // ═══════════════════════════════════════════════════════════════
-const minimap = new ScrollMinimap({
-  scrollOffset: 80,
-  indicatorSnapToLine: true,
-  sectionDetectionOffset: "third",
-  levelOpacities: [1.0, 0.9, 0.8, 0.7, 0.6],
+
+// Aguarda evento de experiência pronta
+document.addEventListener('experience:ready', (e) => {
+  if (e.detail.type !== 'desktop') {
+    console.log('🚫 Minimap disabled for mobile');
+    return;
+  }
+  
+  console.log('✅ Minimap enabled for desktop');
+  
+  const minimap = new ScrollMinimap({
+    scrollOffset: 80,
+    indicatorSnapToLine: true,
+    sectionDetectionOffset: "third",
+    levelOpacities: [1.0, 0.9, 0.8, 0.7, 0.6],
+  });
 });

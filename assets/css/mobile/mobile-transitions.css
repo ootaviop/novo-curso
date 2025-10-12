@@ -1,0 +1,171 @@
+/* ==========================================================================
+   MOBILE TRANSITIONS & ANIMATIONS
+   ========================================================================== */
+
+/* Transições modernas e fluidas */
+.mobile-transition {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.mobile-transition-fast {
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.mobile-transition-slow {
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Easing functions modernas */
+.mobile-ease-out-expo {
+  transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.mobile-ease-out-back {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mobile-ease-in-out-quart {
+  transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* Animações de entrada */
+@keyframes mobileSlideInUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes mobileSlideInDown {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes mobileSlideInLeft {
+  from {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes mobileSlideInRight {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes mobileFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mobileScaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Classes de animação */
+.mobile-animate-slide-up {
+  animation: mobileSlideInUp 0.5s ease-out;
+}
+
+.mobile-animate-slide-down {
+  animation: mobileSlideInDown 0.5s ease-out;
+}
+
+.mobile-animate-slide-left {
+  animation: mobileSlideInLeft 0.5s ease-out;
+}
+
+.mobile-animate-slide-right {
+  animation: mobileSlideInRight 0.5s ease-out;
+}
+
+.mobile-animate-fade-in {
+  animation: mobileFadeIn 0.4s ease-out;
+}
+
+.mobile-animate-scale-in {
+  animation: mobileScaleIn 0.3s ease-out;
+}
+
+/* Delays para animações sequenciais */
+.mobile-delay-1 { animation-delay: 0.1s; }
+.mobile-delay-2 { animation-delay: 0.2s; }
+.mobile-delay-3 { animation-delay: 0.3s; }
+.mobile-delay-4 { animation-delay: 0.4s; }
+
+/* Hover effects para touch devices */
+.mobile-hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.mobile-hover-shadow:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.mobile-hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Active states para touch */
+.mobile-active-scale:active {
+  transform: scale(0.98);
+}
+
+.mobile-active-shadow:active {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Transições de página */
+.mobile-page-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.mobile-page-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 0.4s ease-out;
+}
+
+.mobile-page-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.mobile-page-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: all 0.4s ease-in;
+}

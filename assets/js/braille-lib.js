@@ -1,4 +1,13 @@
-document.addEventListener('DOMContentLoaded', () => {
+// Aguarda evento de experiência pronta
+document.addEventListener('experience:ready', (e) => {
+    if (e.detail.type !== 'desktop') {
+        console.log('🚫 Braille Generator disabled for mobile');
+        return;
+    }
+    
+    console.log('✅ Braille Generator enabled for desktop');
+
+    // Executa diretamente (DOM já está pronto)
     const brailleBtn = document.querySelector('.braille-trigger-btn');
     const contentDiv = document.getElementById('contentAula');
 

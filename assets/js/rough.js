@@ -462,14 +462,24 @@ class RoughAnnotationSystem {
 const roughAnnotationSystem = new RoughAnnotationSystem();
 
 // Exporta para uso global
-window.roughAnnotationSystem = roughAnnotationSystem;
+// Aguarda evento de experiência pronta
+document.addEventListener('experience:ready', (e) => {
+  if (e.detail.type !== 'desktop') {
+    console.log('🚫 Rough Annotation System disabled for mobile');
+    return;
+  }
+  
+  console.log('✅ Rough Annotation System enabled for desktop');
+  
+  window.roughAnnotationSystem = roughAnnotationSystem;
 
-// Log de boas-vindas
-console.log(
-  "%c🖍️ Rough Annotation System carregado!",
-  "color: #ff6b35; font-weight: bold; font-size: 14px;"
-);
-console.log(
-  "%cClasses disponíveis: .cls-underline, .cls-box, .cls-circle, .cls-highlight, .cls-strike, .cls-crossed, .cls-bracket",
-  "color: #666; font-size: 12px;"
-);
+  // Log de boas-vindas
+  console.log(
+    "%c🖍️ Rough Annotation System carregado!",
+    "color: #ff6b35; font-weight: bold; font-size: 14px;"
+  );
+  console.log(
+    "%cClasses disponíveis: .cls-underline, .cls-box, .cls-circle, .cls-highlight, .cls-strike, .cls-crossed, .cls-bracket",
+    "color: #666; font-size: 12px;"
+  );
+});

@@ -942,13 +942,23 @@ class AudioPlayer {
 
 let audioPlayer;
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => {
-    audioPlayer = new AudioPlayer();
-  });
-} else {
-  audioPlayer = new AudioPlayer();
-}
+// Aguarda evento de experiência pronta
+document.addEventListener('experience:ready', (e) => {
+  if (e.detail.type !== 'desktop') {
+    console.log('🚫 Audio Player disabled for mobile');
+    return;
+  }
+  
+  console.log('✅ Audio Player enabled for desktop');
 
-// Exporta para acesso global (útil para debug)
-window.audioPlayer = audioPlayer;
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      audioPlayer = new AudioPlayer();
+    });
+  } else {
+    audioPlayer = new AudioPlayer();
+  }
+
+  // Exporta para acesso global (útil para debug)
+  window.audioPlayer = audioPlayer;
+});

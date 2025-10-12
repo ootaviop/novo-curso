@@ -219,12 +219,21 @@ class CursorSystem {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 🚀 INICIALIZAÇÃO
+// 🚀 INICIALIZAÇÃO - COM GUARD PARA DESKTOP ONLY
 // ═══════════════════════════════════════════════════════════
 
 let cursorSystem;
 
-document.addEventListener('DOMContentLoaded', () => {
+// Aguarda evento de experiência pronta
+document.addEventListener('experience:ready', (e) => {
+  if (e.detail.type !== 'desktop') {
+    console.log('🚫 Cursor system disabled for mobile');
+    return;
+  }
+  
+  console.log('✅ Cursor system enabled for desktop');
+  
+  // Inicializa cursor system apenas no desktop
   cursorSystem = new CursorSystem();
   window.cursorSystem = cursorSystem;
 });

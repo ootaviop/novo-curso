@@ -1,0 +1,113 @@
+/* ==========================================================================
+   MOBILE EXPERIENCE BASE STYLES
+   ========================================================================== */
+
+/* Reset para experiência mobile */
+.mobile-experience {
+  display: none;
+  width: 100%;
+  min-height: 100vh;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Container principal mobile */
+.mobile-container {
+  width: 100%;
+  max-width: 100vw;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Reset específico para elementos mobile */
+.mobile-experience * {
+  box-sizing: border-box;
+}
+
+.mobile-experience button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.mobile-experience a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Touch-friendly targets */
+.mobile-experience button,
+.mobile-experience [role="button"],
+.mobile-experience .touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Typography mobile */
+.mobile-experience h1,
+.mobile-experience h2,
+.mobile-experience h3,
+.mobile-experience h4,
+.mobile-experience h5,
+.mobile-experience h6 {
+  font-family: var(--font);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.mobile-experience p {
+  font-family: var(--font);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Utility classes */
+.mobile-text-center {
+  text-align: center;
+}
+
+.mobile-hidden {
+  display: none !important;
+}
+
+.mobile-visible {
+  display: block !important;
+}
+
+.mobile-flex {
+  display: flex;
+}
+
+.mobile-flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsive spacing */
+.mobile-p-1 { padding: 0.5rem; }
+.mobile-p-2 { padding: 1rem; }
+.mobile-p-3 { padding: 1.5rem; }
+.mobile-p-4 { padding: 2rem; }
+
+.mobile-m-1 { margin: 0.5rem; }
+.mobile-m-2 { margin: 1rem; }
+.mobile-m-3 { margin: 1.5rem; }
+.mobile-m-4 { margin: 2rem; }
+
+/* Safe area para dispositivos com notch */
+.mobile-experience {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}

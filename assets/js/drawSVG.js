@@ -1,4 +1,13 @@
-document.addEventListener("DOMContentLoaded", () => {
+// Aguarda evento de experiência pronta
+document.addEventListener('experience:ready', (e) => {
+  if (e.detail.type !== 'desktop') {
+    console.log('🚫 SVG Animations disabled for mobile');
+    return;
+  }
+  
+  console.log('✅ SVG Animations enabled for desktop');
+
+  // Executa diretamente (DOM já está pronto)
   // 1. Seleciona TODOS os contêineres de callout na página
   // O seletor [class^="callout-"] pega qualquer elemento cuja classe comece com "callout-"
   // Inclui também os botões do topo da página
