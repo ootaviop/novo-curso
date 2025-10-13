@@ -1,0 +1,422 @@
+/* ═══════════════════════════════════════════════════════════════
+   PODCAST PLAYER - DESIGN MINIMALISTA NOVO
+   ═══════════════════════════════════════════════════════════════ 
+   
+   Interface minimalista seguindo design fornecido
+   - Layout vertical simples
+   - Botão play/pause grande circular laranja
+   - Controles em linha horizontal
+   - Barra de progresso fina
+   - Fundo branco puro
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════
+   VARIÁVEIS CSS
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  /* Cores principais */
+  --podcast-bg: #FFFFFF;
+  --podcast-text: #2A2A2A;
+  --podcast-text-muted: #6A6A6A;
+  --podcast-orange: #FF6B35;
+  --podcast-gray-light: #E0E0E0;
+  --podcast-gray-medium: #4A4A4A;
+  --podcast-border: #F0F0F0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CONTAINER PRINCIPAL
+   ═══════════════════════════════════════════════════════════════ */
+.mobile-podcast-player {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--podcast-bg);
+  z-index: 1000;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BARRA DE NAVEGAÇÃO SUPERIOR
+   ═══════════════════════════════════════════════════════════════ */
+.podcast-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--podcast-border);
+  min-height: 60px;
+}
+
+.podcast-nav-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  color: var(--podcast-text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.15s ease;
+}
+
+.podcast-nav-back:active {
+  background: var(--podcast-border);
+}
+
+.podcast-nav-share {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  color: var(--podcast-text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.15s ease;
+}
+
+.podcast-nav-share:active {
+  background: var(--podcast-border);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CONTEÚDO PRINCIPAL
+   ═══════════════════════════════════════════════════════════════ */
+.podcast-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1.5rem;
+  justify-content: center;
+  pointer-events: auto;
+  position: relative;
+  z-index: 5;
+}
+
+/* Título centralizado */
+.podcast-lesson-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--podcast-text);
+  text-align: center;
+  margin: 0 0 3rem 0;
+  line-height: 1.3;
+  padding: 0 1rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BOTÃO PLAY/PAUSE PRINCIPAL
+   ═══════════════════════════════════════════════════════════════ */
+.podcast-play-pause {
+  width: 80px;
+  height: 80px;
+  background: var(--podcast-orange);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 2rem 0;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  pointer-events: auto;
+  position: relative;
+  z-index: 10;
+}
+
+.podcast-play-pause:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CONTROLES EM LINHA
+   ═══════════════════════════════════════════════════════════════ */
+.podcast-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin: 0 0 2rem 0;
+}
+
+.podcast-control-btn {
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: 2px solid var(--podcast-gray-medium);
+  border-radius: 50%;
+  color: var(--podcast-gray-medium);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  pointer-events: auto;
+  position: relative;
+  z-index: 10;
+}
+
+.podcast-control-btn:active {
+  background: var(--podcast-border);
+  border-color: var(--podcast-orange);
+  color: var(--podcast-orange);
+  transform: scale(0.95);
+}
+
+/* Botão de velocidade específico */
+.podcast-control-btn.speed {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Ícones customizados para skip */
+.podcast-control-btn.skip svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BARRA DE PROGRESSO
+   ═══════════════════════════════════════════════════════════════ */
+.podcast-progress-container {
+  width: 100%;
+  max-width: 300px;
+}
+
+.podcast-progress-bar {
+  position: relative;
+  height: 4px;
+  background: var(--podcast-gray-light);
+  border-radius: 2px;
+  margin: 0.75rem 0;
+  cursor: pointer;
+  transition: height 0.15s ease;
+}
+
+.podcast-progress-bar:active {
+  height: 6px;
+}
+
+.podcast-progress-fill {
+  height: 100%;
+  background: var(--podcast-orange);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.1s ease-out;
+}
+
+.podcast-progress-scrubber {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: white;
+  border: 2px solid var(--podcast-orange);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.15s ease-out;
+}
+
+.podcast-time-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--podcast-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ESTADOS DE LOADING E ERRO
+   ═══════════════════════════════════════════════════════════════ */
+.podcast-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: var(--podcast-text-muted);
+  font-size: 0.875rem;
+}
+
+.podcast-loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--podcast-gray-light);
+  border-top: 2px solid var(--podcast-orange);
+  border-radius: 50%;
+  animation: podcast-spin 1s linear infinite;
+  margin-right: 0.75rem;
+}
+
+@keyframes podcast-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.podcast-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  padding: 1rem;
+  color: #dc2626;
+  text-align: center;
+  margin: 1rem;
+}
+
+.podcast-error-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVIDADE
+   ═══════════════════════════════════════════════════════════════ */
+
+/* iPhone SE, 12/13 mini (375px-390px) */
+@media (max-width: 400px) {
+  .podcast-lesson-title {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  
+  .podcast-play-pause {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8rem;
+  }
+  
+  .podcast-controls {
+    gap: 1.5rem;
+  }
+  
+  .podcast-control-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .podcast-progress-container {
+    max-width: 280px;
+  }
+}
+
+/* Telas maiores */
+@media (min-width: 431px) {
+  .podcast-lesson-title {
+    font-size: 1.75rem;
+  }
+  
+  .podcast-play-pause {
+    width: 90px;
+    height: 90px;
+    font-size: 2.2rem;
+  }
+  
+  .podcast-controls {
+    gap: 2.5rem;
+  }
+  
+  .podcast-control-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
+  }
+  
+  .podcast-progress-container {
+    max-width: 350px;
+  }
+}
+
+/* Landscape */
+@media (orientation: landscape) and (max-height: 500px) {
+  .podcast-content {
+    flex-direction: row;
+    gap: 2rem;
+    padding: 1rem 1.5rem;
+  }
+  
+  .podcast-lesson-title {
+    text-align: left;
+    margin-bottom: 0;
+    margin-right: 2rem;
+    flex: 1;
+  }
+  
+  .podcast-play-pause {
+    margin-bottom: 0;
+    margin-right: 2rem;
+  }
+  
+  .podcast-controls {
+    margin-bottom: 0;
+    margin-right: 2rem;
+  }
+  
+  .podcast-progress-container {
+    flex: 1;
+    max-width: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACESSIBILIDADE
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .podcast-play-pause,
+  .podcast-control-btn,
+  .podcast-progress-bar,
+  .podcast-loading-spinner {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* Focus states */
+.podcast-play-pause:focus,
+.podcast-control-btn:focus,
+.podcast-nav-back:focus,
+.podcast-nav-share:focus {
+  outline: 2px solid var(--podcast-orange);
+  outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .podcast-progress-fill {
+    background: var(--podcast-text);
+  }
+  
+  .podcast-play-pause {
+    background: var(--podcast-text);
+    color: var(--podcast-bg);
+  }
+  
+  .podcast-control-btn {
+    border-color: var(--podcast-text);
+    color: var(--podcast-text);
+  }
+}

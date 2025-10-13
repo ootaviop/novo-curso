@@ -274,14 +274,88 @@ class MobileExperience {
   }
   
   /**
-   * Carrega interface do modo (placeholder para próximas fases)
+   * Carrega interface do modo
    */
   loadModeInterface(mode) {
-    // TODO: Implementar interfaces específicas nas próximas fases
     console.log(`Loading interface for mode: ${mode}`);
     
-    // Por enquanto, apenas mostra uma mensagem
-    this.showModePlaceholder(mode);
+    switch (mode) {
+      case 'podcast':
+        this.loadPodcastInterface();
+        break;
+      case 'texto':
+        this.showModePlaceholder(mode);
+        break;
+      case 'pdf':
+        this.showModePlaceholder(mode);
+        break;
+      case 'braille':
+        this.showModePlaceholder(mode);
+        break;
+      default:
+        console.warn(`Modo não implementado: ${mode}`);
+        this.showModePlaceholder(mode);
+    }
+  }
+  
+  /**
+   * Carrega interface do podcast
+   */
+  loadPodcastInterface() {
+    const container = document.querySelector('.mobile-podcast-player');
+    if (!container) {
+      console.error('Container do podcast player não encontrado');
+      return;
+    }
+    
+    // Esconde outros elementos mobile
+    this.hideMobileElements();
+    
+    // Mostra container do podcast
+    container.style.display = 'block';
+    
+    // Inicializa o player
+    try {
+      this.currentPodcastPlayer = new PodcastPlayer(container, this);
+      console.log('✅ Interface do podcast carregada');
+    } catch (error) {
+      console.error('❌ Erro ao carregar interface do podcast:', error);
+      this.showModePlaceholder('podcast');
+    }
+  }
+  
+  /**
+   * Esconde elementos mobile padrão
+   */
+  hideMobileElements() {
+    const elementsToHide = [
+      '.mobile-mode-selector',
+      '.mobile-mode-nav'
+    ];
+    
+    elementsToHide.forEach(selector => {
+      const element = document.querySelector(selector);
+      if (element) {
+        element.style.display = 'none';
+      }
+    });
+  }
+  
+  /**
+   * Mostra elementos mobile padrão
+   */
+  showMobileElements() {
+    const elementsToShow = [
+      '.mobile-mode-selector',
+      '.mobile-mode-nav'
+    ];
+    
+    elementsToShow.forEach(selector => {
+      const element = document.querySelector(selector);
+      if (element) {
+        element.style.display = '';
+      }
+    });
   }
   
   /**
@@ -305,12 +379,27 @@ class MobileExperience {
    * Retorna ao seletor de modos
    */
   returnToModeSelector() {
+    // Cleanup do player atual se existir
+    if (this.currentPodcastPlayer) {
+      this.currentPodcastPlayer.cleanup();
+      this.currentPodcastPlayer = null;
+    }
+    
     // Esconde navegação
     this.hideNavigation();
     
     // Remove placeholder atual
     const placeholder = document.querySelector('.mobile-mode-placeholder');
     if (placeholder) placeholder.remove();
+    
+    // Esconde container do podcast
+    const podcastContainer = document.querySelector('.mobile-podcast-player');
+    if (podcastContainer) {
+      podcastContainer.style.display = 'none';
+    }
+    
+    // Mostra elementos mobile padrão
+    this.showMobileElements();
     
     // Mostra seletor de modos
     this.showModeSelector();

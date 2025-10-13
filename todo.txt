@@ -12,18 +12,28 @@
     -> Interface para celular
         >> Como você deseja consumir essa aula?
             -> Podcast
+                [
+                    O que essa Interface precisa ter?
+
+                    - Player de áudio com controles para pausar, avançar e retroceder
+                    - UI de onda de som se movendo
+                    - UI de download e compartilhamento do áudio
+                ]
                 --> "Ouça a aula" ; "Salve o áudio para ouvir mais tarde!"
                 >> Permitir que o usuário baixe o áudio da aula.
                 >> Inspirar no design do Spotify
-                >> 
+                
             -> Texto Corrido
             -> PDF
             -> Braille
 
-
-
+--------------------------------------------------------------------
 
 # A corrigir
 
     -> Área de clique do cursor está incorreta.
     -> As animações dos ícones estão funcionando, mas estão descompassadas com o restante da UI.
+
+--------------------------------------------------------------------
+
+Layouts de glassmorphism como o Spotify são bem bonitos e modernos.

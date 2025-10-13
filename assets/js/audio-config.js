@@ -72,5 +72,19 @@ const audioConfig = {
   }
 };
 
+// ═══════════════════════════════════════════════════════════════
+// 🎵 ÁUDIOS CONSOLIDADOS (MODO PODCAST)
+// ═══════════════════════════════════════════════════════════════
+
+// Configuração para áudios consolidados (todos os parágrafos unidos)
+audioConfig.consolidated = {
+  'aula-2-lideranca': {
+    file: './audio/consolidado/aula-2-completo.mp3',
+    title: 'Liderança escolar eficaz é transformacional e compartilhada',
+    duration: 397, // segundos (6:37)
+    description: 'Aula completa sobre liderança escolar transformacional e distribuída'
+  }
+};
+
 // Exporta para uso global
 window.audioConfig = audioConfig;
