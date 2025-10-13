@@ -16,6 +16,7 @@
 .nav-item.next {
   /* flex-direction: row-reverse; */
   text-align: right;
+  justify-content: end;
 }
 
 .nav-icon {

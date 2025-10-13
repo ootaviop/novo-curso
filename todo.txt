@@ -70,5 +70,25 @@ Lista de tarefas
 [x] Adicionar delay no aparecimento das notations
 
 
-O arquivo "audio-player.js" cria dinamicamente uma parcela importante do HTML, algo que não é necessário, visto que eu posso muito bem inserir diretamente e poupar o sistema de ter que criar e classificar os elementos.
-Eu gostaria de sua ajuda para ver o que podemos tirar do script e escrever diretamente no HTML para reduzir o tamanho e a complexidade desse arquivo que já está com 800 linhas.
+Eu posso muito bem fundir leitura guiada com podcast, sem prejuízo algum.  Na interface do podcast eu coloco um botão para ver o texto, e o sistema vai acompanhando
+a leitura
+
+Lista de formatos:
+Ao escolher o formato o usuário pode ou não marcar a caixinha de "lembrar minha escolha".
+
+-> Podcast
+    >> Usuário não verá inicialmente o texto, apenas o player de áudio.
+    >> Estão disponíveis os botões: avançar 15s; retroceder 15s; play/pause; switcher de velocidade do áudio; botão voltar; botão compartilhar/baixar; botão exibir texto;
+    >> Ao final do podcast, aparecem os botões "ouvir de novo"; "próxima aula"
+
+-> Texto corrido
+    >> Usuário vê a página padrão da aula.
+    >> Componentes destaque, citação e botões de navegação.
+
+-> PDF
+    >> Usuário é redirecionado para uma tela "Material em PDF" - 'Baixe o materia completo da aula para estudar offline'
+    >> Baixar PDF - 2,4MB - 15 páginas
+
+-> Braille
+    >> Acesse o conteúdo educacional em formato braille para pessoas com deficiência
+    >> Baixar aula em formato .BRF
