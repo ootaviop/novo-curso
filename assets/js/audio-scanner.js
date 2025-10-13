@@ -55,6 +55,7 @@
 
   const elementsFound = [];
   const audioConfigTemplate = {};
+  
 
   // Itera em ordem, numerando sequencialmente
   allElements.forEach((element, index) => {
