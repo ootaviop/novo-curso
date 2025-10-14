@@ -89,7 +89,7 @@ class RoughAnnotationSystem {
         type: "highlight",
         strokeWidth: this.strokeWidth,
         multiline: true,
-        animationDuration: 1300,
+        animationDuration: 1000,
         color: colors.softYellow,
       },
       "cls-strike": {
@@ -149,7 +149,7 @@ class RoughAnnotationSystem {
     this.observer = new IntersectionObserver(
       (entries) => this.handleIntersection(entries),
       {
-        rootMargin: "-350px 0px", // Dispara 350px DEPOIS de entrar
+        rootMargin: "-200px 0px", // Dispara 200px DEPOIS de entrar
         threshold: 0,
       }
     );
@@ -310,7 +310,7 @@ class RoughAnnotationSystem {
       }
 
       // Aguarda duração da animação + 250ms
-      const waitMs = (item.duration || 800) + 250;
+      const waitMs = (item.duration || 800) + 50;
       await this.sleep(waitMs);
     }
     this.isProcessingQueue = false;

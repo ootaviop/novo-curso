@@ -147,6 +147,7 @@ a[target="_blank"],
 a[rel*="external"] {
   position: relative;
   box-sizing: border-box;
+  white-space: nowrap;
 }
 
 a[target="_blank"]:hover,
@@ -164,6 +165,7 @@ a[rel*="external"]::after {
   margin-left: calc(0.3rem * var(--scale-multiplier));
   vertical-align: middle;
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
 /* Link externo */
@@ -174,6 +176,7 @@ a[rel*="external"]:hover::after {
   margin-left: calc(0.3rem * var(--scale-multiplier));
   vertical-align: middle;
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
 .link-externo {
