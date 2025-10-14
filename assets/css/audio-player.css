@@ -517,35 +517,98 @@ body.audio-player-active svg[class*="rough-annotation"] {
 
 @media (max-width: 968px) {
   .audio-player-bar {
-    height: auto;
-    padding: 1rem;
-    flex-direction: column;
-    gap: 0.75rem;
+    height: 90px; /* Altura fixa compacta em mobile */
+    padding: 0.75rem 1rem; /* Padding reduzido */
+    flex-direction: row; /* Layout horizontal compacto */
+    gap: 0.5rem; /* Gap reduzido */
   }
 
-  .player-info,
-  .player-controls,
-  .player-extras {
-    width: 100%;
-    max-width: 100%;
-    justify-content: center;
+  /* Ocultar elementos secundários em mobile */
+  .player-speed,
+  .player-volume,
+  .player-download-btn {
+    display: none !important;
   }
 
+  /* Layout compacto para as seções */
   .player-info {
-    justify-content: flex-start;
+    flex: 0 0 auto;
+    min-width: auto;
+    gap: 0.5rem;
   }
 
-  .player-extras {
-    justify-content: space-between;
-    gap: 1rem; /* Reduzido para mobile */
+  .player-icon {
+    width: 40px; /* Ícone menor */
+    height: 40px;
+    font-size: 1.2rem;
   }
 
   .player-title {
-    max-width: 200px;
+    max-width: 150px; /* Título mais compacto */
+    font-size: 0.8rem;
+  }
+
+  .player-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .player-controls {
+    flex: 1;
+    max-width: none;
+  }
+
+  .player-buttons {
+    gap: 0.75rem; /* Botões mais próximos */
+  }
+
+  .player-btn {
+    padding: 0.375rem; /* Botões menores */
+  }
+
+  .player-btn.btn-play-pause {
+    width: 32px;
+    height: 32px;
+  }
+
+  .player-btn.btn-play-pause .material-symbols-outlined {
+    font-size: 1.5rem;
+  }
+
+  .player-progress-container {
+    gap: 0.5rem;
+    height: 16px;
+    padding: 4px 0;
+  }
+
+  .player-time {
+    font-size: 0.65rem;
+    min-width: 35px;
+  }
+
+  .player-progress-bar {
+    height: 3px;
+  }
+
+  .player-progress-scrubber {
+    width: 10px;
+    height: 10px;
+  }
+
+  .player-extras {
+    flex: 0 0 auto;
+    min-width: auto;
+    gap: 0.5rem;
+    justify-content: flex-end;
+  }
+
+  .player-close-btn {
+    top: 0.25rem;
+    right: 0.5rem;
+    padding: 0.375rem;
   }
 
   body.audio-player-active {
-    padding-bottom: 150px;
+    padding-bottom: 90px; /* Ajustado para nova altura */
   }
 }
 
@@ -557,6 +620,10 @@ body.audio-player-active svg[class*="rough-annotation"] {
     width: 100%;
     justify-content: center;
   }
+
+  .button-circle{
+    width: 100%;
+  }
 }
 
 @media (max-width: 640px) {
@@ -565,8 +632,55 @@ body.audio-player-active svg[class*="rough-annotation"] {
     align-items: center;
   }
 
-  .player-speed {
+  .audio-player-bar {
+    height: 80px; /* Ainda mais compacto em telas pequenas */
+    padding: 0.5rem 0.75rem;
+    margin-inline: 1rem;
+  }
+
+  .player-info{
     display: none;
+  }
+
+  .player-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .player-title {
+    max-width: 120px;
+    font-size: 0.75rem;
+  }
+
+  .player-subtitle {
+    font-size: 0.65rem;
+  }
+
+  .player-buttons {
+    gap: 0.5rem;
+  }
+
+  .player-btn.btn-play-pause {
+    width: 28px;
+    height: 28px;
+  }
+
+  .player-btn.btn-play-pause .material-symbols-outlined {
+    font-size: 1.25rem;
+  }
+
+  .player-progress-container {
+    gap: 0.375rem;
+  }
+
+  .player-time {
+    font-size: 0.6rem;
+    min-width: 30px;
+  }
+
+  body.audio-player-active {
+    padding-bottom: 80px; /* Ajustado para telas pequenas */
   }
 }
 
@@ -599,10 +713,7 @@ body.audio-player-active svg[class*="rough-annotation"] {
   /* cursor: grab; */
 }
 
-.volume-slider-bar:active,
-.volume-slider-bar.dragging {
-  /* cursor: grabbing; */
-}
+/* Volume slider dragging state - cursor control removed for touch devices */
 
 .volume-slider-fill {
   height: 100%;

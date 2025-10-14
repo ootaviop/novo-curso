@@ -912,7 +912,15 @@ class AudioPlayer {
    */
   scrollToElement(element) {
     const elementTop = element.getBoundingClientRect().top + window.scrollY;
-    const offset = window.innerHeight / 3; // Posiciona no terço superior
+    const isMobile = window.innerWidth <= 968;
+    const playerHeight = this.playerBar?.offsetHeight || 0;
+    const safeMargin = 20; // margem extra de segurança
+    
+    // Em mobile: posiciona parágrafo considerando altura do player + margem segura
+    // Desktop: mantém comportamento atual (terço superior)
+    const offset = isMobile 
+      ? playerHeight + safeMargin + 40 // espaço do player + margem + respiro visual
+      : window.innerHeight / 3; // desktop mantém comportamento atual
 
     window.scrollTo({
       top: elementTop - offset,
