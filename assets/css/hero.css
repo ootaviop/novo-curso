@@ -98,3 +98,21 @@
     }
 
     
+
+
+@keyframes showSpan {
+  from{
+  opacity: 0;
+  }
+  to{
+  opacity: 1;
+  }
+}
+
+
+.time-leitura{
+  animation: showSpan 0.5s ease-in-out;
+  animation-delay: 0.4s;
+  animation-fill-mode: both;
+  opacity: 0;
+}
