@@ -92,3 +92,8 @@ Ao escolher o formato o usuário pode ou não marcar a caixinha de "lembrar minh
 -> Braille
     >> Acesse o conteúdo educacional em formato braille para pessoas com deficiência
     >> Baixar aula em formato .BRF
+
+
+    -------------------------------------------------------------
+
+-> Implementar botão baixar/compartilhar na interface de áudio(Ouvir esta aula);

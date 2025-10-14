@@ -149,8 +149,8 @@ class RoughAnnotationSystem {
     this.observer = new IntersectionObserver(
       (entries) => this.handleIntersection(entries),
       {
-        rootMargin: "-200px 0px", // Dispara 200px DEPOIS de entrar
-        threshold: 0,
+        threshold: 0.15,               // Alinhado com scroll-animations
+        rootMargin: "0px 0px -5% 0px"  // Elemento bem posicionado para leitura
       }
     );
 
@@ -297,6 +297,13 @@ class RoughAnnotationSystem {
       if (!item) continue;
       if (this.shownElements.has(el)) continue;
 
+      // ✨ CALCULA DELAY baseado na animação de scroll do elemento pai
+      const scrollAnimDelay = this.calculateScrollAnimationDelay(el);
+      
+      if (scrollAnimDelay > 0) {
+        await this.sleep(scrollAnimDelay);
+      }
+
       // Executa a animação
       item.annotation.show();
       this.shownElements.add(el);
@@ -309,11 +316,57 @@ class RoughAnnotationSystem {
         this.observer.unobserve(el);
       }
 
-      // Aguarda duração da animação + 250ms
+      // Aguarda duração da animação + 50ms
       const waitMs = (item.duration || 800) + 50;
       await this.sleep(waitMs);
     }
     this.isProcessingQueue = false;
+  }
+
+  /**
+   * Calcula delay necessário para aguardar animação de scroll do elemento pai
+   * @param {HTMLElement} element - Elemento com rough notation
+   * @returns {number} - Delay em ms
+   */
+  calculateScrollAnimationDelay(element) {
+    // Configurações do ScrollReveal (sincronizadas)
+    const SCROLL_ANIM_DURATION = 800; // duration.medium do scroll-animations.js
+    const SCROLL_STAGGER = 80; // staggerDelay do scroll-animations.js
+    const SAFETY_MARGIN = 100; // margem de segurança
+    
+    // Verifica se elemento está dentro de um parágrafo animado
+    const animatedParent = element.closest('section p, .content-wrapper p, .callout-quote-author, .callout-note, .callout-reflection, h1, h2, h3');
+    
+    if (!animatedParent) {
+      return 0; // Não está dentro de elemento animado
+    }
+    
+    // Se está em um parágrafo, calcula stagger baseado na posição
+    if (animatedParent.matches('p')) {
+      const section = animatedParent.closest('section, .content-wrapper');
+      if (section) {
+        const paragraphsInSection = Array.from(section.querySelectorAll('p'));
+        const index = paragraphsInSection.indexOf(animatedParent);
+        const staggerDelay = index * SCROLL_STAGGER;
+        return SCROLL_ANIM_DURATION + staggerDelay + SAFETY_MARGIN;
+      }
+      return SCROLL_ANIM_DURATION + SAFETY_MARGIN;
+    }
+    
+    // Se está em callout, usa delay fixo de 150ms + duração
+    if (animatedParent.matches('.callout-quote-author, .callout-note, .callout-reflection')) {
+      return SCROLL_ANIM_DURATION + 150 + SAFETY_MARGIN;
+    }
+    
+    // Se está em título, usa duração específica
+    if (animatedParent.matches('h1')) {
+      return SCROLL_ANIM_DURATION + 100 + SAFETY_MARGIN; // h1: 800ms + delay 100ms
+    }
+    if (animatedParent.matches('h2, h3')) {
+      return 600 + 80 + SAFETY_MARGIN; // h2/h3: 600ms + delay 80ms
+    }
+    
+    return 0;
   }
 
   sleep(ms) {
