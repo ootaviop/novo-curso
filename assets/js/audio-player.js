@@ -35,6 +35,7 @@ class AudioPlayer {
     this.volumeFill = null;
     this.volumeScrubber = null;
     this.volumeBtn = null;
+    this.downloadBtn = null;
 
     // --- Estado do áudio e playlist
     this.audio = new Audio();
@@ -174,6 +175,14 @@ class AudioPlayer {
       return;
     }
 
+    // Adicionar classe para animação inicial e remover após execução
+    button.classList.add('initial-animation');
+    
+    // Remover classe após a animação ser executada (0.4s delay + 0.5s duration)
+    setTimeout(() => {
+        button.classList.remove('initial-animation');
+    }, 900); // 400ms delay + 500ms duration
+
     this.triggerBtn = button;
     
     // Aplica tamanho dinâmico ao ícone SVG
@@ -265,6 +274,7 @@ class AudioPlayer {
     this.volumeFill = bar.querySelector("#volumeFill");
     this.volumeScrubber = bar.querySelector("#volumeScrubber");
     this.volumeBtn = bar.querySelector("#volumeBtn");
+    this.downloadBtn = bar.querySelector("#btnDownloadAudio");
 
     // Reinicializa o sistema de cursor para incluir a barra de progresso
     if (window.cursorSystem && typeof window.cursorSystem.reinitializeInteractiveElements === 'function') {
@@ -296,6 +306,11 @@ class AudioPlayer {
     // Volume slider - clique e arrastar
     this.setupVolumeSliderEvents();
     this.volumeBtn.addEventListener("click", () => this.toggleMute());
+
+    // Botão de download
+    if (this.downloadBtn) {
+      this.downloadBtn.addEventListener("click", () => this.downloadFullAudio());
+    }
 
     // Eventos do áudio
     this.audio.addEventListener("timeupdate", () => this.updateProgress());
@@ -903,6 +918,34 @@ class AudioPlayer {
       top: elementTop - offset,
       behavior: "smooth",
     });
+  }
+
+  /**
+   * ═══════════════════════════════════════════════════════════
+   * 💾 DOWNLOAD DO ÁUDIO COMPLETO
+   * ═══════════════════════════════════════════════════════════
+   */
+
+  /**
+   * Faz download do áudio completo da aula
+   */
+  downloadFullAudio() {
+    if (!this.config.fullAudioTrack) {
+      console.warn("[AudioPlayer] Áudio completo não configurado.");
+      return;
+    }
+
+    const fullAudioPath = this.config.basePath + this.config.fullAudioTrack;
+    
+    // Cria link temporário para download
+    const link = document.createElement('a');
+    link.href = fullAudioPath;
+    link.download = this.config.fullAudioTrack;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    console.log("[AudioPlayer] Download iniciado:", this.config.fullAudioTrack);
   }
 
   /**

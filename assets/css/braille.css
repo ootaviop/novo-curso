@@ -81,7 +81,8 @@
   }
 
   
-  .braille-trigger-btn span, .braille-trigger-btn .btn-badge{
+  .braille-trigger-btn.initial-animation:not([disabled]) span, 
+  .braille-trigger-btn.initial-animation .btn-badge {
     animation: showSpan 0.5s ease-in-out;
     animation-delay: 0.4s;
     animation-fill-mode: both;

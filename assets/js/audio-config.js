@@ -18,6 +18,9 @@ const audioConfig = {
   // Caminho base dos arquivos de áudio
   basePath: './audio/pos-cut/',
   
+  // Áudio completo da aula (para download)
+  fullAudioTrack: 'audio-aula-2-completo.mp3',
+  
   // Mapeamento dos áudios
   // Chave: valor do data-audio no HTML
   // Valor: nome do arquivo .mp3

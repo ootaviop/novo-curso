@@ -81,7 +81,7 @@
   }
 
   
-  .pdf-trigger-btn span, .pdf-trigger-btn .btn-badge{
+  .pdf-trigger-btn.initial-animation span, .pdf-trigger-btn.initial-animation .btn-badge{
     animation: showSpan 0.5s ease-in-out;
     animation-delay: 0.4s;
     animation-fill-mode: both;

@@ -5,6 +5,138 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Módulo 1 - Aula 2 - Liderança Eficaz</title>
+  
+  <!-- ═══════════════════════════════════════════════════════════════
+       🎨 SKELETON LOADER - CSS Crítico Inline
+       Renderiza instantaneamente antes de qualquer CSS externo
+       ═══════════════════════════════════════════════════════════════ -->
+  <style>
+    #skeleton-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      z-index: 9999;
+      overflow: hidden;
+      transition: opacity 0.3s ease-out;
+    }
+    
+    #skeleton-loader.loaded {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .skeleton-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .skeleton-block {
+      background: #e0e0e0;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+    
+    .skeleton-pulse {
+      animation: skeleton-pulse 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes skeleton-pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+    
+    /* Breadcrumb skeleton */
+    .skeleton-breadcrumb {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .skeleton-breadcrumb-item {
+      height: 16px;
+      width: 80px;
+      background: #e0e0e0;
+      border-radius: 4px;
+    }
+    
+    /* Título skeleton */
+    .skeleton-title {
+      height: 48px;
+      width: 90%;
+      margin-bottom: 1.5rem;
+    }
+    
+    /* Meta skeleton */
+    .skeleton-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .skeleton-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #e0e0e0;
+    }
+    
+    .skeleton-text {
+      height: 16px;
+      width: 150px;
+    }
+    
+    /* Botões skeleton */
+    .skeleton-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+    
+    .skeleton-button {
+      height: 44px;
+      width: 160px;
+      border-radius: 8px;
+    }
+    
+    /* Parágrafos skeleton */
+    .skeleton-paragraph {
+      height: 20px;
+      margin-bottom: 1rem;
+    }
+    
+    .skeleton-paragraph.w-100 { width: 100%; }
+    .skeleton-paragraph.w-95 { width: 95%; }
+    .skeleton-paragraph.w-90 { width: 90%; }
+    .skeleton-paragraph.w-85 { width: 85%; }
+    .skeleton-paragraph.w-80 { width: 80%; }
+    .skeleton-paragraph.w-70 { width: 70%; }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .skeleton-buttons {
+        flex-direction: column;
+      }
+      
+      .skeleton-button {
+        width: 100%;
+      }
+      
+      .skeleton-title {
+        height: 36px;
+      }
+    }
+  </style>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap"
@@ -22,6 +154,58 @@
 </head>
 
 <body>
+  <!-- ═══════════════════════════════════════════════════════════════
+       💀 SKELETON LOADER - Estrutura HTML
+       Simula a estrutura da página durante carregamento
+       ═══════════════════════════════════════════════════════════════ -->
+  <div id="skeleton-loader">
+    <div class="skeleton-container">
+      <!-- Breadcrumb skeleton -->
+      <div class="skeleton-breadcrumb">
+        <div class="skeleton-breadcrumb-item skeleton-pulse"></div>
+        <div class="skeleton-breadcrumb-item skeleton-pulse"></div>
+        <div class="skeleton-breadcrumb-item skeleton-pulse"></div>
+        <div class="skeleton-breadcrumb-item skeleton-pulse"></div>
+      </div>
+      
+      <!-- Título skeleton -->
+      <div class="skeleton-block skeleton-title skeleton-pulse"></div>
+      
+      <!-- Meta (tempo de leitura) skeleton -->
+      <div class="skeleton-meta">
+        <div class="skeleton-icon skeleton-pulse"></div>
+        <div class="skeleton-block skeleton-text skeleton-pulse"></div>
+      </div>
+      
+      <!-- Botões skeleton -->
+      <div class="skeleton-buttons">
+        <div class="skeleton-block skeleton-button skeleton-pulse"></div>
+        <div class="skeleton-block skeleton-button skeleton-pulse"></div>
+        <div class="skeleton-block skeleton-button skeleton-pulse"></div>
+      </div>
+      
+      <!-- Parágrafos skeleton -->
+      <div class="skeleton-block skeleton-paragraph w-100 skeleton-pulse"></div>
+      <div class="skeleton-block skeleton-paragraph w-95 skeleton-pulse"></div>
+      <div class="skeleton-block skeleton-paragraph w-90 skeleton-pulse"></div>
+      <div class="skeleton-block skeleton-paragraph w-85 skeleton-pulse"></div>
+      
+      <div style="margin-top: 2rem;"></div>
+      
+      <div class="skeleton-block skeleton-paragraph w-100 skeleton-pulse"></div>
+      <div class="skeleton-block skeleton-paragraph w-90 skeleton-pulse"></div>
+      <div class="skeleton-block skeleton-paragraph w-95 skeleton-pulse"></div>
+      <div class="skeleton-block skeleton-paragraph w-80 skeleton-pulse"></div>
+      
+      <div style="margin-top: 2rem;"></div>
+      
+      <div class="skeleton-block skeleton-paragraph w-95 skeleton-pulse"></div>
+      <div class="skeleton-block skeleton-paragraph w-100 skeleton-pulse"></div>
+      <div class="skeleton-block skeleton-paragraph w-85 skeleton-pulse"></div>
+      <div class="skeleton-block skeleton-paragraph w-70 skeleton-pulse"></div>
+    </div>
+  </div>
+  
   <script src="https://unpkg.com/lucide@latest"></script>
   <div class="cursor-system" id="cursorSystem">
     <div class="cursor-model cursor-model-custom" data-model="custom">
@@ -774,6 +958,15 @@
         </div>
       </div>
 
+      <!-- Botão de download do áudio completo -->
+      <button class="player-btn player-download-btn" id="btnDownloadAudio" title="Baixar áudio completo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" x2="12" y1="15" y2="3"></line>
+        </svg>
+      </button>
+
       <button class="player-btn player-close-btn" id="btnClose" title="Fechar">
         <span class="material-symbols-outlined btnCloseIcon">close</span>
       </button>
@@ -808,6 +1001,43 @@
   
   <script>
     lucide.createIcons();
+  </script>
+  
+  <!-- ═══════════════════════════════════════════════════════════════
+       🎬 SKELETON LOADER - Script de Remoção
+       Remove o skeleton quando todos os recursos estão carregados
+       ═══════════════════════════════════════════════════════════════ -->
+  <script>
+    (function() {
+      const skeletonLoader = document.getElementById('skeleton-loader');
+      
+      // Função para remover o skeleton
+      function removeSkeletonLoader() {
+        if (!skeletonLoader) return;
+        
+        // Adiciona classe 'loaded' para iniciar fade out
+        skeletonLoader.classList.add('loaded');
+        
+        // Remove do DOM após a animação (300ms)
+        setTimeout(() => {
+          if (skeletonLoader && skeletonLoader.parentNode) {
+            skeletonLoader.parentNode.removeChild(skeletonLoader);
+          }
+        }, 300);
+      }
+      
+      // Aguarda todos os recursos (CSS, imagens, fontes, scripts)
+      if (document.readyState === 'complete') {
+        // Se já carregou, remove imediatamente
+        removeSkeletonLoader();
+      } else {
+        // Aguarda o evento 'load' (tudo carregado)
+        window.addEventListener('load', removeSkeletonLoader);
+      }
+      
+      // Fallback: Remove após 5 segundos se algo der errado
+      setTimeout(removeSkeletonLoader, 5000);
+    })();
   </script>
 </body>
 

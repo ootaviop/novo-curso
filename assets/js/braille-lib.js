@@ -2,6 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const brailleBtn = document.querySelector('.braille-trigger-btn');
     const contentDiv = document.getElementById('contentAula');
 
+    // Adicionar classe para animação inicial e remover após execução
+    brailleBtn.classList.add('initial-animation');
+    
+    // Remover classe após a animação ser executada (0.4s delay + 0.5s duration)
+    setTimeout(() => {
+        brailleBtn.classList.remove('initial-animation');
+    }, 900); // 400ms delay + 500ms duration
+
     // Configuração da biblioteca liblouis
     let liblouisReady = false;
 
@@ -128,13 +136,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event listener para o botão Braille
     brailleBtn.addEventListener('click', async () => {
-        // Capturar o HTML original ANTES de qualquer modificação
-        const originalHTML = brailleBtn.innerHTML;
+        // Capturar referência ao span de texto (não ao badge)
+        const textSpan = brailleBtn.querySelector('span:not(.btn-badge)');
+        const originalText = textSpan.textContent;
         
         try {
             // Mostrar loading
             brailleBtn.disabled = true;
-            brailleBtn.innerHTML = '<span>Gerando...</span>';
+            textSpan.textContent = 'Gerando...';
 
             // Extrair conteúdo da aula
             const lessonContent = extractLessonContent();
@@ -165,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } finally {
             // Restaurar botão - sempre executar
             brailleBtn.disabled = false;
-            brailleBtn.innerHTML = originalHTML;
+            textSpan.textContent = originalText;
         }
     });
 

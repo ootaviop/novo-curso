@@ -2,6 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const downloadBtn = document.querySelector('.pdf-trigger-btn');
     const contentDiv = document.getElementById('contentAula');
 
+    // Adicionar classe para animação inicial e remover após execução
+    downloadBtn.classList.add('initial-animation');
+    
+    // Remover classe após a animação ser executada (0.4s delay + 0.5s duration)
+    setTimeout(() => {
+        downloadBtn.classList.remove('initial-animation');
+    }, 900); // 400ms delay + 500ms duration
+
     // 1. DEFINIÇÃO DE ESTILOS (sem mudanças)
     const STYLES = {
         h1: { size: 24, weight: 'bold', color: PDFLib.rgb(0.15, 0.15, 0.15), spaceAfter: 15 },
