@@ -9,6 +9,10 @@ let animationState = {
   animationId: null
 };
 
+// 🔊 Audio Context para som de celebração
+let audioContext = null;
+let celebrationBuffer = null;
+
 /**
  * Cria o elemento de conclusão da aula dinamicamente
  */
@@ -186,18 +190,59 @@ function startOrResumeCounterAnimation() {
 }
 
 /**
+ * Inicializa o áudio de celebração usando Web Audio API
+ */
+async function initCelebrationAudio() {
+  if (audioContext) return; // Já inicializado
+  
+  try {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const response = await fetch('audio/pos-cut/celebracao.mp3');
+    const arrayBuffer = await response.arrayBuffer();
+    celebrationBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    console.log('[Celebration] ✅ Áudio carregado com sucesso');
+  } catch (error) {
+    console.warn('[Celebration] ⚠️ Erro ao carregar áudio:', error);
+  }
+}
+
+/**
+ * Toca o som de celebração
+ */
+function playCelebrationSound() {
+  if (!audioContext || !celebrationBuffer) {
+    console.warn('[Celebration] Áudio não disponível');
+    return;
+  }
+  
+  // Resume contexto se suspenso (política de autoplay dos browsers)
+  if (audioContext.state === 'suspended') {
+    audioContext.resume();
+  }
+  
+  const source = audioContext.createBufferSource();
+  source.buffer = celebrationBuffer;
+  source.connect(audioContext.destination);
+  source.start(0);
+}
+
+/**
  * Dispara as 5 explosões sequenciais de confetes
  */
 function triggerConfetti() {
+  // ✅ Tocar som de celebração
+  playCelebrationSound();
+  
   const origin = getConfettiOrigin();
-  const particleCount = window.innerWidth > 768 ? 210 : 120;
+  const particleCount = window.innerWidth > 768 ? 200 : 120;
   
   const explosions = [
-    { ratio: 0.25, spread: 46, startVelocity: 55 },
-    { ratio: 0.2, spread: 60 },
-    { ratio: 0.35, spread: 100, decay: 0.91, scalar: 0.8 },
-    { ratio: 0.1, spread: 150, startVelocity: 25, decay: 0.92, scalar: 1.2 },
-    { ratio: 0.1, spread: 100, startVelocity: 45 }
+    { ratio: 0.25, spread: 60, startVelocity: 55 },
+    { ratio: 0.2, spread: 100 },
+    { ratio: 0.2, spread: 150, startVelocity: 25, decay: 0.92, scalar: 1.2 },
+    { ratio: 0.35, spread: 130, decay: 0.91, scalar: 0.9 },
+    { ratio: 0.2, spread: 145, startVelocity: 25, decay: 0.8, scalar: 1.2 },
+    { ratio: 0.25, spread: 150, startVelocity: 45, decay: 0.92, scalar: 1.2 }
   ];
   
   explosions.forEach((explosion, index) => {
@@ -207,7 +252,7 @@ function triggerConfetti() {
         particleCount: Math.floor(particleCount * explosion.ratio),
         ...explosion
       });
-    }, index * 100);
+    }, index * 140);
   });
 }
 
@@ -333,6 +378,9 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('[Completion] ⚠️ Animações desabilitadas (prefers-reduced-motion)');
     return;
   }
+  
+  // Pré-carrega áudio de celebração
+  initCelebrationAudio();
   
   console.log('[Completion] ✅ Sistema inicializado (threshold: 50%)');
   window.addEventListener('scroll', checkScroll, { passive: true });
