@@ -7,7 +7,7 @@
  * Usa IntersectionObserver para performance otimizada.
  * 
  * @requires anime.js
- * @version 1.0.0
+ * @version 2.0.0 (Simplificado)
  */
 
 class ScrollReveal {
@@ -17,15 +17,19 @@ class ScrollReveal {
       threshold: 0.15,
       rootMargin: '0px 0px -2% 0px',
       
-      // Animações
+      // Durações
       duration: {
         fast: 600,
-        medium: 800,
-        slow: 1000
+        medium: 800
       },
       
-      easing: 'easeOutCubic',
-      staggerDelay: 80,
+      // Easings customizadas
+      easings: {
+        heading: 'cubicBezier(0.33, 1, 0.68, 1)',
+        paragraph: 'cubicBezier(0.25, 1, 0.5, 1)',
+        callout: 'cubicBezier(0.34, 1.2, 0.64, 1)',
+        navigation: 'easeOutCubic',
+      },
       
       // Seletores
       selectors: {
@@ -33,8 +37,7 @@ class ScrollReveal {
         callouts: '.callout-quote-author, .callout-note, .callout-reflection',
         headings: 'h1, h2, h3',
         breadcrumb: '.breadcrumb',
-        navFooter: '.nav-lessons',
-        audioButtons: '.audio-trigger-container'
+        navFooter: '.nav-lessons'
       },
       
       ...config
@@ -52,7 +55,6 @@ class ScrollReveal {
    * ═══════════════════════════════════════════════════════════
    */
   init() {
-    // Aguarda DOM estar pronto
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => this.setup());
     } else {
@@ -61,16 +63,11 @@ class ScrollReveal {
   }
   
   setup() {
-    // Prepara elementos (estado inicial)
     this.prepareElements();
-    
-    // Cria observer
     this.createObserver();
-    
-    // Observa elementos
     this.observeElements();
     
-    console.log('✅ ScrollReveal: Sistema de animações ativado');
+    console.log('✅ ScrollReveal: Sistema ativado');
   }
   
   /**
@@ -81,40 +78,23 @@ class ScrollReveal {
   prepareElements() {
     const { selectors } = this.config;
     
-    // Parágrafos
-    document.querySelectorAll(selectors.paragraphs).forEach(el => {
+    // Aplica estado inicial para TODOS os elementos animáveis
+    const allElements = document.querySelectorAll(
+      `${selectors.paragraphs}, ${selectors.callouts}, ${selectors.headings}, ${selectors.breadcrumb}`
+    );
+    
+    allElements.forEach(el => {
       el.style.opacity = '0';
-      el.style.transform = 'translateY(20px)';
+      
+      // Define transform baseado no tipo
+      if (el.matches(selectors.callouts)) {
+        el.style.transform = 'scale(0.92)';
+      } else if (el.matches(selectors.breadcrumb)) {
+        el.style.transform = 'translateX(-30px)';
+      } else {
+        el.style.transform = 'translateY(20px)';
+      }
     });
-    
-    // Callouts
-    document.querySelectorAll(selectors.callouts).forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'scale(0.95)';
-    });
-    
-    // Títulos
-    document.querySelectorAll(selectors.headings).forEach(el => {
-      const tagName = el.tagName.toLowerCase();
-      el.style.opacity = '0';
-      // Define translateY inicial baseado no tipo de título
-      const translateY = tagName === 'h1' ? '8px' : tagName === 'h2' ? '6px' : '5px';
-      el.style.transform = `translateY(${translateY})`;
-    });
-    
-    // Breadcrumb
-    const breadcrumb = document.querySelector(selectors.breadcrumb);
-    if (breadcrumb) {
-      breadcrumb.style.opacity = '0';
-      breadcrumb.style.transform = 'translateX(-30px)';
-    }
-    
-    // Nav Footer
-    const navFooter = document.querySelector(selectors.navFooter);
-    if (navFooter) {
-      navFooter.style.opacity = '0';
-      navFooter.style.transform = 'translateY(20px)';
-    }
   }
   
   /**
@@ -123,20 +103,18 @@ class ScrollReveal {
    * ═══════════════════════════════════════════════════════════
    */
   createObserver() {
-    const options = {
-      threshold: this.config.threshold,
-      rootMargin: this.config.rootMargin
-    };
-    
     this.observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting && !this.animatedElements.has(entry.target)) {
           this.animateElement(entry.target);
           this.animatedElements.add(entry.target);
-          this.observer.unobserve(entry.target); // Anima apenas uma vez
+          this.observer.unobserve(entry.target);
         }
       });
-    }, options);
+    }, {
+      threshold: this.config.threshold,
+      rootMargin: this.config.rootMargin
+    });
   }
   
   /**
@@ -146,29 +124,24 @@ class ScrollReveal {
    */
   observeElements() {
     const { selectors } = this.config;
-    
-    // Combina todos os seletores
     const allSelectors = Object.values(selectors).join(', ');
     const elements = document.querySelectorAll(allSelectors);
     
-    elements.forEach(el => {
-      this.observer.observe(el);
-    });
+    elements.forEach(el => this.observer.observe(el));
     
-    console.log(`📊 Observando ${elements.length} elementos para animação`);
+    console.log(`📊 Observando ${elements.length} elementos`);
   }
   
   /**
    * ═══════════════════════════════════════════════════════════
-   * ✨ ANIMAÇÃO DE ELEMENTO
+   * ✨ ANIMAÇÃO DE ELEMENTO (Router)
    * ═══════════════════════════════════════════════════════════
    */
   animateElement(element) {
-    const { selectors, duration, easing, staggerDelay } = this.config;
+    const { selectors } = this.config;
     
-    // Identifica tipo de elemento
     if (element.matches(selectors.paragraphs)) {
-      this.animateParagraph(element);
+      this.animateParagraphs(element);
     } else if (element.matches(selectors.callouts)) {
       this.animateCallout(element);
     } else if (element.matches(selectors.headings)) {
@@ -182,143 +155,86 @@ class ScrollReveal {
   
   /**
    * ═══════════════════════════════════════════════════════════
-   * 📝 ANIMAÇÃO: PARÁGRAFOS
+   * 📝 ANIMAÇÕES ESPECÍFICAS
    * ═══════════════════════════════════════════════════════════
-   * Fade in + slide up com stagger entre parágrafos consecutivos
    */
-  animateParagraph(element) {
-    // Calcula delay baseado na posição do parágrafo na section
-    const section = element.closest('section, .content-wrapper');
-    if (!section) {
-      this.animateSingleParagraph(element, 0);
-      return;
-    }
-    
-    // Busca todos os parágrafos dentro da section
-    const paragraphsInSection = Array.from(section.querySelectorAll('p'));
-    const index = paragraphsInSection.indexOf(element);
-    const delay = index * this.config.staggerDelay;
-    
-    this.animateSingleParagraph(element, delay);
-  }
   
-  animateSingleParagraph(element, delay) {
+  animateParagraphs(element) {
+    // Pega todos os parágrafos da mesma section para stagger
+    const section = element.closest('section, .content-wrapper');
+    const paragraphs = section 
+      ? Array.from(section.querySelectorAll(this.config.selectors.paragraphs))
+      : [element];
+    
+    const index = paragraphs.indexOf(element);
+    
     anime({
       targets: element,
       opacity: [0, 1],
       translateY: [20, 0],
       duration: this.config.duration.medium,
-      easing: this.config.easing,
-      delay: delay
+      easing: this.config.easings.paragraph,
+      delay: index * 100 // Stagger simplificado
     });
   }
   
-  /**
-   * ═══════════════════════════════════════════════════════════
-   * 💬 ANIMAÇÃO: CALLOUTS
-   * ═══════════════════════════════════════════════════════════
-   * Scale + fade com delay para criar profundidade
-   */
   animateCallout(element) {
     anime({
       targets: element,
       opacity: [0, 1],
-      scale: [0.95, 1],
+      scale: [0.92, 1],
       duration: this.config.duration.medium,
-      easing: this.config.easing,
+      easing: this.config.easings.callout,
       delay: 150
     });
   }
   
-  /**
-   * ═══════════════════════════════════════════════════════════
-   * 📌 ANIMAÇÃO: TÍTULOS
-   * ═══════════════════════════════════════════════════════════
-   * Fade in suave com leve movimento vertical - muito sutil
-   */
   animateHeading(element) {
-    const tagName = element.tagName.toLowerCase();
-    let duration, delay, translateY;
-    
-    // Hierarquia: h1 mais suave, h3 quase imperceptível
-    switch (tagName) {
-      case 'h1':
-        duration = this.config.duration.medium;
-        delay = 100;
-        translateY = 8;
-        break;
-      case 'h2':
-        duration = this.config.duration.fast;
-        delay = 80;
-        translateY = 6;
-        break;
-      case 'h3':
-        duration = this.config.duration.fast;
-        delay = 60;
-        translateY = 5;
-        break;
-      default:
-        duration = this.config.duration.fast;
-        delay = 0;
-        translateY = 5;
-    }
-    
     anime({
       targets: element,
       opacity: [0, 1],
-      translateY: [translateY, 0],
-      duration: duration,
-      easing: 'easeOutQuad', // Easing mais suave que cubic
-      delay: delay
+      translateY: [20, 0],
+      duration: this.config.duration.fast,
+      easing: this.config.easings.heading,
+      delay: 100
     });
   }
   
-  /**
-   * ═══════════════════════════════════════════════════════════
-   * 🍞 ANIMAÇÃO: BREADCRUMB
-   * ═══════════════════════════════════════════════════════════
-   * Slide from left com fade
-   */
   animateBreadcrumb(element) {
     anime({
       targets: element,
       opacity: [0, 1],
       translateX: [-30, 0],
       duration: this.config.duration.medium,
-      easing: this.config.easing,
+      easing: this.config.easings.navigation,
       delay: 200
     });
   }
   
-  /**
-   * ═══════════════════════════════════════════════════════════
-   * 🧭 ANIMAÇÃO: NAVEGAÇÃO FOOTER
-   * ═══════════════════════════════════════════════════════════
-   * Slide up com fade, stagger nos itens
-   */
   animateNavFooter(element) {
     const navItems = element.querySelectorAll('.nav-item');
     
-    // Anima container
+    // Se não tem itens, anima o container inteiro
+    if (navItems.length === 0) {
+      anime({
+        targets: element,
+        opacity: [0, 1],
+        translateY: [20, 0],
+        duration: this.config.duration.fast,
+        easing: this.config.easings.navigation
+      });
+      return;
+    }
+    
+    // Se tem itens, anima só eles com stagger
     anime({
-      targets: element,
+      targets: navItems,
       opacity: [0, 1],
       translateY: [20, 0],
       duration: this.config.duration.fast,
-      easing: this.config.easing
+      easing: this.config.easings.navigation,
+      delay: anime.stagger(100, { start: 200 })
     });
-    
-    // Anima itens com stagger
-    if (navItems.length > 0) {
-      anime({
-        targets: navItems,
-        opacity: [0, 1],
-        translateY: [15, 0],
-        duration: this.config.duration.fast,
-        easing: this.config.easing,
-        delay: anime.stagger(100, { start: 200 })
-      });
-    }
   }
   
   /**
@@ -331,7 +247,7 @@ class ScrollReveal {
       this.observer.disconnect();
     }
     this.animatedElements.clear();
-    console.log('🧹 ScrollReveal: Sistema desativado');
+    console.log('🧹 ScrollReveal: Desativado');
   }
 }
 
@@ -341,14 +257,11 @@ class ScrollReveal {
 
 let scrollReveal;
 
-// Aguarda anime.js estar carregado
 if (typeof anime !== 'undefined') {
   scrollReveal = new ScrollReveal();
 } else {
-  console.error('❌ ScrollReveal: anime.js não encontrado. Carregue anime.js antes deste script.');
+  console.error('❌ ScrollReveal: anime.js não encontrado');
 }
 
-// Exporta para uso global
 window.ScrollReveal = ScrollReveal;
 window.scrollReveal = scrollReveal;
-

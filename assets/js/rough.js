@@ -334,6 +334,88 @@ class RoughAnnotationSystem {
 
     this.tooltipInstances.set(element, tippyInstance);
   }
+
+  /**
+   * Recria todas as annotations que já foram mostradas
+   * Útil quando o layout dos elementos mudou (ex: padding do audio-highlight)
+   */
+  refresh() {
+    console.log('[RoughAnnotationSystem] 🔄 Iniciando refresh das annotations...');
+    
+    // Coleta elementos que já foram mostrados
+    const elementsToRefresh = Array.from(this.shownElements);
+    
+    if (elementsToRefresh.length === 0) {
+      console.log('[RoughAnnotationSystem] Nenhuma annotation para refresh');
+      return;
+    }
+
+    // Remove annotations antigas
+    elementsToRefresh.forEach(element => {
+      this.destroyAnnotation(element);
+    });
+
+    // Recria annotations com novas posições
+    elementsToRefresh.forEach(element => {
+      // Encontra a classe original do elemento
+      const className = this.findAnnotationClass(element);
+      if (className) {
+        this.createAnnotation(element, className);
+        // Marca como mostrado imediatamente (sem animação)
+        const item = this.annotationMap.get(element);
+        if (item) {
+          item.annotation.show();
+          this.shownElements.add(element);
+        }
+      }
+    });
+
+    console.log(`[RoughAnnotationSystem] ✅ Refresh concluído para ${elementsToRefresh.length} annotations`);
+  }
+
+  /**
+   * Destrói uma annotation específica (SVG + referências)
+   */
+  destroyAnnotation(element) {
+    const item = this.annotationMap.get(element);
+    if (item && item.annotation) {
+      // Remove o SVG do DOM
+      const svg = element.parentNode?.querySelector('svg[class*="rough-annotation"]');
+      if (svg && svg.parentNode) {
+        svg.parentNode.removeChild(svg);
+      }
+    }
+
+    // Remove das estruturas de controle
+    this.annotationMap.delete(element);
+    this.shownElements.delete(element);
+    
+    // Remove tooltip se existir
+    if (this.tooltipInstances.has(element)) {
+      const tippyInstance = this.tooltipInstances.get(element);
+      if (tippyInstance && tippyInstance.destroy) {
+        tippyInstance.destroy();
+      }
+      this.tooltipInstances.delete(element);
+    }
+
+    // Para de observar o elemento
+    if (this.observer) {
+      this.observer.unobserve(element);
+    }
+  }
+
+  /**
+   * Encontra qual classe de annotation um elemento possui
+   */
+  findAnnotationClass(element) {
+    for (const className of Object.keys(this.annotationTypes)) {
+      if (element.classList.contains(className)) {
+        return className;
+      }
+    }
+    return null;
+  }
 }
 
 // Auto-inicialização

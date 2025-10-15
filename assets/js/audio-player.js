@@ -401,47 +401,19 @@ class AudioPlayer {
    */
   close() {
     this.pause();
-    
-    // Remove as rough notations ANTES de esconder o player para evitar o flash
-    if (window.roughAnnotationSystem) {
-      this.destroyAllRoughAnnotations();
-    }
-    
     this.hidePlayer();
     this.removeHighlight();
     
-    // Recria as rough notations com posições atualizadas
+    // Recria as rough notations com posições atualizadas após remover o highlight
     if (window.roughAnnotationSystem) {
-      // Delay para garantir que o player foi completamente removido do DOM
+      // Delay para garantir que o highlight foi removido e o layout estabilizou
       setTimeout(() => {
         window.roughAnnotationSystem.refresh();
         console.log("[AudioPlayer] ✅ Rough notations recalculadas após fechar player");
-      }, 100);
+      }, 50);
     }
   }
 
-  /**
-   * Destrói fisicamente todas as rough notations do DOM
-   */
-  destroyAllRoughAnnotations() {
-    // Remove todos os elementos SVG criados pelas rough notations
-    const roughSVGs = document.querySelectorAll('svg[class*="rough-annotation"]');
-    roughSVGs.forEach(svg => {
-      if (svg.parentNode) {
-        svg.parentNode.removeChild(svg);
-      }
-    });
-
-    // Remove também qualquer elemento com classes de rough notation que possa ter ficado
-    const roughElements = document.querySelectorAll('[class*="rough-annotation"]');
-    roughElements.forEach(element => {
-      if (element.parentNode && element.tagName === 'svg') {
-        element.parentNode.removeChild(element);
-      }
-    });
-
-    console.log(`[AudioPlayer] 🗑️ Removidos ${roughSVGs.length} elementos SVG de rough notations`);
-  }
 
   /**
    * ═══════════════════════════════════════════════════════════
