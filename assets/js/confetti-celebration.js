@@ -1,4 +1,4 @@
-// 🎉 Confetes no final da aula - VERSÃO COM SINCRONIZAÇÃO DE SCROLL
+// 🎉 Confetes no final da aula - VERSÃO COM 50% DE VISIBILIDADE
 let hasTriggered = false;
 let hasInserted = false;
 let completionObserver = null;
@@ -6,9 +6,7 @@ let animationState = {
   isAnimating: false,
   isPaused: false,
   currentValue: 0,
-  animationId: null,
-  initialAnimationComplete: false,
-  scrollControlled: false
+  animationId: null
 };
 
 // 🔊 Audio Context para som de celebração
@@ -52,8 +50,8 @@ function getConfettiOrigin() {
 }
 
 /**
- * ✨ Verifica se qualquer parte da div está visível na viewport
- * Agora inicia animação assim que elemento aparece (qualquer visibilidade)
+ * ✨ Verifica se pelo menos 50% da div está visível na viewport
+ * GARANTE que confetes só disparam quando usuário pode ver
  */
 function isCounterVisible() {
   const completionDiv = document.getElementById('lessonCompletion');
@@ -88,11 +86,10 @@ function isCounterVisible() {
                          style.visibility !== 'hidden' && 
                          parseFloat(style.opacity) > 0;
   
-  // Mudança: agora aceita qualquer visibilidade (threshold 0.1 = 10%)
-  const isVisible = visibilityRatio >= 0.1 && isHorizontallyVisible && isStyleVisible;
+  const isVisible = visibilityRatio >= 0.5 && isHorizontallyVisible && isStyleVisible;
   
   if (!isVisible) {
-    console.log(`[Completion] Visibilidade insuficiente: ${Math.round(visibilityRatio * 100)}% (necessário: 10%)`);
+    console.log(`[Completion] Visibilidade insuficiente: ${Math.round(visibilityRatio * 100)}% (necessário: 50%)`);
   } else {
     console.log(`[Completion] ✅ Visibilidade OK: ${Math.round(visibilityRatio * 100)}%`);
   }
@@ -102,8 +99,7 @@ function isCounterVisible() {
 
 /**
  * Inicia ou retoma a animação do contador
- * Fase 1: Anima rapidamente de 0 a 85%
- * Fase 2: Sincroniza com scroll real para 85-100%
+ * Só dispara quando pelo menos 50% da div está visível
  */
 function startOrResumeCounterAnimation() {
   const counter = document.getElementById('completionCounter');
@@ -120,57 +116,72 @@ function startOrResumeCounterAnimation() {
     return;
   }
   
-  // Se animação inicial já completou, ativa modo scroll-sync
-  if (animationState.initialAnimationComplete) {
-    console.log('[Completion] ✅ Ativando modo scroll-sync');
-    animationState.scrollControlled = true;
-    window.addEventListener('scroll', syncCounterWithScroll, { passive: true });
-    return;
-  }
-  
   // Aguarda transição CSS completar
   const delay = 300;
 
   setTimeout(() => {
-    beginInitialAnimation();
+    beginAnimation();
   }, delay);
   
-  function beginInitialAnimation() {
-    console.log('[Completion] ✅ Iniciando Fase 1: animação 0-85%');
+  function beginAnimation() {
+    // ✅ VERIFICAÇÃO CRÍTICA: Pelo menos 50% da div deve estar visível
+    if (!isCounterVisible()) {
+      console.warn('[Completion] ⚠️ Div não está 50% visível - aguardando...');
+      return;
+    }
+    
+    console.log('[Completion] ✅ Iniciando animação do contador');
     
     const duration = 800; // ms
     const fps = 60;
     const totalFrames = Math.round((duration / 1000) * fps);
-    const targetValue = 85; // Para em 85% ao invés de 100%
     
     let currentFrame = animationState.isPaused 
-      ? Math.round((animationState.currentValue / targetValue) * totalFrames) 
+      ? Math.round((animationState.currentValue / 100) * totalFrames) 
       : 0;
     
     animationState.isAnimating = true;
     animationState.isPaused = false;
     
     const animate = () => {
+      // ✅ Verifica a cada frame se ainda está 50% visível
+      if (!isCounterVisible()) {
+        console.warn('[Completion] ⚠️ Contador saiu da viewport - pausando');
+        animationState.isPaused = true;
+        animationState.isAnimating = false;
+        return;
+      }
+      
       currentFrame++;
       
       // Easing exponencial (easeOutExpo)
       const progress = currentFrame / totalFrames;
       const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-      const value = Math.round(eased * targetValue);
+      const value = Math.round(eased * 100);
       
-      updateCounterValue(value);
+      counter.textContent = value;
+      animationState.currentValue = value;
+      
+      // Efeito de pulse nos múltiplos de 10
+      if (value % 10 === 0 && value < 100) {
+        counter.classList.add('pulse');
+        setTimeout(() => counter.classList.remove('pulse'), 100);
+      }
       
       if (currentFrame < totalFrames) {
         animationState.animationId = requestAnimationFrame(animate);
       } else {
-        // ✅ Fase 1 completa - ativa Fase 2 (scroll-sync)
-        console.log('[Completion] ✅ Fase 1 completa (85%) - ativando scroll-sync');
+        // ✅ Atingiu 100% - ÚLTIMA VERIFICAÇÃO antes dos confetes
+        console.log('[Completion] ✅ Animação completa (100%)');
         animationState.isAnimating = false;
-        animationState.initialAnimationComplete = true;
-        animationState.scrollControlled = true;
         
-        // Ativa listener de scroll para Fase 2
-        window.addEventListener('scroll', syncCounterWithScroll, { passive: true });
+        // Verifica novamente se está 50% visível antes de disparar confetti
+        if (isCounterVisible()) {
+          console.log('[Completion] 🎊 Disparando confetes!');
+          triggerConfetti();
+        } else {
+          console.warn('[Completion] ⚠️ Confetes cancelados - usuário não está vendo');
+        }
       }
     };
     
@@ -216,49 +227,6 @@ function playCelebrationSound() {
 }
 
 /**
- * Sincroniza contador com scroll real da página (85-100%)
- */
-function syncCounterWithScroll() {
-  const scrollPercent = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight;
-  
-  // Mapeia scroll de 85-100% da página para 85-100% do contador
-  const scrollStart = 0.85; // Quando scroll atinge 85%, contador começa a mover
-  const scrollEnd = 1.0;    // Quando scroll atinge 100%, contador atinge 100%
-  
-  if (scrollPercent >= scrollStart) {
-    const scrollProgress = (scrollPercent - scrollStart) / (scrollEnd - scrollStart);
-    const counterValue = 85 + (scrollProgress * 15); // 85% + até 15%
-    const clampedValue = Math.min(100, Math.round(counterValue));
-    
-    updateCounterValue(clampedValue);
-    
-    // Dispara confetes quando ambos atingem 100%
-    if (scrollPercent >= 0.99 && clampedValue === 100 && !hasTriggered) {
-      console.log('[Completion] 🎊 Disparando confetes! (scroll + contador = 100%)');
-      triggerConfetti();
-      hasTriggered = true;
-    }
-  }
-}
-
-/**
- * Atualiza valor do contador e estado
- */
-function updateCounterValue(value) {
-  const counter = document.getElementById('completionCounter');
-  if (counter) {
-    counter.textContent = value;
-    animationState.currentValue = value;
-    
-    // Efeito de pulse nos múltiplos de 10
-    if (value % 10 === 0 && value < 100) {
-      counter.classList.add('pulse');
-      setTimeout(() => counter.classList.remove('pulse'), 100);
-    }
-  }
-}
-
-/**
  * Dispara as 5 explosões sequenciais de confetes
  */
 function triggerConfetti() {
@@ -289,7 +257,7 @@ function triggerConfetti() {
 }
 
 /**
- * ✨ Intersection Observer configurado para qualquer visibilidade
+ * ✨ Intersection Observer configurado para 50% de visibilidade
  */
 function setupCompletionObserver(element) {
   if (completionObserver) {
@@ -299,29 +267,29 @@ function setupCompletionObserver(element) {
   const options = {
     root: null,
     rootMargin: '0px',
-    threshold: 0.1 // ✅ Qualquer parte da div visível (10%)
+    threshold: 0.5 // ✅ 50% da div deve estar visível
   };
   
   completionObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       console.log(`[Completion] IntersectionObserver: ${Math.round(entry.intersectionRatio * 100)}% visível`);
       
-      if (entry.isIntersecting && entry.intersectionRatio >= 0.1) {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
         const completionDiv = document.getElementById('lessonCompletion');
         
         if (completionDiv && !completionDiv.classList.contains('visible')) {
-          console.log('[Completion] ✅ Elemento visível - adicionando classe');
+          console.log('[Completion] ✅ 50% visível - adicionando classe');
           completionDiv.classList.add('visible');
         }
         
         if (!hasTriggered) {
           hasTriggered = true;
-          console.log('[Completion] ✅ Primeira visualização - iniciando Fase 1');
+          console.log('[Completion] ✅ Primeira visualização 50% - iniciando contador');
           startOrResumeCounterAnimation();
         }
-      } else if (entry.intersectionRatio < 0.1 && hasTriggered) {
-        // Se sair completamente da viewport
-        console.log('[Completion] ⚠️ Elemento saiu da viewport');
+      } else if (entry.intersectionRatio < 0.5 && hasTriggered) {
+        // Se cair abaixo de 50% e estava rodando, pode pausar
+        console.log('[Completion] ⚠️ Visibilidade caiu abaixo de 50%');
       }
     });
   }, options);
@@ -348,19 +316,19 @@ function checkScroll() {
       navLessons.parentNode.insertBefore(completionDiv, navLessons);
       hasInserted = true;
       
-      // Configura observer com threshold de 10% (qualquer visibilidade)
+      // Configura observer com threshold de 50%
       setupCompletionObserver(completionDiv);
       
-      // ✅ FALLBACK: verifica se elemento está visível (qualquer parte)
+      // ✅ FALLBACK: verifica se 50% está visível
       let attempts = 0;
-      const maxAttempts = 5; // Menos tentativas pois condição é mais permissiva
+      const maxAttempts = 8; // Mais tentativas pois a condição é mais restritiva
       
       const tryStartAnimation = () => {
         attempts++;
         
         if (hasTriggered || attempts > maxAttempts) {
           if (attempts > maxAttempts) {
-            console.warn('[Completion] ⚠️ Fallback excedeu tentativas');
+            console.warn('[Completion] ⚠️ Fallback excedeu tentativas - usuário pode não estar vendo a div');
           }
           return;
         }
@@ -382,13 +350,6 @@ function checkScroll() {
   if (scrollPercent < resetThreshold && hasTriggered) {
     console.log('[Completion] ⚠️ Reset acionado');
     hasTriggered = false;
-    
-    // Remove listener de scroll se estava ativo
-    if (animationState.scrollControlled) {
-      window.removeEventListener('scroll', syncCounterWithScroll);
-      animationState.scrollControlled = false;
-    }
-    
     const completionDiv = document.getElementById('lessonCompletion');
     if (completionDiv) {
       completionDiv.classList.remove('visible');
@@ -399,13 +360,9 @@ function checkScroll() {
         cancelAnimationFrame(animationState.animationId);
         animationState.animationId = null;
       }
-      
-      // Reset completo do estado
       animationState.isAnimating = false;
       animationState.isPaused = false;
       animationState.currentValue = 0;
-      animationState.initialAnimationComplete = false;
-      animationState.scrollControlled = false;
     }
   }
 }
@@ -425,6 +382,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Pré-carrega áudio de celebração
   initCelebrationAudio();
   
-  console.log('[Completion] ✅ Sistema inicializado (scroll-sync: 85-100%)');
+  console.log('[Completion] ✅ Sistema inicializado (threshold: 50%)');
   window.addEventListener('scroll', checkScroll, { passive: true });
 });

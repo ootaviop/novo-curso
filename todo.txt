@@ -99,3 +99,5 @@ Ao escolher o formato o usuário pode ou não marcar a caixinha de "lembrar minh
 -> Implementar botão baixar/compartilhar na interface de áudio(Ouvir esta aula);
 
 -> Fazer com que o valor em % do parabéns esteja relacionado ao scroll chegar nos botões de tópico.
+
+-> Atualemnte os confetis e o valor em % não é atualizado se o usuário estiver com o player ativo. Caso ele esteja com o player ativo, o sistema deve verificar se ele ouviu até o último áudio, e somado a isso, se ele está no scroll 100%, caso isso ocorra, aí a animação deve ocorrer.
