@@ -1,387 +1,546 @@
-// 🎉 Confetes no final da aula - VERSÃO COM 50% DE VISIBILIDADE
-let hasTriggered = false;
-let hasInserted = false;
-let completionObserver = null;
-let animationState = {
-  isAnimating: false,
-  isPaused: false,
-  currentValue: 0,
-  animationId: null
-};
-
-// 🔊 Audio Context para som de celebração
-let audioContext = null;
-let celebrationBuffer = null;
-
 /**
- * Cria o elemento de conclusão da aula dinamicamente
+ * ═══════════════════════════════════════════════════════════════
+ * 🎉 LESSON COMPLETION SYSTEM - Versão 2.0
+ * ═══════════════════════════════════════════════════════════════
+ * 
+ * Sistema moderno de celebração de conclusão de aula com:
+ * - Progress ring animado (SVG)
+ * - Sistema de badges/conquistas
+ * - Gamificação baseada em comportamento real
+ * - Lógica única e clara com IntersectionObserver
+ * - Integração total com anime.js
+ * 
+ * @requires anime.js
+ * @requires canvas-confetti
+ * @version 2.0.0
  */
-function createCompletionElement() {
-  const div = document.createElement('div');
-  div.className = 'lesson-completion';
-  div.id = 'lessonCompletion';
-  div.setAttribute('role', 'status');
-  div.setAttribute('aria-live', 'polite');
-  
-  div.innerHTML = `
-    <div class="completion-icon">🎓</div>
-    <div class="completion-content">
-      <h2 class="completion-title">Parabéns!</h2>
-      <p class="completion-message">
-        Você completou 
-        <span class="completion-counter" id="completionCounter">0</span>% 
-        da aula
-      </p>
-    </div>
-  `;
-  
-  return div;
-}
 
-function getConfettiOrigin() {
-  const navLessons = document.querySelector('.nav-lessons');
-  if (!navLessons) return { x: 0.5, y: 0.6 };
-  
-  const rect = navLessons.getBoundingClientRect();
-  return {
-    x: (rect.left + rect.width / 2) / window.innerWidth,
-    y: (rect.top + rect.height / 2) / window.innerHeight
-  };
-}
-
-/**
- * ✨ Verifica se pelo menos 50% da div está visível na viewport
- * GARANTE que confetes só disparam quando usuário pode ver
- */
-function isCounterVisible() {
-  const completionDiv = document.getElementById('lessonCompletion');
-  
-  if (!completionDiv) {
-    console.warn('[Completion] Elemento não encontrado');
-    return false;
-  }
-  
-  // Verifica se o elemento tem a classe 'visible' (transição CSS completou)
-  if (!completionDiv.classList.contains('visible')) {
-    console.log('[Completion] Elemento ainda não tem classe visible');
-    return false;
-  }
-  
-  const rect = completionDiv.getBoundingClientRect();
-  const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-  const windowWidth = window.innerWidth || document.documentElement.clientWidth;
-  
-  // Calcula quanto da div está visível verticalmente
-  const visibleTop = Math.max(rect.top, 0);
-  const visibleBottom = Math.min(rect.bottom, windowHeight);
-  const visibleHeight = Math.max(0, visibleBottom - visibleTop);
-  const visibilityRatio = rect.height > 0 ? visibleHeight / rect.height : 0;
-  
-  // Verifica se está dentro da viewport horizontalmente
-  const isHorizontallyVisible = rect.left < windowWidth && rect.right > 0;
-  
-  // Verifica propriedades CSS que podem esconder o elemento
-  const style = window.getComputedStyle(completionDiv);
-  const isStyleVisible = style.display !== 'none' && 
-                         style.visibility !== 'hidden' && 
-                         parseFloat(style.opacity) > 0;
-  
-  const isVisible = visibilityRatio >= 0.5 && isHorizontallyVisible && isStyleVisible;
-  
-  if (!isVisible) {
-    console.log(`[Completion] Visibilidade insuficiente: ${Math.round(visibilityRatio * 100)}% (necessário: 50%)`);
-  } else {
-    console.log(`[Completion] ✅ Visibilidade OK: ${Math.round(visibilityRatio * 100)}%`);
-  }
-  
-  return isVisible;
-}
-
-/**
- * Inicia ou retoma a animação do contador
- * Só dispara quando pelo menos 50% da div está visível
- */
-function startOrResumeCounterAnimation() {
-  const counter = document.getElementById('completionCounter');
-  const completionDiv = document.getElementById('lessonCompletion');
-  
-  if (!counter || !completionDiv) {
-    console.warn('[Completion] Elementos não encontrados');
-    return;
-  }
-  
-  // Se já está animando, não faz nada
-  if (animationState.isAnimating && !animationState.isPaused) {
-    console.log('[Completion] Animação já está rodando');
-    return;
-  }
-  
-  // Aguarda transição CSS completar
-  const delay = 300;
-
-  setTimeout(() => {
-    beginAnimation();
-  }, delay);
-  
-  function beginAnimation() {
-    // ✅ VERIFICAÇÃO CRÍTICA: Pelo menos 50% da div deve estar visível
-    if (!isCounterVisible()) {
-      console.warn('[Completion] ⚠️ Div não está 50% visível - aguardando...');
-      return;
-    }
-    
-    console.log('[Completion] ✅ Iniciando animação do contador');
-    
-    const duration = 800; // ms
-    const fps = 60;
-    const totalFrames = Math.round((duration / 1000) * fps);
-    
-    let currentFrame = animationState.isPaused 
-      ? Math.round((animationState.currentValue / 100) * totalFrames) 
-      : 0;
-    
-    animationState.isAnimating = true;
-    animationState.isPaused = false;
-    
-    const animate = () => {
-      // ✅ Verifica a cada frame se ainda está 50% visível
-      if (!isCounterVisible()) {
-        console.warn('[Completion] ⚠️ Contador saiu da viewport - pausando');
-        animationState.isPaused = true;
-        animationState.isAnimating = false;
-        return;
-      }
+class LessonCompletionSystem {
+  constructor(config = {}) {
+    // ═══════════════════════════════════════════════════════════
+    // 🎛️ CONFIGURAÇÃO
+    // ═══════════════════════════════════════════════════════════
+    this.config = {
+      // Thresholds
+      scrollThresholdDesktop: 0.95,
+      scrollThresholdMobile: 0.90,
+      visibilityThreshold: 0.5,
       
-      currentFrame++;
+      // Timings (ms)
+      counterDuration: 1200,
+      ringDuration: 1500,
+      confettiDelay: 800,
       
-      // Easing exponencial (easeOutExpo)
-      const progress = currentFrame / totalFrames;
-      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-      const value = Math.round(eased * 100);
+      // Dados do usuário (serão calculados)
+      startTime: Date.now(),
+      audioUsed: false,
       
-      counter.textContent = value;
-      animationState.currentValue = value;
-      
-      // Efeito de pulse nos múltiplos de 10
-      if (value % 10 === 0 && value < 100) {
-        counter.classList.add('pulse');
-        setTimeout(() => counter.classList.remove('pulse'), 100);
-      }
-      
-      if (currentFrame < totalFrames) {
-        animationState.animationId = requestAnimationFrame(animate);
-      } else {
-        // ✅ Atingiu 100% - ÚLTIMA VERIFICAÇÃO antes dos confetes
-        console.log('[Completion] ✅ Animação completa (100%)');
-        animationState.isAnimating = false;
-        
-        // Verifica novamente se está 50% visível antes de disparar confetti
-        if (isCounterVisible()) {
-          console.log('[Completion] 🎊 Disparando confetes!');
-          triggerConfetti();
-        } else {
-          console.warn('[Completion] ⚠️ Confetes cancelados - usuário não está vendo');
-        }
+      ...config
+    };
+    
+    // ═══════════════════════════════════════════════════════════
+    // 📊 ESTADO
+    // ═══════════════════════════════════════════════════════════
+    this.state = {
+      hasShown: false,
+      element: null,
+      observer: null,
+      scrollListener: null
+    };
+    
+    // ═══════════════════════════════════════════════════════════
+    // 🎖️ SISTEMA DE CONQUISTAS
+    // ═══════════════════════════════════════════════════════════
+    this.achievements = {
+      focado: {
+        icon: '🎯',
+        label: 'Focado',
+        check: (data) => !data.audioUsed,
+        description: 'Completou sem usar áudio'
+      },
+      auditivo: {
+        icon: '🎧',
+        label: 'Aprendiz Auditivo',
+        check: (data) => data.audioUsed,
+        description: 'Utilizou o player de áudio'
+      },
+      explorador: {
+        icon: '🔍',
+        label: 'Explorador',
+        check: (data) => data.scrollDepth > 0.95,
+        description: 'Explorou todo o conteúdo'
+      },
+      dedicado: {
+        icon: '⭐',
+        label: 'Dedicado',
+        check: (data) => data.timeSpent >= 5 && data.timeSpent <= 15,
+        description: 'Tempo de leitura adequado'
+      },
+      veloz: {
+        icon: '⚡',
+        label: 'Leitor Veloz',
+        check: (data) => data.timeSpent < 5,
+        description: 'Completou rapidamente'
       }
     };
     
-    animationState.animationId = requestAnimationFrame(animate);
+    this.init();
   }
-}
-
-/**
- * Inicializa o áudio de celebração usando Web Audio API
- */
-async function initCelebrationAudio() {
-  if (audioContext) return; // Já inicializado
   
-  try {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const response = await fetch('audio/pos-cut/celebracao.mp3');
-    const arrayBuffer = await response.arrayBuffer();
-    celebrationBuffer = await audioContext.decodeAudioData(arrayBuffer);
-    console.log('[Celebration] ✅ Áudio carregado com sucesso');
-  } catch (error) {
-    console.warn('[Celebration] ⚠️ Erro ao carregar áudio:', error);
+  // ═══════════════════════════════════════════════════════════
+  // 🚀 INICIALIZAÇÃO
+  // ═══════════════════════════════════════════════════════════
+  init() {
+    // Detecta uso de áudio
+    this.detectAudioUsage();
+    
+    // Monitora scroll
+    this.state.scrollListener = this.checkScrollProgress.bind(this);
+    window.addEventListener('scroll', this.state.scrollListener, { passive: true });
+    
+    // Pré-carrega som de celebração
+    this.preloadCelebrationAudio();
+    
+    console.log('[LessonCompletion] ✅ Sistema inicializado');
   }
-}
-
-/**
- * Toca o som de celebração
- */
-function playCelebrationSound() {
-  if (!audioContext || !celebrationBuffer) {
-    console.warn('[Celebration] Áudio não disponível');
+  
+  // ═══════════════════════════════════════════════════════════
+  // 🎵 DETECÇÃO DE USO DO ÁUDIO
+  // ═══════════════════════════════════════════════════════════
+  detectAudioUsage() {
+    // Monitora se o player de áudio foi utilizado
+    const audioTriggerBtn = document.querySelector('.audio-trigger-btn');
+    if (audioTriggerBtn) {
+      audioTriggerBtn.addEventListener('click', () => {
+        this.config.audioUsed = true;
+        console.log('[LessonCompletion] 🎧 Áudio utilizado');
+      }, { once: true });
+    }
+  }
+  
+  // ═══════════════════════════════════════════════════════════
+  // 📏 VERIFICAÇÃO DE PROGRESSO DE SCROLL
+  // ═══════════════════════════════════════════════════════════
+  checkScrollProgress() {
+    if (this.state.hasShown) return;
+    
+    const scrollPercent = (window.scrollY + window.innerHeight) / 
+                          document.documentElement.scrollHeight;
+    
+    // Threshold adaptativo baseado no tamanho da tela
+    const threshold = window.innerWidth < 768 
+      ? this.config.scrollThresholdMobile 
+      : this.config.scrollThresholdDesktop;
+    
+    if (scrollPercent >= threshold) {
+      console.log('[LessonCompletion] 🎯 Threshold atingido:', scrollPercent.toFixed(2));
+      this.createElement();
+      this.observeElement();
+      
+      // Remove listener (não precisa mais checar)
+      window.removeEventListener('scroll', this.state.scrollListener);
+    }
+  }
+  
+  // ═══════════════════════════════════════════════════════════
+  // 🏗️ CRIAÇÃO DO ELEMENTO
+  // ═══════════════════════════════════════════════════════════
+  createElement() {
+    this.state.element = document.createElement('div');
+    this.state.element.className = 'lesson-completion';
+    this.state.element.setAttribute('role', 'status');
+    this.state.element.setAttribute('aria-live', 'polite');
+    this.state.element.innerHTML = this.getTemplate();
+    
+    // Insere antes da navegação
+    const navLessons = document.querySelector('.nav-lessons');
+    if (navLessons?.parentNode) {
+      navLessons.parentNode.insertBefore(this.state.element, navLessons);
+      console.log('[LessonCompletion] 📦 Elemento criado');
+    }
+  }
+  
+  // ═══════════════════════════════════════════════════════════
+  // 📐 TEMPLATE HTML
+  // ═══════════════════════════════════════════════════════════
+  getTemplate() {
+    return `
+      <div class="completion-background">
+        <div class="completion-gradient"></div>
+        <div class="completion-particles"></div>
+      </div>
+      
+      <div class="completion-content">
+        <!-- Progress Ring -->
+        <div class="completion-ring-container">
+          <svg class="completion-ring" viewBox="0 0 160 160">
+            <defs>
+              <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" />
+                <stop offset="100%" />
+              </linearGradient>
+            </defs>
+            <circle class="ring-track" cx="80" cy="80" r="70" />
+            <circle class="ring-progress" cx="80" cy="80" r="70" />
+          </svg>
+          
+          <div class="completion-counter-wrapper">
+            <div class="completion-counter" id="completionCounter">0</div>
+            <div class="completion-counter-label">completo</div>
+          </div>
+        </div>
+        
+        <!-- Text Section -->
+        <div class="completion-text-section">
+          <h2 class="completion-title">Parabéns! 🎉</h2>
+          <p class="completion-subtitle">
+            Você concluiu esta aula com sucesso e desbloqueou novas conquistas!
+          </p>
+          
+          <!-- Badges de Conquistas -->
+          <div class="completion-achievements" id="achievementsList"></div>
+        </div>
+      </div>
+    `;
+  }
+  
+  // ═══════════════════════════════════════════════════════════
+  // 👁️ OBSERVAÇÃO DE VISIBILIDADE
+  // ═══════════════════════════════════════════════════════════
+  observeElement() {
+    this.state.observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        
+        // Só dispara quando 50%+ está visível
+        if (entry.isIntersecting && 
+            entry.intersectionRatio >= this.config.visibilityThreshold) {
+          console.log('[LessonCompletion] 👁️ Elemento visível:', entry.intersectionRatio.toFixed(2));
+          this.show();
+        }
+      },
+      { 
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+        rootMargin: '0px'
+      }
+    );
+    
+    this.state.observer.observe(this.state.element);
+  }
+  
+  // ═══════════════════════════════════════════════════════════
+  // ✨ EXIBIÇÃO E ANIMAÇÃO
+  // ═══════════════════════════════════════════════════════════
+  show() {
+    if (this.state.hasShown) return;
+    this.state.hasShown = true;
+    
+    console.log('[LessonCompletion] 🎬 Iniciando animações');
+    
+    // 1. Mostra o card (CSS transition)
+    this.state.element.classList.add('visible');
+    
+// 2. Anima o progress ring
+// 2. Anima o progress ring com validação de 100%
+setTimeout(() => {
+  const ringProgress = this.state.element.querySelector('.ring-progress');
+  
+  if (!ringProgress) {
+    console.warn('[LessonCompletion] Ring progress não encontrado');
     return;
   }
   
-  // Resume contexto se suspenso (política de autoplay dos browsers)
-  if (audioContext.state === 'suspended') {
-    audioContext.resume();
-  }
+  // Valores fixos validados
+  const circumference = 439.823;
+  const targetOffset = 0; // 100% completo
   
-  const source = audioContext.createBufferSource();
-  source.buffer = celebrationBuffer;
-  source.connect(audioContext.destination);
-  source.start(0);
-}
-
-/**
- * Dispara as 5 explosões sequenciais de confetes
- */
-function triggerConfetti() {
-  // ✅ Tocar som de celebração
-  playCelebrationSound();
+  // Garante estado inicial via JS (força antes da animação)
+  ringProgress.style.strokeDasharray = circumference;
+  ringProgress.style.strokeDashoffset = circumference;
   
-  const origin = getConfettiOrigin();
-  const particleCount = window.innerWidth > 768 ? 200 : 120;
+  // Força reflow
+  void ringProgress.offsetHeight;
   
-  const explosions = [
-    { ratio: 0.25, spread: 60, startVelocity: 55 },
-    { ratio: 0.2, spread: 100 },
-    { ratio: 0.2, spread: 150, startVelocity: 25, decay: 0.92, scalar: 1.2 },
-    { ratio: 0.35, spread: 130, decay: 0.91, scalar: 0.9 },
-    { ratio: 0.2, spread: 145, startVelocity: 25, decay: 0.8, scalar: 1.2 },
-    { ratio: 0.25, spread: 150, startVelocity: 45, decay: 0.92, scalar: 1.2 }
-  ];
+  // Variável para controlar se já completou
+  let hasCompleted = false;
   
-  explosions.forEach((explosion, index) => {
-    setTimeout(() => {
-      confetti({
-        origin,
-        particleCount: Math.floor(particleCount * explosion.ratio),
-        ...explosion
-      });
-    }, index * 140);
-  });
-}
-
-/**
- * ✨ Intersection Observer configurado para 50% de visibilidade
- */
-function setupCompletionObserver(element) {
-  if (completionObserver) {
-    completionObserver.disconnect();
-  }
-  
-  const options = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.5 // ✅ 50% da div deve estar visível
-  };
-  
-  completionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      console.log(`[Completion] IntersectionObserver: ${Math.round(entry.intersectionRatio * 100)}% visível`);
+  // Anima com validação a cada frame
+  const animation = anime({
+    targets: ringProgress,
+    strokeDashoffset: [circumference, targetOffset],
+    easing: 'cubicBezier(0.34, 1.56, 0.64, 1)',
+    duration: 1500,
+    round: 10, // Arredonda para evitar decimais estranhos
+    
+    // ✅ VALIDAÇÃO A CADA FRAME
+    update: function(anim) {
+      const currentOffset = parseFloat(ringProgress.style.strokeDashoffset) || circumference;
       
-      if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-        const completionDiv = document.getElementById('lessonCompletion');
-        
-        if (completionDiv && !completionDiv.classList.contains('visible')) {
-          console.log('[Completion] ✅ 50% visível - adicionando classe');
-          completionDiv.classList.add('visible');
-        }
-        
-        if (!hasTriggered) {
-          hasTriggered = true;
-          console.log('[Completion] ✅ Primeira visualização 50% - iniciando contador');
-          startOrResumeCounterAnimation();
-        }
-      } else if (entry.intersectionRatio < 0.5 && hasTriggered) {
-        // Se cair abaixo de 50% e estava rodando, pode pausar
-        console.log('[Completion] ⚠️ Visibilidade caiu abaixo de 50%');
+      // Se atingiu ou ultrapassou 100%, PARA IMEDIATAMENTE
+      if (currentOffset <= 0 && !hasCompleted) {
+        hasCompleted = true;
+        ringProgress.style.strokeDashoffset = '0'; // Força exatamente 0
+        anim.pause(); // Para a animação
+        console.log('[LessonCompletion] ✅ Ring completado em 100%');
+      }
+      
+      // Se por algum motivo ficou negativo, corrige
+      if (currentOffset < 0) {
+        ringProgress.style.strokeDashoffset = '0';
+        anim.pause();
+        console.warn('[LessonCompletion] ⚠️ Offset negativo corrigido');
+      }
+    },
+    
+    // Callback de conclusão
+    complete: function() {
+      // Garante que terminou em 0
+      ringProgress.style.strokeDashoffset = '0';
+      hasCompleted = true;
+      console.log('[LessonCompletion] ✅ Animação finalizada');
+    }
+  });
+  
+  console.log('[LessonCompletion] 🎬 Animação iniciada:', {
+    circumference,
+    target: targetOffset,
+    duration: '1500ms'
+  });
+}, 100);
+    
+    
+    // 3. Anima o contador (anime.js)
+    const counter = document.getElementById('completionCounter');
+
+    anime({
+      targets: { value: 0 },
+      value: 100,
+      round: 1,
+      easing: 'easeOutExpo',
+      duration: this.config.counterDuration,
+      update: function(anim) {
+        counter.textContent = Math.round(anim.animations[0].currentValue) + '%';
       }
     });
-  }, options);
-  
-  completionObserver.observe(element);
-}
 
-/**
- * Verifica a porcentagem de scroll e dispara eventos
- */
-function checkScroll() {
-  const scrollPercent = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight;
-  
-  const isSmallScreen = window.innerHeight < 900 || window.innerWidth < 1200;
-  const threshold = isSmallScreen ? 0.85 : 0.95;
-  
-  if (scrollPercent >= threshold && !hasInserted) {
-    console.log('[Completion] ✅ Threshold atingido - criando elemento');
+    // adiciona o valor em % ao contador
     
-    const completionDiv = createCompletionElement();
-    const navLessons = document.querySelector('.nav-lessons');
+    // 4. Calcula e mostra badges
+    setTimeout(() => {
+      this.showAchievements();
+    }, 400);
     
-    if (navLessons && navLessons.parentNode) {
-      navLessons.parentNode.insertBefore(completionDiv, navLessons);
-      hasInserted = true;
-      
-      // Configura observer com threshold de 50%
-      setupCompletionObserver(completionDiv);
-      
-      // ✅ FALLBACK: verifica se 50% está visível
-      let attempts = 0;
-      const maxAttempts = 8; // Mais tentativas pois a condição é mais restritiva
-      
-      const tryStartAnimation = () => {
-        attempts++;
-        
-        if (hasTriggered || attempts > maxAttempts) {
-          if (attempts > maxAttempts) {
-            console.warn('[Completion] ⚠️ Fallback excedeu tentativas - usuário pode não estar vendo a div');
-          }
-          return;
-        }
-        
-        if (isCounterVisible()) {
-          console.log(`[Completion] ✅ Fallback bem-sucedido (tentativa ${attempts})`);
-          hasTriggered = true;
-          startOrResumeCounterAnimation();
-        } else {
-          setTimeout(tryStartAnimation, 250);
-        }
-      };
-      
-      setTimeout(tryStartAnimation, 400);
-    }
+    // 5. Dispara celebração (confete + som)
+    setTimeout(() => {
+      this.celebrate();
+    }, this.config.confettiDelay);
+    
+    // Cleanup do observer
+    this.state.observer.disconnect();
   }
   
-  const resetThreshold = isSmallScreen ? 0.75 : 0.85;
-  if (scrollPercent < resetThreshold && hasTriggered) {
-    console.log('[Completion] ⚠️ Reset acionado');
-    hasTriggered = false;
-    const completionDiv = document.getElementById('lessonCompletion');
-    if (completionDiv) {
-      completionDiv.classList.remove('visible');
-      const counter = document.getElementById('completionCounter');
-      if (counter) counter.textContent = '0';
-      
-      if (animationState.animationId) {
-        cancelAnimationFrame(animationState.animationId);
-        animationState.animationId = null;
+  // ═══════════════════════════════════════════════════════════
+  // 🎖️ SISTEMA DE CONQUISTAS
+  // ═══════════════════════════════════════════════════════════
+  showAchievements() {
+    const userData = this.collectUserData();
+    const earned = this.calculateAchievements(userData);
+    
+    console.log('[LessonCompletion] 🏆 Conquistas desbloqueadas:', earned.length);
+    
+    const container = document.getElementById('achievementsList');
+    if (!container) return;
+    
+    earned.forEach((achievement, index) => {
+      const badge = document.createElement('div');
+      badge.className = 'achievement-badge';
+      badge.style.animationDelay = `${index * 0.1}s`;
+      badge.title = achievement.description;
+      badge.innerHTML = `
+        <span class="badge-icon">${achievement.icon}</span>
+        <span class="badge-label">${achievement.label}</span>
+      `;
+      container.appendChild(badge);
+    });
+  }
+  
+  // ═══════════════════════════════════════════════════════════
+  // 📊 COLETA DE DADOS DO USUÁRIO
+  // ═══════════════════════════════════════════════════════════
+  collectUserData() {
+    const timeSpent = (Date.now() - this.config.startTime) / 60000; // minutos
+    
+    const scrollPercent = (window.scrollY + window.innerHeight) / 
+                          document.documentElement.scrollHeight;
+    
+    return {
+      audioUsed: this.config.audioUsed,
+      timeSpent: timeSpent,
+      scrollDepth: scrollPercent
+    };
+  }
+  
+  // ═══════════════════════════════════════════════════════════
+  // 🏅 CÁLCULO DE CONQUISTAS
+  // ═══════════════════════════════════════════════════════════
+  calculateAchievements(userData) {
+    const earned = [];
+    
+    for (const [key, achievement] of Object.entries(this.achievements)) {
+      if (achievement.check(userData)) {
+        earned.push(achievement);
       }
-      animationState.isAnimating = false;
-      animationState.isPaused = false;
-      animationState.currentValue = 0;
     }
+    
+    // Garante pelo menos 2 badges (sempre mostra "Explorador")
+    if (earned.length === 0) {
+      earned.push(this.achievements.explorador);
+    }
+    
+    return earned;
+  }
+  
+  // ═══════════════════════════════════════════════════════════
+  // 🎊 CELEBRAÇÃO (Confete + Som)
+  // ═══════════════════════════════════════════════════════════
+  celebrate() {
+    // Som
+    this.playCelebrationSound();
+    
+    // Confete (5 explosões sequenciais)
+    this.triggerConfetti();
+  }
+  
+  // ═══════════════════════════════════════════════════════════
+  // 🔊 ÁUDIO DE CELEBRAÇÃO
+  // ═══════════════════════════════════════════════════════════
+  preloadCelebrationAudio() {
+    if (!window.AudioContext) return;
+    
+    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    
+    fetch('audio/pos-cut/celebracao.mp3')
+      .then(response => response.arrayBuffer())
+      .then(buffer => this.audioContext.decodeAudioData(buffer))
+      .then(decodedBuffer => {
+        this.celebrationBuffer = decodedBuffer;
+        console.log('[LessonCompletion] 🔊 Áudio pré-carregado');
+      })
+      .catch(error => {
+        console.warn('[LessonCompletion] ⚠️ Erro ao carregar áudio:', error);
+      });
+  }
+  
+  playCelebrationSound() {
+    if (!this.audioContext || !this.celebrationBuffer) return;
+    
+    if (this.audioContext.state === 'suspended') {
+      this.audioContext.resume();
+    }
+    
+    const source = this.audioContext.createBufferSource();
+    source.buffer = this.celebrationBuffer;
+    // ajustar volume da reprodução para 0.15
+    source.volume = 0.15;
+    source.connect(this.audioContext.destination);
+    source.start(0);
+    
+    console.log('[LessonCompletion] 🔊 Som reproduzido');
+  }
+  
+  // ═══════════════════════════════════════════════════════════
+  // 🎉 CONFETE (Canvas Confetti)
+  // ═══════════════════════════════════════════════════════════
+  triggerConfetti() {
+    if (typeof confetti === 'undefined') {
+      console.warn('[LessonCompletion] ⚠️ Biblioteca confetti não encontrada');
+      return;
+    }
+    
+    const origin = this.getConfettiOrigin();
+    const particleCount = window.innerWidth > 768 ? 150 : 100;
+    
+    // 5 explosões sequenciais com timing variado
+    const explosions = [
+      { ratio: 0.25, spread: 60, startVelocity: 55 },
+      { ratio: 0.2, spread: 100 },
+      { ratio: 0.35, spread: 140, decay: 0.91 },
+      { ratio: 0.1, spread: 120, startVelocity: 25 },
+      { ratio: 0.1, spread: 130, startVelocity: 45 },
+      { ratio: 0.35, spread: 130, decay: 0.91 },
+      { ratio: 0.1, spread: 110, startVelocity: 55 },
+      { ratio: 0.3, spread: 120, startVelocity: 65 }
+    ];
+    
+    explosions.forEach((config, index) => {
+      setTimeout(() => {
+        confetti({
+          origin,
+          particleCount: Math.floor(particleCount * config.ratio),
+          ...config
+        });
+      }, index * 150);
+    });
+    
+    console.log('[LessonCompletion] 🎊 Confete disparado');
+  }
+  
+  getConfettiOrigin() {
+    const element = this.state.element;
+    if (!element) return { x: 0.5, y: 0.5 };
+    
+    const rect = element.getBoundingClientRect();
+    return {
+      x: (rect.left + rect.width / 2) / window.innerWidth,
+      y: (rect.top + rect.height / 2) / window.innerHeight
+    };
+  }
+  
+  // ═══════════════════════════════════════════════════════════
+  // 🧹 CLEANUP
+  // ═══════════════════════════════════════════════════════════
+  destroy() {
+    if (this.state.observer) {
+      this.state.observer.disconnect();
+    }
+    
+    if (this.state.scrollListener) {
+      window.removeEventListener('scroll', this.state.scrollListener);
+    }
+    
+    if (this.state.element) {
+      this.state.element.remove();
+    }
+    
+    console.log('[LessonCompletion] 🧹 Sistema destruído');
   }
 }
 
-// Inicialização
+// ═══════════════════════════════════════════════════════════════
+// 🚀 AUTO-INICIALIZAÇÃO
+// ═══════════════════════════════════════════════════════════════
+
+let lessonCompletion;
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Valida dependências
+  if (typeof anime === 'undefined') {
+    console.error('[LessonCompletion] ❌ anime.js não encontrado');
+    return;
+  }
+  
   if (typeof confetti === 'undefined') {
-    console.error('[Completion] ⚠️ Biblioteca confetti não encontrada');
-    return;
+    console.warn('[LessonCompletion] ⚠️ confetti.js não encontrado');
   }
   
+  // Respeita prefers-reduced-motion
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    console.log('[Completion] ⚠️ Animações desabilitadas (prefers-reduced-motion)');
-    return;
+    console.log('[LessonCompletion] ♿ Animações reduzidas (acessibilidade)');
   }
   
-  // Pré-carrega áudio de celebração
-  initCelebrationAudio();
+  // Inicializa
+  lessonCompletion = new LessonCompletionSystem();
   
-  console.log('[Completion] ✅ Sistema inicializado (threshold: 50%)');
-  window.addEventListener('scroll', checkScroll, { passive: true });
+  // Exporta para debug
+  window.lessonCompletion = lessonCompletion;
 });

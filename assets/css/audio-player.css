@@ -511,178 +511,7 @@ body.audio-player-active svg[class*="rough-annotation"] {
   transition: all 0.1s ease;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   📱 RESPONSIVO
-   ═══════════════════════════════════════════════════════════ */
 
-@media (max-width: 968px) {
-  .audio-player-bar {
-    height: 90px; /* Altura fixa compacta em mobile */
-    padding: 0.75rem 1rem; /* Padding reduzido */
-    flex-direction: row; /* Layout horizontal compacto */
-    gap: 0.5rem; /* Gap reduzido */
-  }
-
-  /* Ocultar elementos secundários em mobile */
-  .player-speed,
-  .player-volume,
-  .player-download-btn {
-    display: none !important;
-  }
-
-  /* Layout compacto para as seções */
-  .player-info {
-    flex: 0 0 auto;
-    min-width: auto;
-    gap: 0.5rem;
-  }
-
-  .player-icon {
-    width: 40px; /* Ícone menor */
-    height: 40px;
-    font-size: 1.2rem;
-  }
-
-  .player-title {
-    max-width: 150px; /* Título mais compacto */
-    font-size: 0.8rem;
-  }
-
-  .player-subtitle {
-    font-size: 0.7rem;
-  }
-
-  .player-controls {
-    flex: 1;
-    max-width: none;
-  }
-
-  .player-buttons {
-    gap: 0.75rem; /* Botões mais próximos */
-  }
-
-  .player-btn {
-    padding: 0.375rem; /* Botões menores */
-  }
-
-  .player-btn.btn-play-pause {
-    width: 32px;
-    height: 32px;
-  }
-
-  .player-btn.btn-play-pause .material-symbols-outlined {
-    font-size: 1.5rem;
-  }
-
-  .player-progress-container {
-    gap: 0.5rem;
-    height: 16px;
-    padding: 4px 0;
-  }
-
-  .player-time {
-    font-size: 0.65rem;
-    min-width: 35px;
-  }
-
-  .player-progress-bar {
-    height: 3px;
-  }
-
-  .player-progress-scrubber {
-    width: 10px;
-    height: 10px;
-  }
-
-  .player-extras {
-    flex: 0 0 auto;
-    min-width: auto;
-    gap: 0.5rem;
-    justify-content: flex-end;
-  }
-
-  .player-close-btn {
-    top: 0.25rem;
-    right: 0.5rem;
-    padding: 0.375rem;
-  }
-
-  body.audio-player-active {
-    padding-bottom: 90px; /* Ajustado para nova altura */
-  }
-}
-
-/* Botões ocupam 100% da largura em mobile */
-@media (max-width: 767px) {
-  .audio-trigger-btn,
-  .pdf-trigger-btn,
-  .braille-trigger-btn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .button-circle{
-    width: 100%;
-  }
-}
-
-@media (max-width: 640px) {
-  .audio-trigger-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .audio-player-bar {
-    height: 80px; /* Ainda mais compacto em telas pequenas */
-    padding: 0.5rem 0.75rem;
-    margin-inline: 1rem;
-  }
-
-  .player-info{
-    display: none;
-  }
-
-  .player-icon {
-    width: 36px;
-    height: 36px;
-    font-size: 1rem;
-  }
-
-  .player-title {
-    max-width: 120px;
-    font-size: 0.75rem;
-  }
-
-  .player-subtitle {
-    font-size: 0.65rem;
-  }
-
-  .player-buttons {
-    gap: 0.5rem;
-  }
-
-  .player-btn.btn-play-pause {
-    width: 28px;
-    height: 28px;
-  }
-
-  .player-btn.btn-play-pause .material-symbols-outlined {
-    font-size: 1.25rem;
-  }
-
-  .player-progress-container {
-    gap: 0.375rem;
-  }
-
-  .player-time {
-    font-size: 0.6rem;
-    min-width: 30px;
-  }
-
-  body.audio-player-active {
-    padding-bottom: 80px; /* Ajustado para telas pequenas */
-  }
-}
 
 .player-volume {
   display: flex;
@@ -795,3 +624,238 @@ body.audio-player-active svg[class*="rough-annotation"] {
 }
 
 
+
+/* ═══════════════════════════════════════════════════════════
+   📱 RESPONSIVO - Mobile Delicado e Elegante
+   ═══════════════════════════════════════════════════════════ */
+
+   @media (max-width: 968px) {
+    .audio-player-bar {
+      height: auto;
+      min-height: 100px; /* Mais compacto, mas respirável */
+      padding: 0.875rem 1rem;
+      flex-direction: row; /* Mantém horizontal */
+      flex-wrap: wrap; /* Permite quebra de linha natural */
+      gap: 0.75rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+  
+    /* ═══════════════════════════════════════════════════════
+       🎮 CONTROLES - Layout Horizontal Compacto
+       ═══════════════════════════════════════════════════════ */
+    
+    .player-info {
+      display: none; /* Remove info em mobile */
+    }
+  
+    .player-controls {
+      flex: 0.93 0 auto;
+      order: 1;
+      max-width: none;
+      gap: 0.5rem;
+    }
+  
+    .player-buttons {
+      gap: 0.625rem; /* Espaçamento delicado */
+      justify-content: center;
+    }
+  
+    /* Botões: tocáveis mas não exagerados */
+    .player-btn {
+      padding: 0.5rem;
+      min-width: 40px;
+      min-height: 40px;
+    }
+  
+    .player-btn.btn-play-pause {
+      width: 40px;
+      height: 40px;
+    }
+  
+    .player-btn.btn-play-pause .material-symbols-outlined {
+      font-size: 1.5rem;
+    }
+  
+    .player-btn .material-symbols-outlined {
+      font-size: 1.25rem;
+    }
+  
+    /* ═══════════════════════════════════════════════════════
+       📊 PROGRESSO - Linha Independente
+       ═══════════════════════════════════════════════════════ */
+    
+    .player-progress-container {
+      flex: 1 1 100%; /* Ocupa linha inteira */
+      order: 3;
+      gap: 0.625rem;
+      height: auto;
+      padding: 0;
+      margin-top: 0.25rem;
+    }
+  
+    .player-time {
+      font-size: 0.6875rem;
+      min-width: 38px;
+      color: #94a3b8;
+    }
+  
+    .player-progress-bar {
+      height: 3px; /* Fino e elegante */
+    }
+  
+    .player-progress-scrubber {
+      width: 13px;
+      height: 13px;
+      opacity: 1; /* Sempre visível em mobile */
+    }
+  
+    /* ═══════════════════════════════════════════════════════
+       🎯 EXTRAS - Download + Close (Delicados)
+       ═══════════════════════════════════════════════════════ */
+    
+    .player-extras {
+      flex: 0.05 0 auto;
+      order: 2;
+      flex-direction: row;
+      gap: 0.5rem;
+      min-width: auto;
+      justify-content: flex-end;
+    }
+
+    .player-extras{
+      justify-content: flex-start;
+    }
+  
+    /* Mostra apenas Download e Close */
+    .player-download-btn,
+    .player-close-btn {
+      display: flex !important;
+      min-width: 36px;
+      min-height: 36px;
+      padding: 0.5rem;
+      opacity: 0.8; /* Levemente transparente = delicado */
+      transition: opacity 0.2s ease;
+    }
+
+    .player-download-btn{
+      margin-top: 2rem;
+    }
+  
+    .player-download-btn:hover,
+    .player-close-btn:hover {
+      opacity: 1;
+    }
+  
+    .player-download-btn svg,
+    .player-close-btn .material-symbols-outlined {
+      width: 18px;
+      height: 18px;
+      font-size: 18px;
+    }
+  
+    /* Esconde Speed e Volume */
+    .player-speed,
+    .player-volume {
+      display: none !important;
+    }
+  
+    /* ═══════════════════════════════════════════════════════
+       PADDING DO BODY
+       ═══════════════════════════════════════════════════════ */
+    
+    body.audio-player-active {
+      padding-bottom: 110px;
+    }
+  }
+  
+  /* ═══════════════════════════════════════════════════════════
+     📱 MOBILE PEQUENO - Ainda Mais Delicado
+     ═══════════════════════════════════════════════════════════ */
+  
+  @media (max-width: 640px) {
+    .audio-player-bar {
+      min-height: 95px;
+      padding: 0.75rem 0.875rem;
+      margin-inline: 0.75rem;
+      gap: 0.625rem;
+    }
+  
+    .player-buttons {
+      gap: 0.5rem;
+    }
+  
+    .player-btn {
+      min-width: 40px;
+      min-height: 40px;
+      padding: 0.375rem;
+    }
+  
+    .player-btn.btn-play-pause {
+      width: 35px;
+      height: 35px;
+    }
+  
+    .player-btn.btn-play-pause .material-symbols-outlined {
+      font-size: 1.575rem;
+    }
+  
+    .player-btn .material-symbols-outlined {
+      font-size: 1.225rem;
+    }
+  
+    .player-progress-container {
+      gap: 0.5rem;
+      margin-top: 0.125rem;
+    }
+  
+    .player-time {
+      font-size: 0.625rem;
+      min-width: 34px;
+    }
+  
+    .player-progress-bar {
+      height: 2.5px; /* Ultra fino */
+    }
+  
+    .player-progress-scrubber {
+      width: 15px;
+      height: 15px;
+    }
+  
+    .player-download-btn,
+    .player-close-btn {
+      min-width: 32px;
+      min-height: 32px;
+      padding: 0.375rem;
+    }
+
+    .player-download-btn{
+      margin-top: 2rem;
+    }
+  
+    .player-download-btn svg,
+    .player-close-btn .material-symbols-outlined {
+      width: 16px;
+      height: 16px;
+      font-size: 16px;
+    }
+  
+    body.audio-player-active {
+      padding-bottom: 105px;
+    }
+  }
+  
+  /* Botões ocupam 100% da largura em mobile */
+  @media (max-width: 767px) {
+    .audio-trigger-btn,
+    .pdf-trigger-btn,
+    .braille-trigger-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  
+    .button-circle{
+      width: 100%;
+    }
+  }
