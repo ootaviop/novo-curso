@@ -51,10 +51,10 @@
   display: inline-block;
   width: 15px;
   height: 15px;
-  margin-left: 4px;
+  margin-left: -2px;
   vertical-align: top;
   opacity: 0.8;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ff6b35' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4'/%3E%3Cpath d='M12 8h.01'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmMjYxMGMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1hc3Rlcmlzay1pY29uIGx1Y2lkZS1hc3RlcmlzayI+PHBhdGggZD0iTTEyIDZ2MTIiLz48cGF0aCBkPSJNMTcuMTk2IDkgNi44MDQgMTUiLz48cGF0aCBkPSJtNi44MDQgOSAxMC4zOTIgNiIvPjwvc3ZnPg==");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
