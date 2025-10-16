@@ -854,8 +854,79 @@ body.audio-player-active svg[class*="rough-annotation"] {
       width: 100%;
       justify-content: center;
     }
-  
+
     .button-circle{
       width: 100%;
     }
   }
+
+/* ═══════════════════════════════════════════════════════════
+   🎧 BADGE DE HOVER - Play Individual de Parágrafo (HTML REAL)
+   ═══════════════════════════════════════════════════════════ */
+
+/* Elementos com data-audio precisam de posição relativa para os badges */
+[data-audio] {
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+/* Badge HTML real (ao invés de CSS ::after) */
+.audio-hover-badge {
+  position: absolute;
+  left: -52px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 99999999;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, visibility 0.2s ease, 
+              transform 0.2s ease, background 0.2s ease;
+}
+
+
+.audio-hover-badge.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.audio-hover-badge:hover {
+  background: #e8e8e8;
+  border-color: #d0d0d0;
+  transform: translateY(-50%) scale(1.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.audio-hover-badge svg {
+  width: 18px;
+  height: 18px;
+  stroke: #888;
+  transition: stroke 0.2s ease;
+}
+
+.audio-hover-badge:hover svg {
+  stroke: #555;
+}
+
+/* Esconde badges quando player está ativo */
+body.audio-player-active .audio-hover-badge {
+  display: none !important;
+}
+
+/* Esconde em telas menores (mobile/tablet) */
+@media (max-width: 1024px) {
+  .audio-hover-badge {
+    display: none !important;
+  }
+}

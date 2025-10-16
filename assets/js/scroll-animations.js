@@ -77,23 +77,15 @@ class ScrollReveal {
    */
   prepareElements() {
     const { selectors } = this.config;
-    
-    // Aplica estado inicial para TODOS os elementos animáveis
-    const allElements = document.querySelectorAll(
-      `${selectors.paragraphs}, ${selectors.callouts}, ${selectors.headings}, ${selectors.breadcrumb}`
+
+    // Aplica estado inicial apenas para elementos de navegação
+    const navElements = document.querySelectorAll(
+      `${selectors.breadcrumb}`
     );
-    
-    allElements.forEach(el => {
+
+    navElements.forEach(el => {
       el.style.opacity = '0';
-      
-      // Define transform baseado no tipo
-      if (el.matches(selectors.callouts)) {
-        el.style.transform = 'scale(0.92)';
-      } else if (el.matches(selectors.breadcrumb)) {
-        el.style.transform = 'translateX(-30px)';
-      } else {
-        el.style.transform = 'translateY(20px)';
-      }
+      el.style.transform = 'translateX(-30px)';
     });
   }
   
@@ -124,11 +116,11 @@ class ScrollReveal {
    */
   observeElements() {
     const { selectors } = this.config;
-    const allSelectors = Object.values(selectors).join(', ');
-    const elements = document.querySelectorAll(allSelectors);
-    
+    // Observa apenas elementos de navegação
+    const elements = document.querySelectorAll(`${selectors.breadcrumb}, ${selectors.navFooter}`);
+
     elements.forEach(el => this.observer.observe(el));
-    
+
     console.log(`📊 Observando ${elements.length} elementos`);
   }
   
@@ -139,14 +131,9 @@ class ScrollReveal {
    */
   animateElement(element) {
     const { selectors } = this.config;
-    
-    if (element.matches(selectors.paragraphs)) {
-      this.animateParagraphs(element);
-    } else if (element.matches(selectors.callouts)) {
-      this.animateCallout(element);
-    } else if (element.matches(selectors.headings)) {
-      this.animateHeading(element);
-    } else if (element.matches(selectors.breadcrumb)) {
+
+    // Apenas anima elementos de navegação
+    if (element.matches(selectors.breadcrumb)) {
       this.animateBreadcrumb(element);
     } else if (element.matches(selectors.navFooter)) {
       this.animateNavFooter(element);

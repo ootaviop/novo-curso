@@ -30,10 +30,9 @@ class RoughAnnotationSystem {
     const w = window.innerWidth;
     w >= 1920 ? (this.strokeWidth = 3.2) : (this.strokeWidth = 2);
 
-    this.queue = [];
-    this.isProcessingQueue = false;
     this.shownElements = new Set();
     this.tooltipInstances = new Map();
+    this.viewportDelay = 1000; // Delay de 1 segundo após aparecer na viewport
 
     const colors = {
       base: "var(--rough-notation-base)",
@@ -197,99 +196,29 @@ class RoughAnnotationSystem {
   }
 
   handleIntersection(entries) {
-    const visible = entries
-      .filter((e) => e.isIntersecting)
-      .map((e) => e.target)
-      .filter((el) => this.annotationMap.has(el) && !this.shownElements.has(el));
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !this.shownElements.has(entry.target)) {
+        const element = entry.target;
+        const item = this.annotationMap.get(element);
 
-    if (visible.length === 0) return;
+        if (!item) return;
 
-    visible.sort(
-      (a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top
-    );
+        // Aguarda 1 segundo e então mostra a annotation
+        setTimeout(() => {
+          // Verifica novamente se ainda não foi mostrado (evita duplicatas)
+          if (!this.shownElements.has(element)) {
+            item.annotation.show();
+            this.shownElements.add(element);
+            this.initializeTooltip(element);
 
-    for (const el of visible) {
-      if (!this.queue.includes(el)) {
-        this.queue.push(el);
+            // Para de observar este elemento
+            if (this.observer) {
+              this.observer.unobserve(element);
+            }
+          }
+        }, this.viewportDelay);
       }
-    }
-
-    if (!this.isProcessingQueue) {
-      this.processQueue();
-    }
-  }
-
-  async processQueue() {
-    this.isProcessingQueue = true;
-    while (this.queue.length > 0) {
-      const el = this.queue.shift();
-      const item = this.annotationMap.get(el);
-      if (!item) continue;
-      if (this.shownElements.has(el)) continue;
-
-      const scrollAnimDelay = this.calculateScrollAnimationDelay(el);
-      
-      if (scrollAnimDelay > 0) {
-        await this.sleep(scrollAnimDelay);
-      }
-
-      item.annotation.show();
-      this.shownElements.add(el);
-
-      this.initializeTooltip(el);
-
-      if (this.observer) {
-        this.observer.unobserve(el);
-      }
-
-      const waitMs = (item.duration || 800) + 50;
-      await this.sleep(waitMs);
-    }
-    this.isProcessingQueue = false;
-  }
-
-  /**
-   * Calcula delay otimizado para sincronizar com animação de scroll
-   * Inicia rough notation durante a animação de scroll (40% do progresso)
-   */
-  calculateScrollAnimationDelay(element) {
-    const SCROLL_ANIM_DURATION = 800;
-    const SCROLL_STAGGER = 80;
-    const OVERLAP_PERCENTAGE = 0.4; // Inicia após 40% da animação de scroll
-    
-    const animatedParent = element.closest('section p, .content-wrapper p, .callout-quote-author, .callout-note, .callout-reflection, h1, h2, h3');
-    
-    if (!animatedParent) {
-      return 0;
-    }
-    
-    if (animatedParent.matches('p')) {
-      const section = animatedParent.closest('section, .content-wrapper');
-      if (section) {
-        const paragraphsInSection = Array.from(section.querySelectorAll('p'));
-        const index = paragraphsInSection.indexOf(animatedParent);
-        const staggerDelay = index * SCROLL_STAGGER;
-        return (SCROLL_ANIM_DURATION * OVERLAP_PERCENTAGE) + staggerDelay;
-      }
-      return SCROLL_ANIM_DURATION * OVERLAP_PERCENTAGE;
-    }
-    
-    if (animatedParent.matches('.callout-quote-author, .callout-note, .callout-reflection')) {
-      return (SCROLL_ANIM_DURATION * OVERLAP_PERCENTAGE) + 150;
-    }
-    
-    if (animatedParent.matches('h1')) {
-      return (SCROLL_ANIM_DURATION * OVERLAP_PERCENTAGE) + 100;
-    }
-    if (animatedParent.matches('h2, h3')) {
-      return (600 * OVERLAP_PERCENTAGE) + 80;
-    }
-    
-    return 0;
-  }
-
-  sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+    });
   }
 
   initializeTooltip(element) {

@@ -806,38 +806,21 @@
 
     // Determinar ícone baseado na mensagem
     let iconName = 'check-circle';
-    let iconColor = '#10b981'; // green-500
+    let iconClass = 'success';
 
     if (message.includes('excluído') || message.includes('Excluído')) {
       iconName = 'trash-2';
-      iconColor = '#ef4444'; // red-500
+      iconClass = 'error';
     } else if (message.includes('atualizado') || message.includes('Atualizado')) {
       iconName = 'edit-3';
-      iconColor = '#3b82f6'; // blue-500
+      iconClass = 'info';
     }
 
     toast.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <i data-lucide="${iconName}" style="width: 20px; height: 20px; color: ${iconColor}; stroke-width: 2.5;"></i>
-        <span style="font-size: 14px; font-weight: 500; color: #1e293b;">${message}</span>
+      <div class="comment-toast-content">
+        <i data-lucide="${iconName}" class="comment-toast-icon ${iconClass}"></i>
+        <span class="comment-toast-text">${message}</span>
       </div>
-    `;
-
-    toast.style.cssText = `
-      position: fixed;
-      top: 24px;
-      right: 24px;
-      background: white;
-      padding: 14px 20px;
-      border-radius: 12px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
-      z-index: 10003;
-      font-family: 'Red Hat Display', sans-serif;
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      backdrop-filter: blur(10px);
-      opacity: 0;
-      transform: translateX(100px);
-      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     `;
 
     document.body.appendChild(toast);
@@ -849,14 +832,12 @@
 
     // Animar entrada
     requestAnimationFrame(() => {
-      toast.style.opacity = '1';
-      toast.style.transform = 'translateX(0)';
+      toast.classList.add('visible');
     });
 
     // Remover após delay
     setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateX(100px)';
+      toast.classList.remove('visible');
       setTimeout(() => toast.remove(), 400);
     }, 3000);
   }
@@ -940,6 +921,37 @@
         updateDownloadButton();
         showSaveConfirmation('Todos os comentários foram excluídos');
       }
+    },
+    /**
+     * Recria todas as rough annotations dos comentários
+     * Útil quando o layout dos elementos mudou (ex: padding do audio-highlight)
+     */
+    refreshAnnotations: () => {
+      console.log('[CommentsSystem] 🔄 Recriando annotations dos comentários...');
+
+      // Remove annotations antigas mas mantém os wrappers
+      state.roughAnnotations.forEach(annotation => {
+        if (annotation.annotation) {
+          annotation.annotation.remove();
+        }
+      });
+
+      // Limpa array de annotations
+      state.roughAnnotations = [];
+
+      // Recria annotations para cada comentário
+      let successCount = 0;
+      state.comments.forEach(comment => {
+        const wrapper = document.getElementById(comment.id);
+        if (wrapper) {
+          applyRoughNotation(wrapper, comment);
+          successCount++;
+        } else {
+          console.warn(`[CommentsSystem] ⚠️ Wrapper não encontrado para comentário: ${comment.id}`);
+        }
+      });
+
+      console.log(`[CommentsSystem] ✅ ${successCount} annotations recriadas`);
     }
   };
 

@@ -47,6 +47,13 @@ class AudioPlayer {
     this.volume = 1; // Volume atual (0-1)
     this.isMuted = false; // Estado do mute
 
+    // --- Modo de reprodução individual
+    this.isIndividualMode = false; // Flag para modo individual
+    this.individualTrackIndex = null; // Índice da track individual
+
+    // --- Sistema de badge único
+    this.currentVisibleBadge = null; // Rastreia badge atualmente visível
+
     // --- Configuração visual
     this.HTMLConfig = {
       iconSize: (() => {
@@ -79,6 +86,7 @@ class AudioPlayer {
     this.buildPlaylist();
     this.createUI();
     this.setupEventListeners();
+    this.initializeHoverBadges();
 
     console.log(
       `[AudioPlayer] ✅ Inicializado com ${this.playlist.length} tracks`
@@ -149,6 +157,68 @@ class AudioPlayer {
     }
 
     return text;
+  }
+
+  /**
+   * Inicializa sistema de badges HTML reais (totalmente clicáveis e compatíveis com cursor custom)
+   */
+  initializeHoverBadges() {
+    console.log('[AudioPlayer] 🔍 Iniciando criação de badges...');
+    const elements = document.querySelectorAll('[data-audio]');
+    console.log(`[AudioPlayer] 🔍 Encontrados ${elements.length} elementos com data-audio`);
+    
+    elements.forEach((element, index) => {
+      console.log(`[AudioPlayer] 🔍 Processando elemento ${index + 1}:`, element.dataset.audio);
+      
+      // Cria badge HTML real (ao invés de CSS ::after)
+      const badge = document.createElement('div');
+      badge.className = 'audio-hover-badge';
+      badge.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/>
+      </svg>`;
+      badge.dataset.audioKey = element.dataset.audio;
+      
+      // Insere badge como primeiro filho do elemento
+      element.insertBefore(badge, element.firstChild);
+      console.log(`[AudioPlayer] ✅ Badge criado e inserido para: ${element.dataset.audio}`);
+      
+      // Eventos de hover (mostrar/esconder badge) - Sistema de badge único
+      element.addEventListener('mouseenter', () => {
+        // Esconde badge anterior imediatamente
+        if (this.currentVisibleBadge && this.currentVisibleBadge !== badge) {
+          this.currentVisibleBadge.classList.remove('visible');
+          if (this.currentVisibleBadge._hideTimeout) {
+            clearTimeout(this.currentVisibleBadge._hideTimeout);
+          }
+        }
+        
+        // Mostra badge atual
+        if (badge._hideTimeout) {
+          clearTimeout(badge._hideTimeout);
+        }
+        badge.classList.add('visible');
+        this.currentVisibleBadge = badge;
+      });
+      
+      element.addEventListener('mouseleave', () => {
+        badge._hideTimeout = setTimeout(() => {
+          badge.classList.remove('visible');
+          if (this.currentVisibleBadge === badge) {
+            this.currentVisibleBadge = null;
+          }
+        }, 500);
+      });
+      
+      // Click no badge
+      badge.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('[AudioPlayer] 🖱️ Badge clicado!', element.dataset.audio);
+        this.playIndividual(element);
+      });
+    });
+
+    console.log('[AudioPlayer] ✅ Badges HTML inicializados');
   }
 
   /**
@@ -403,15 +473,56 @@ class AudioPlayer {
     this.pause();
     this.hidePlayer();
     this.removeHighlight();
-    
+
+    // Reseta modo individual
+    this.isIndividualMode = false;
+    this.individualTrackIndex = null;
+
     // Recria as rough notations com posições atualizadas após remover o highlight
     if (window.roughAnnotationSystem) {
       // Delay para garantir que o highlight foi removido e o layout estabilizou
       setTimeout(() => {
         window.roughAnnotationSystem.refresh();
-        console.log("[AudioPlayer] ✅ Rough notations recalculadas após fechar player");
+        console.log("[AudioPlayer] ✅ Rough notations padrão recalculadas após fechar player");
+
+        // Recria também as notations dos comentários
+        if (window.CommentsSystem?.refreshAnnotations) {
+          window.CommentsSystem.refreshAnnotations();
+          console.log("[AudioPlayer] ✅ Rough notations dos comentários recalculadas após fechar player");
+        }
       }, 50);
     }
+  }
+
+  /**
+   * Reproduz apenas um parágrafo específico e fecha ao terminar
+   * @param {HTMLElement} element - Elemento DOM com data-audio
+   */
+  playIndividual(element) {
+    const audioKey = element.dataset.audio;
+
+    // Encontra índice da track na playlist
+    const trackIndex = this.playlist.findIndex(
+      track => track.audioKey === audioKey
+    );
+
+    if (trackIndex === -1) {
+      console.error(`[AudioPlayer] Track não encontrada: ${audioKey}`);
+      return;
+    }
+
+    console.log(`[AudioPlayer] 🎵 Reproduzindo áudio individual: ${audioKey}`);
+
+    // Ativa modo individual
+    this.isIndividualMode = true;
+    this.individualTrackIndex = trackIndex;
+
+    // Carrega e reproduz
+    this.currentIndex = trackIndex;
+    this.loadTrack(trackIndex);
+    this.showPlayer();
+    this.initializeVolumeSlider();
+    this.play();
   }
 
 
@@ -442,6 +553,13 @@ class AudioPlayer {
    * Chamado quando uma track termina
    */
   onTrackEnded() {
+    // Se estiver em modo individual, fecha o player automaticamente
+    if (this.isIndividualMode) {
+      console.log('[AudioPlayer] ✅ Áudio individual concluído, fechando player');
+      this.close();
+      return;
+    }
+
     // Se não for a última, avança automaticamente
     if (this.currentIndex < this.playlist.length - 1) {
       this.next();

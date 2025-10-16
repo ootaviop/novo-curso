@@ -486,34 +486,29 @@
 
   function showSuccessFeedback(count) {
     const toast = document.createElement('div');
-    toast.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #fff3e0;
-      border-left: 3px solid var(--primary-orange, #ff5c00);
-      color: var(--completion-orange, #ff6b35);
-      padding: 20px 28px;
-      border-radius: 0px;
-      box-shadow: var(--completion-shadow);
-      z-index: 10005;
-      font-weight: 600;
-      font-size: 16px;
-      animation: slideInRight 0.4s ease;
-    `;
+    toast.className = 'comment-toast';
     toast.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <span style="font-size: 24px;">✅</span>
+      <div class="comment-toast-content">
+        <svg class="comment-toast-icon success" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
         <div>
-          <div style="font-weight: 700; margin-bottom: 4px;">PDF gerado com sucesso!</div>
-          <div style="font-size: 13px; opacity: 0.9;">${count} comentário${count !== 1 ? 's' : ''} exportado${count !== 1 ? 's' : ''}</div>
+          <div class="comment-toast-text" style="font-weight: 700; margin-bottom: 4px;">PDF gerado com sucesso!</div>
+          <div class="comment-toast-text" style="font-size: 13px; opacity: 0.7;">${count} comentário${count !== 1 ? 's' : ''} exportado${count !== 1 ? 's' : ''}</div>
         </div>
       </div>
     `;
     document.body.appendChild(toast);
 
+    // Animar entrada
+    requestAnimationFrame(() => {
+      toast.classList.add('visible');
+    });
+
+    // Remover após delay
     setTimeout(() => {
-      toast.style.animation = 'slideOutRight 0.4s ease';
+      toast.classList.remove('visible');
       setTimeout(() => toast.remove(), 400);
     }, 4000);
   }

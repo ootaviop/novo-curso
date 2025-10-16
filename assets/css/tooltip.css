@@ -4,73 +4,63 @@
  * ═══════════════════════════════════════════════════════════════
  */
 
-/* Tema customizado laranja com bordas arredondadas */
+/* Tema customizado laranja - leve e elegante */
 .tippy-box[data-theme~='orange-rounded'] {
-  background-color: var(--orange-white);
-  border: 1px solid var(--orange);
-  color: var(--white) !important;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 8px 12px;
-  text-align: center;
-  box-shadow: 0 1px 3px rgba(var(--white), 0.4);
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--text, #333) !important;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 10px 14px;
+  text-align: left;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-family: 'Red Hat Display', sans-serif;
+  line-height: 1.6;
+  max-width: 280px;
 }
 
+/* Seta da tooltip */
+.tippy-box[data-theme~='orange-rounded'][data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: #ffffff;
+}
 
+.tippy-box[data-theme~='orange-rounded'][data-placement^='bottom'] > .tippy-arrow::before {
+  border-bottom-color: #ffffff;
+}
+
+.tippy-box[data-theme~='orange-rounded'][data-placement^='left'] > .tippy-arrow::before {
+  border-left-color: #ffffff;
+}
+
+.tippy-box[data-theme~='orange-rounded'][data-placement^='right'] > .tippy-arrow::before {
+  border-right-color: #ffffff;
+}
 
 /* Ajustes finos */
 .tippy-box[data-theme~='orange-rounded'] .tippy-content {
   padding: 0;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 /* Animação suave ao aparecer */
 .tippy-box[data-theme~='orange-rounded'][data-animation='fade'][data-state='hidden'] {
   opacity: 0;
+  transform: scale(0.96);
 }
 
 .tippy-box[data-theme~='orange-rounded'][data-animation='fade'][data-state='visible'] {
   opacity: 1;
+  transform: scale(1);
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   💡 INDICADORES VISUAIS PARA ELEMENTOS COM TOOLTIP
+   💡 TOOLTIPS EM ELEMENTOS DESTACADOS
    ═══════════════════════════════════════════════════════════════ */
 
-/* Container para ícone de informação */
+/* Elementos com tooltip mantêm cursor padrão - interação é via hover */
 [data-tooltip] {
   position: relative;
-  /* cursor: help; */
-  display: inline; /* Garante que o posicionamento funcione */
-}
-
-/* Ícone de informação usando Lucide */
-[data-tooltip]::after {
-  content: "";
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  margin-left: -2px;
-  vertical-align: top;
-  opacity: 0.8;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmMjYxMGMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1hc3Rlcmlzay1pY29uIGx1Y2lkZS1hc3RlcmlzayI+PHBhdGggZD0iTTEyIDZ2MTIiLz48cGF0aCBkPSJNMTcuMTk2IDkgNi44MDQgMTUiLz48cGF0aCBkPSJtNi44MDQgOSAxMC4zOTIgNiIvPjwvc3ZnPg==");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  pointer-events: none;
-}
-
-/* Aumenta opacidade e adiciona micro-animação no hover */
-[data-tooltip]:hover::after {
-  opacity: 0.9;
-  transform: scale(1.1);
-}
-
-/* Para elementos inline (spans dentro de texto) */
-[data-tooltip] span::after {
-  vertical-align: super;
-  margin-left: 2px;
+  cursor: help;
 }
 

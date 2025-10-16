@@ -210,94 +210,6 @@
   </div>
   
   <script src="https://unpkg.com/lucide@latest"></script>
-  <div class="cursor-system" id="cursorSystem">
-    <div class="cursor-model cursor-model-custom" data-model="custom">
-      <!-- Estado 1: DEFAULT (navegação) -->
-      <div class="cursor-default active">
-        <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <!-- Exemplo: usando o arrow-evolved que você gostou -->
-          <g id="Objects">
-            <path class="cls-1" style="fill: #fff"
-              d="M0,0l10.08,24,2.92-11,11-2.92L0,0ZM12.13,12.13l-2.28,8.6L1.98,1.98l18.75,7.87-8.6,2.28Z" />
-            <polygon class="cls-1" style="fill: #ff5c00"
-              points="20.73 9.85 12.13 12.13 9.85 20.73 1.98 1.98 20.73 9.85" />
-          </g>
-        </svg>
-      </div>
-
-      <!-- Estado 2: HOVER (mão) -->
-      <div class="cursor-hand">
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-          <g id="Objects">
-            <path class="cls-2" style="fill: #ff5c00"
-              d="M21.11,12.37c0-.48.22-.92.56-1.23.35-.32.83-.51,1.36-.51,1.06,0,1.91.78,1.91,1.75v8.07c0,1.62-.46,3.21-1.33,4.62-.87,1.41-1.32,3-1.32,4.63v1.62h-11.93c0-2.72-1.19-5.32-3.3-7.24l-5.7-5.18c-.47-.42-.7-.97-.7-1.52s.24-1.1.69-1.52c.93-.85,2.44-.84,3.36,0l4.47,4.14V2.53c0-.54.24-1.02.63-1.37.42-.39,1.03-.61,1.69-.56,1.13.08,1.95,1.01,1.95,2.03v6.9c0-.48.22-.92.56-1.23.34-.32.83-.51,1.35-.51,1.06,0,1.91.78,1.91,1.74v1.31c0-.48.22-.92.56-1.23.35-.32.83-.51,1.36-.51,1.06,0,1.91.78,1.91,1.75v1.52Z" />
-            <path class="cls-2" style="fill: #ffffff"
-              d="M17.28,11.44c-.36,0-.66-.27-.66-.6v-1.31c0-.64-.55-1.14-1.26-1.14-.34,0-.66.12-.88.33-.24.22-.38.51-.38.82,0,.33-.29.6-.66.6s-.66-.27-.66-.6c0-.62.27-1.21.76-1.66.47-.43,1.13-.68,1.81-.68,1.42,0,2.57,1.05,2.57,2.34v1.31c0,.33-.29.6-.66.6Z" />
-            <path class="cls-2" style="fill: #ffffff"
-              d="M17.28,17.59c-.36,0-.66-.27-.66-.6v-3.12c0-.33.29-.6.66-.6s.66.27.66.6v3.12c0,.33-.29.6-.66.6Z" />
-            <path class="cls-2" style="fill: #ffffff"
-              d="M17.28,14.47c-.36,0-.66-.27-.66-.6v-3.03c0-.62.27-1.21.76-1.66.49-.44,1.13-.69,1.82-.69,1.42,0,2.57,1.05,2.57,2.34v1.52c0,.33-.29.6-.66.6s-.66-.27-.66-.6v-1.52c0-.63-.56-1.15-1.26-1.15-.34,0-.65.12-.89.34-.24.22-.37.51-.37.81v3.03c0,.33-.29.6-.66.6Z" />
-            <path class="cls-2" style="fill: #ffffff"
-              d="M21.11,18.79c-.36,0-.66-.27-.66-.6v-2.37c0-.33.29-.6.66-.6s.66.27.66.6v2.37c0,.33-.29.6-.66.6Z" />
-            <path class="cls-2" style="fill: #ffffff"
-              d="M22.29,31.9h-11.94c-.36,0-.66-.27-.66-.6,0-2.58-1.1-5-3.1-6.82L.89,19.3c-.58-.52-.89-1.21-.89-1.94s.31-1.42.89-1.94c.57-.52,1.32-.82,2.15-.81.81,0,1.57.29,2.14.82l3.35,3.1V2.53c0-.68.29-1.32.83-1.8C9.91.22,10.71-.05,11.55,0c1.43.11,2.56,1.26,2.56,2.63v13.34c0,.33-.29.6-.66.6s-.66-.27-.66-.6V2.64c0-.75-.59-1.38-1.35-1.44-.44-.03-.87.11-1.17.38-.29.26-.44.59-.44.95v17.44c0,.24-.16.46-.41.55-.25.09-.53.04-.72-.13l-4.47-4.14c-.32-.29-.75-.46-1.21-.46h0c-.46,0-.89.16-1.21.46-.32.29-.5.69-.5,1.1s.18.8.51,1.1l5.7,5.18c2.09,1.91,3.31,4.4,3.47,7.07h10.64v-1.03c0-1.72.49-3.43,1.41-4.92.82-1.32,1.25-2.81,1.25-4.33v-8.07c0-.63-.56-1.15-1.26-1.15-.34,0-.65.12-.89.34-.24.22-.37.51-.37.81v3.45c0,.33-.29.6-.66.6s-.66-.27-.66-.6v-3.45c0-.62.27-1.21.76-1.66.49-.44,1.13-.69,1.82-.69,1.42,0,2.57,1.05,2.57,2.34v8.07c0,1.72-.49,3.42-1.42,4.91-.81,1.31-1.24,2.81-1.24,4.33v1.62c0,.33-.29.6-.66.6Z" />
-            <rect class="cls-2" style="fill: #ff5c00" x="8.22" y="27.69" width="16.02" height="3.71" rx=".65"
-              ry=".65" />
-            <path class="cls-2" style="fill: #ffffff"
-              d="M23.05,32h-13.64c-1.02,0-1.84-.75-1.84-1.68v-1.55c0-.93.83-1.68,1.84-1.68h13.64c1.02,0,1.84.75,1.84,1.68v1.55c0,.93-.83,1.68-1.84,1.68ZM9.41,28.29c-.29,0-.53.22-.53.49v1.55c0,.27.24.49.53.49h13.64c.29,0,.53-.22.53-.49v-1.55c0-.27-.24-.49-.53-.49h-13.64Z" />
-          </g>
-        </svg>
-      </div>
-
-      <!-- Estado 3: GRAB (click/mousedown) -->
-      <div class="cursor-grab">
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-          <g id="cursor-mao-fechada">
-            <g>
-              <rect class="cls-3" style="fill: transparent" width="25.6" height="32" />
-              <g>
-                <path class="cls-2" style="fill: #ff5c00"
-                  d="M19.4,15.4c0-.5.2-.9.5-1.2s.8-.5,1.3-.5c1,0,1.8.8,1.8,1.8v5.1c0,1.6-.4,3.2-1.2,4.6s-1.2,3-1.2,4.6v1.6h-11c0-2.7-1.1-5.3-3-7.2l-3.64-4.23c-.4-.4-.6-1-.6-1.5s.2-1.1.6-1.5c.9-.9,2.2-.8,3.1,0l2.54,3.13.02-7.48c0-.5.2-1,.6-1.4.4-.4.9-.6,1.6-.6,1,0,1.8,1,1.8,2l-.02-.22c0-.5.2-.9.5-1.2s.8-.5,1.2-.5c1,0,1.8.8,1.8,1.7v1.3c0-.5.2-.9.5-1.2s.8-.5,1.3-.5c1,0,1.8.8,1.8,1.8v1.5h0l-.3.1Z" />
-                <path class="cls-1" style="fill: #fff"
-                  d="M15.9,14.4c-.3,0-.6-.3-.6-.6v-1.3c0-.6-.5-1.1-1.2-1.1s-.6.1-.8.3-.34.67-.34.97-.36.43-.66.43-.36-.37-.36-.67c0-.6-.04-1.13.46-1.63.4-.4,1-.7,1.7-.7,1.3,0,2.4,1,2.4,2.3v1.3c0,.3-.3.6-.6.6h0v.1Z" />
-                <path class="cls-1" style="fill: #fff"
-                  d="M15.95,20.33c-.33,0-.65-.3-.65-.6v-3.1c0-.3.33-.6.65-.6s.65.3.65.6v3.1c0,.3-.33.6-.65.6Z" />
-                <path class="cls-1" style="fill: #fff"
-                  d="M15.9,17.5c-.3,0-.6-.3-.6-.6v-3c0-.6.2-1.2.7-1.7.5-.4,1-.7,1.7-.7,1.3,0,2.4,1.1,2.4,2.3v1.5c0,.3-.3.6-.6.6s-.6-.3-.6-.6v-1.5c0-.6-.5-1.1-1.2-1.1s-.6.1-.8.3-.3.5-.3.8v3c0,.3-.3.6-.6.6h0l-.1.1Z" />
-                <path class="cls-1" style="fill: #fff"
-                  d="M19.5,21.1c-.3,0-.6-.3-.6-.6v-2.4c0-.3.3-.6.6-.6s.6.3.6.6v2.4c0,.3-.3.6-.6.6Z" />
-                <path class="cls-1" style="fill: #fff"
-                  d="M20.4,31.9h-11c-.3,0-.6-.3-.6-.6,0-2.6-1-5-2.9-6.8l-3.64-4.23c-.5-.5-.8-1.2-.8-1.9s.3-1.4.8-1.9,1.2-.8,2-.8c.7,0,1.4.3,2,.8l1.54,2.13.02-5.98c0-.7.3-1.3.8-1.8s1.2-.8,2-.7c1.3.1,2.4,1.3,2.4,2.6l-.02,6.18c0,.3-.3.6-.6.6s-.6-.3-.6-.6l.02-6.18c0-.8-.5-1.4-1.2-1.4-.4,0-.8.1-1.1.4s-.4.6-.4.9l-.02,7.28c0,.2-.1.5-.4.5s-.5,0-.7-.1l-2.54-3.13c-.3-.3-.7-.5-1.1-.5h0c-.4,0-.8.2-1.1.5s-.5.7-.5,1.1.2.8.5,1.1l3.64,4.23c1.9,1.9,3,4.4,3.2,7.1h9.8v-1c0-1.7.5-3.4,1.3-4.9.8-1.3,1.2-2.8,1.2-4.3v-5.1c0-.6-.5-1.1-1.2-1.1s-.6.1-.8.3-.3.5-.3.8v3.4c0,.3-.3.6-.6.6s-.6-.3-.6-.6v-3.4c0-.6.2-1.2.7-1.7.5-.4,1-.7,1.7-.7,1.3,0,2.4,1.1,2.4,2.3v5.1c0,1.7-.5,3.4-1.3,4.9-.7,1.3-1.1,2.8-1.1,4.3v1.6c0,.3-.3.6-.6.6h0l-.3.1Z" />
-                <rect class="cls-2" style="fill: #ff5c00" x="7.6" y="27.7" width="14.8" height="3.7" rx=".6" ry=".6" />
-                <path class="cls-1" style="fill: #fff"
-                  d="M21.2,32h-12.6c-.9,0-1.7-.8-1.7-1.7v-1.5c0-.9.8-1.7,1.7-1.7h12.6c.9,0,1.7.8,1.7,1.7v1.5c0,.9-.8,1.7-1.7,1.7ZM8.7,28.3c-.3,0-.5.2-.5.5v1.5c0,.3.2.5.5.5h12.6c.3,0,.5-.2.5-.5v-1.5c0-.3-.2-.5-.5-.5,0,0-12.6,0-12.6,0Z" />
-              </g>
-            </g>
-          </g>
-        </svg>
-      </div>
-
-      <!-- Estado 4: TOOLTIP (informação) -->
-      <div class="cursor-tooltip">
-        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-          <g id="Camada_2-2">
-            <rect class="cls-1" style="fill: transparent" width="24" height="24" />
-            <path class="cls-1" style="fill: #fff"
-              d="M12.01,22.67c-.8,0-1.52-.3-2.09-.87-.57-.57-.87-1.29-.87-2.09s.3-1.54.87-2.1c.57-.56,1.29-.86,2.09-.86s1.53.3,2.1.86.86,1.29.86,2.1-.3,1.52-.86,2.09c-.56.57-1.29.87-2.1.87ZM9.66,16.37v-2.27c0-1.04.22-1.98.67-2.79.44-.82,1.11-1.51,1.97-2.06.6-.37,1.04-.76,1.32-1.17.24-.36.36-.73.36-1.14,0-.47-.16-.66-.3-.78-.26-.21-.67-.32-1.24-.32-.68,0-1.33.17-1.99.51-.68.35-1.26.82-1.74,1.4l-.71.87-3.18-3.3.48-.68c.72-1.02,1.74-1.84,3.04-2.44,1.27-.59,2.66-.89,4.14-.89,1.95,0,3.52.47,4.64,1.4,1.19.98,1.79,2.35,1.79,4.08,0,1.16-.3,2.24-.88,3.2-.57.93-1.42,1.76-2.52,2.47-.44.29-.77.6-.97.91-.18.27-.26.57-.26.89v2.09h-4.6Z" />
-            <path class="cls-2" style="fill: #ff5c00"
-              d="M16.47,3.5c-.95-.78-2.29-1.17-4.01-1.17-1.33,0-2.57.27-3.72.8-1.14.53-2.03,1.23-2.64,2.11l1.83,1.9c.57-.69,1.25-1.24,2.05-1.66s1.62-.62,2.45-.62,1.44.18,1.88.55c.44.37.66.88.66,1.54,0,.61-.18,1.18-.54,1.7-.36.53-.89,1.01-1.61,1.45-.72.46-1.27,1.02-1.63,1.69-.36.67-.54,1.44-.54,2.31v1.27h2.6v-1.09c0-.52.14-1,.42-1.44.28-.44.71-.84,1.27-1.21.98-.63,1.72-1.34,2.21-2.15s.74-1.7.74-2.68c0-1.42-.47-2.52-1.42-3.31Z" />
-            <path class="cls-2" style="fill: #ff5c00"
-              d="M12.01,17.75c-.54,0-1,.19-1.38.57-.38.38-.58.84-.58,1.39s.19,1,.58,1.38.85.58,1.38.58,1.01-.19,1.39-.58c.38-.38.57-.85.57-1.38s-.19-1.01-.57-1.39-.84-.57-1.39-.57Z" />
-          </g>
-        </svg>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════
-       RIPPLE (feedback de click)
-       ═══════════════════════════════════════════════════════ -->
-    <div class="cursor-ripple" id="cursorRipple"></div>
-  </div>
   <!-- ═══════════════════════════════════════════════════════════
        🗺️ MINIMAP
        ═══════════════════════════════════════════════════════════ -->
@@ -424,7 +336,7 @@
                 Esse grande conjunto, formado por todas as seções, só pode
                 alcançar sua melhor performance quando trabalha de forma
                 integrada,
-                <span>respeitando os tempos e espaços uns dos outros. <span class="cls-highlight">Para que
+                <span>respeitando os tempos e espaços uns dos outros. <span class="cls-highlight" data-tooltip="A harmonia na gestão escolar depende de liderança coordenada e colaboração entre todos os atores">Para que
                     essa harmonia seja possível</span>, é essencial a atuação do
                   diretor escolar</span>. Cabe a ele o papel de maestro, capaz de orquestrar os
                 esforços individuais em prol de um projeto coletivo.
@@ -468,7 +380,7 @@
           <div class="content-wrapper">
             <section data-nav-level="2" data-label="Múltiplas dimensões de uma gestão democrática">
               <h3 data-audio="p7">
-                <span class="cls-underline" data-tooltip="Gestão democrática abrange várias áreas de atuação">Múltiplas
+                <span class="cls-underline">Múltiplas
                   dimensões</span>
                 de uma gestão democrática
               </h3>
@@ -481,7 +393,7 @@
                 <strong>O gestor, mais do que nunca, precisa lidar simultaneamente
                   com múltiplas dimensões</strong>
                 –
-                <span class="cls-highlight">pedagógica, administrativa, humana e política</span>
+                <span class="cls-highlight" data-tooltip="As quatro dimensões fundamentais da gestão escolar eficaz">pedagógica, administrativa, humana e política</span>
                 – e garantir que todas estejam a serviço da aprendizagem.
               </p>
               <p data-audio="p9">
@@ -498,7 +410,7 @@
                   1988</a>
                 e a LDB, passando pela BNCC até a legislação que rege o
                 funcionamento do
-                <strong class="cls-highlight" data-color="var(--rough-notation-soft-purple)">Fundeb Permanente</strong>,
+                <strong class="cls-highlight" data-color="var(--rough-notation-soft-purple)" data-tooltip="Fundo de Manutenção e Desenvolvimento da Educação Básica - principal fonte de financiamento da educação pública">Fundeb Permanente</strong>,
                 e expressa valores que desejamos cultivar em nossa
                 sociedade e em nossos estudantes, como participação,
                 corresponsabilidade, transparência…
@@ -609,8 +521,7 @@
             <p data-audio="p18">
               <span>Não sem motivo</span>, quando o Instituto Unibanco e a
               Universidad Diego Portales (2021, p. 7) lançaram o informe
-              <i><span class="cls-underline" data-tooltip="Liderança escolar para a melhoria da educação: contribuições
-                para o debate público no Brasil">Liderança escolar</span>
+              <i><span class="cls-underline">Liderança escolar</span>
                 para a melhoria da educação: contribuições para o debate
                 público no Brasil</i>, mapeando diferentes modalidades de liderança escolar – cada
               uma com seu respectivo foco –, perceberam que delas vem ganhando
@@ -653,7 +564,7 @@
               Uma liderança escolar com essas características também pode ser
               associada ao modelo de liderança transformacional, proposto por
               <span class="cls-underline"
-                data-tooltip="Leithwood e Jantzi (1999) e posteriormente revisado por Leithwood e colaboradores (2019, p. 4 apud Vilardi 2021, p. 94)">Leithwood
+               >Leithwood
                 e Jantzi</span>
               (1999) e posteriormente revisado por Leithwood e colaboradores
               (2019, p. 4 apud Vilardi 2021, p. 94). De acordo com os autores,
@@ -682,7 +593,7 @@
                 contextuais (Vilardi, 2021). Por ocupar essa posição central,
                 o
                 <strong class="cls-underline"
-                  data-tooltip="O gestor influencia diretamente o clima institucional">gestor influencia diretamente o
+                  >gestor influencia diretamente o
                   clima institucional</strong>
                 e o tom das atividades que o constroem. O gestor que adota
                 práticas transformacionais é, acima de tudo, aquele que
@@ -718,7 +629,7 @@
                 A liderança escolar tem efeito significativo nas
                 características da organização escolar, o que influencia
                 positivamente a qualidade do ensino e da aprendizagem.
-                <span class="cls-highlight">Embora moderado, esse efeito de liderança é vital para o
+                <span class="cls-highlight" data-tooltip="A liderança escolar tem impacto indireto mas essencial na qualidade do ensino e aprendizagem">Embora moderado, esse efeito de liderança é vital para o
                   sucesso da maioria dos esforços de melhoria escolar.</span>
               </p>
             </div>
@@ -772,7 +683,7 @@
                 <strong>líderes mais eficazes</strong> não apenas
                 <strong>incentivam a formação</strong> dos profissionais da
                 escola, mas também
-                <strong class="cls-highlight">participam ativamente</strong>
+                <strong class="cls-highlight" data-tooltip="Líderes eficazes não apenas incentivam a formação, mas aprendem junto com suas equipes">participam ativamente</strong>
                 desse processo, seja como aprendizes ou liderando a equipe.
               </p>
               <p>
@@ -786,7 +697,7 @@
               <p>
                 Mas como isso se articula, na prática, com a gestão do
                 currículo orientada por evidências?
-                <span class="cls-highlight" data-color="var(--rough-notation-soft-purple)">É o que veremos no próximo
+                <span class="cls-highlight" data-color="var(--rough-notation-soft-purple)" data-tooltip="Continuação: como a liderança se articula com a gestão do currículo orientada por evidências">É o que veremos no próximo
                   tópico.</span>
               </p>
             </section>
@@ -828,7 +739,7 @@
               <p>
                 Mas como isso se articula, na prática, com a gestão do
                 currículo orientada por evidências?
-                <span class="cls-highlight" data-color="var(--rough-notation-soft-green)">É o que veremos no próximo
+                <span class="cls-highlight" data-color="var(--rough-notation-soft-green)" data-tooltip="Saiba mais sobre a aplicação prática da gestão curricular baseada em dados">É o que veremos no próximo
                   tópico.</span>
               </p>
               <p>A rede da qual essas escolas fazem parte tem seu sistema próprio de avaliação há mais de 10 anos e
@@ -854,7 +765,7 @@
               <p class="cls-bracket" data-color="var(--rough-notation-solid-blue)"><strong>Primeiro</strong>, porque o volume de dados internos e externos disponíveis hoje para análise da realidade escolar é tão grande que seria praticamente impossível, para qualquer profissional isoladamente, dar conta de todos eles para elaborar um diagnóstico consistente. Solitariamente, essa tarefa se torna ainda mais inviável diante das inúmeras outras demandas que fazem parte do cotidiano escolar.</p>
               <p><strong>Em segundo lugar</strong>, porque – como vimos no Módulo 02 – os dados educacionais raramente são neutros. Isso significa que sua interpretação deve estar sempre ancorada na realidade concreta da escola, com todas as suas nuances e particularidades. Nesse sentido, o trabalho de transformar dados em informações úteis para a melhoria da aprendizagem torna-se mais consistente quando realizado através das diferentes perspectivas, expertises e experiências dos diversos atores da comunidade escolar.
               </p>
-              <p><strong>Finalmente</strong>, porque a construção de uma cultura de uso de dados na escola dificilmente prospera quando conduzida de maneira impositiva pelo gestor. Sem o <span class="cls-highlight" data-color="var(--rough-notation-soft-purple)">engajamento e a corresponsabilização dos professores</span>, e sem a legitimação por parte dos estudantes e de suas famílias em relação às decisões tomadas a partir das evidências, esse trabalho corre o risco de se reduzir a uma tarefa burocrática, destituída de significado e inerte em seus efeitos positivos.
+              <p><strong>Finalmente</strong>, porque a construção de uma cultura de uso de dados na escola dificilmente prospera quando conduzida de maneira impositiva pelo gestor. Sem o <span class="cls-highlight" data-color="var(--rough-notation-soft-purple)" data-tooltip="A cultura de dados prospera quando professores se sentem parte ativa do processo decisório">engajamento e a corresponsabilização dos professores</span>, e sem a legitimação por parte dos estudantes e de suas famílias em relação às decisões tomadas a partir das evidências, esse trabalho corre o risco de se reduzir a uma tarefa burocrática, destituída de significado e inerte em seus efeitos positivos.
               </p>
             </section>
 
@@ -990,7 +901,6 @@
   <script src="./assets/js/audio-config.js"></script>
   <!-- Player -->
   <script src="./assets/js/audio-player.js"></script>
-  <script src="./assets/js/cursor.js"></script>
   <script src="assets/js/drawSVG.js"></script>
 
   <!-- Incluindo a biblioteca pdf-lib via CDN -->
