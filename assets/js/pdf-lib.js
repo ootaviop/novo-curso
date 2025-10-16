@@ -21,7 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Função auxiliar para quebrar texto (sem mudanças)
     function wrapText(text, font, fontSize, maxWidth) {
-        const words = text.split(' ');
+        // Sanitizar texto antes de processar para evitar erros de encoding
+        const sanitizedText = sanitizeTextForPDF(text);
+        const words = sanitizedText.split(' ');
         const lines = [];
         let currentLine = '';
         for (const word of words) {
@@ -40,6 +42,22 @@ document.addEventListener('DOMContentLoaded', () => {
         return lines;
     }
 
+    // Função para sanitizar texto removendo emojis e caracteres incompatíveis com WinAnsi
+    function sanitizeTextForPDF(text) {
+        return text
+            // Remove emojis e símbolos (U+1F300-U+1F9FF)
+            .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
+            // Remove outros caracteres problemáticos
+            .replace(/[\u{2600}-\u{26FF}]/gu, '')  // Símbolos diversos
+            .replace(/[\u{2700}-\u{27BF}]/gu, '')  // Dingbats
+            .replace(/[\u{2000}-\u{206F}]/gu, '')  // Pontuação geral
+            .replace(/[\u{2070}-\u{209F}]/gu, '')  // Sobrescrito/subscrito
+            .replace(/[\u{20A0}-\u{20CF}]/gu, '')  // Símbolos de moeda
+            // Normalizar espaços em branco
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
     // Função para desenhar listas (sem mudanças)
     function drawList(listElement, page, font, yPosition, margin, width, lineHeight) {
         const items = listElement.querySelectorAll(':scope > li');
@@ -47,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let itemNumber = 1;
 
         for (const item of items) {
-            const text = item.textContent.replace(/\s+/g, ' ').trim();
+            const text = sanitizeTextForPDF(item.textContent.replace(/\s+/g, ' ').trim());
             if (!text) continue;
 
             const prefix = isOrdered ? `${itemNumber++}. ` : '• ';
@@ -122,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Pega TODO o texto dentro do elemento, incluindo o de elementos filhos como <a> e <code>.
                 // A estilização inline deles será perdida, mas o texto será mantido.
-                const text = element.textContent.replace(/\s+/g, ' ').trim();
+                const text = sanitizeTextForPDF(element.textContent.replace(/\s+/g, ' ').trim());
                 if (!text) continue;
 
                 const lines = wrapText(text, font, style.size, width - 2 * margin);

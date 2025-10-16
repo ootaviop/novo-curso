@@ -35,10 +35,16 @@ a, button, input, textarea, select,
    ESTADOS BASE
    ═══════════════════════════════════════════════════════════ */
 
-.cursor-default,
+.cursor-default {
+  position: absolute;
+  transform: translate(0, 0); /* Ponta da seta já está em (0,0) do viewBox */
+  transition: opacity 0.1s cubic-bezier(0.4, 0.0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
 .cursor-hand {
   position: absolute;
-  transform: translate(-10px, -10px); /* Ajusta para que a ponta do cursor seja clicável */
+  transform: translate(-11px, -2px); /* Alinha a ponta do dedo indicador */
   transition: opacity 0.1s cubic-bezier(0.4, 0.0, 0.2, 1);
   will-change: transform, opacity;
 }
@@ -79,10 +85,10 @@ a, button, input, textarea, select,
 
 @keyframes handPulse {
   0%, 100% { 
-    transform: translate(-10px, -10px) scale(1); 
+    transform: translate(-11px, -2px) scale(1); 
   }
   50% { 
-    transform: translate(-10px, -10px) scale(1.05); 
+    transform: translate(-11px, -2px) scale(1.05); 
   }
 }
 
@@ -106,7 +112,7 @@ a, button, input, textarea, select,
 
 .cursor-grab {
   position: absolute;
-  transform: translate(-10px, -10px); /* Ajusta para que a ponta do cursor seja clicável */
+  transform: translate(-11px, -2px); /* Alinha a ponta do dedo indicador (mão fechada) */
   transition: opacity 0.1s cubic-bezier(0.4, 0.0, 0.2, 1);
   will-change: transform, opacity;
   opacity: 0;
@@ -130,13 +136,13 @@ a, button, input, textarea, select,
 
 @keyframes grabSqueeze {
   0% { 
-    transform: translate(-10px, -10px) scale(1); 
+    transform: translate(-11px, -2px) scale(1); 
   }
   50% { 
-    transform: translate(-10px, -10px) scale(0.9); 
+    transform: translate(-11px, -2px) scale(0.9); 
   }
   100% { 
-    transform: translate(-10px, -10px) scale(1); 
+    transform: translate(-11px, -2px) scale(1); 
   }
 }
 
@@ -182,7 +188,7 @@ a, button, input, textarea, select,
 
 .cursor-tooltip {
   position: absolute;
-  transform: translate(-10px, -10px);
+  transform: translate(-12px, -12px); /* Centraliza o símbolo de interrogação */
   transition: opacity 0.1s cubic-bezier(0.4, 0.0, 0.2, 1);
   will-change: transform, opacity;
   opacity: 0;

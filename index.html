@@ -149,6 +149,7 @@
   <link rel="stylesheet" href="assets/css/tooltip.css" />
   <link rel="stylesheet" href="assets/css/braille.css" />
   <link rel="stylesheet" href="assets/css/lesson-completion.css" />
+  <link rel="stylesheet" href="assets/css/comments-system.css" />
   <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script> -->
@@ -865,6 +866,14 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+          <!-- Botão de Download de Comentários -->
+          <div style="text-align: center; margin: 40px 0;">
+            <button class="download-comments-btn" id="downloadCommentsBtn" disabled>
+              Baixar Meus Comentários
+              <span class="download-comments-count">0</span>
+            </button>
+          </div>
+
           <div class="nav-lessons">
             <a href="#" class="nav-item prev">
               <div class="nav-icon icon">
@@ -1000,7 +1009,11 @@
   
   <!-- Sistema de Confetes no Final da Aula -->
   <script src="assets/js/confetti-celebration.js"></script>
-  
+
+  <!-- Sistema de Comentários -->
+  <script src="assets/js/comments-system.js"></script>
+  <script src="assets/js/comments-pdf.js"></script>
+
   <script>
     lucide.createIcons();
   </script>

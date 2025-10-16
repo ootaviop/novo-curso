@@ -1,0 +1,467 @@
+/* ═══════════════════════════════════════════════════════════════
+   💬 SISTEMA DE COMENTÁRIOS
+   Sistema completo de anotações contextualizadas para aulas
+   ═══════════════════════════════════════════════════════════════ */
+
+   :root{
+    --completion-orange: #ff6b35;
+    --completion-orange-light: #ff9470;
+    --completion-orange-bg: rgba(255, 107, 53, 0.08);
+    --completion-orange-border: rgba(255, 107, 53, 0.2);
+    --completion-gray: #64748b;
+    --completion-gray-light: #f8fafc;
+    --completion-white: #ffffff;
+    --completion-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+   }
+
+/* ─────────────────────────────────────────────────────────────
+   🎯 TOOLTIP DE SELEÇÃO "Adicionar comentário"
+   ───────────────────────────────────────────────────────────── */
+.comment-selection-tooltip {
+  position: absolute;
+  background: white;
+  color: #1e293b;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  z-index: 10000;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.95);
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(10px);
+  font-family: 'Red Hat Display', sans-serif;
+  text-decoration: none;
+  outline: none;
+}
+
+.comment-selection-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: all;
+}
+
+.comment-selection-tooltip:hover {
+  background: #f8fafc;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary-orange, #ff5c00);
+}
+
+.comment-selection-tooltip i {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.5;
+  color: var(--primary-orange, #ff5c00);
+  transition: transform 0.2s ease;
+}
+
+.comment-selection-tooltip:hover i {
+  transform: scale(1.1);
+}
+
+.comment-selection-tooltip span {
+  color: #1e293b;
+  font-weight: 500;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   📝 BOX DE EDIÇÃO DE COMENTÁRIO
+   ───────────────────────────────────────────────────────────── */
+.comment-edit-box {
+  position: absolute;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  padding: 16px;
+  width: 320px;
+  max-width: 90vw;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 10001;
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  backdrop-filter: blur(10px);
+  /* Garantir que não cause scroll */
+  will-change: transform, opacity;
+}
+
+.comment-edit-box.visible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: all;
+}
+
+.comment-edit-box:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: rgba(255, 92, 0, 0.2);
+}
+
+.comment-edit-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: var(--primary-orange, #ff5c00);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.comment-edit-header::before {
+  content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZjVjMDAiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLW1lc3NhZ2UtY2lyY2xlLWljb24gbHVjaWRlLW1lc3NhZ2UtY2lyY2xlIj48cGF0aCBkPSJNMi45OTIgMTYuMzQyYTIgMiAwIDAgMSAuMDk0IDEuMTY3bC0xLjA2NSAzLjI5YTEgMSAwIDAgMCAxLjIzNiAxLjE2OGwzLjQxMy0uOTk4YTIgMiAwIDAgMSAxLjA5OS4wOTIgMTAgMTAgMCAxIDAtNC43NzctNC43MTkiLz48L3N2Zz4=');
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.5;
+  color: var(--primary-orange, #ff5c00);
+  transition: transform 0.2s ease;
+}
+
+.comment-selected-text {
+  background: #fff3e0;
+  border-left: 3px solid var(--primary-orange, #ff5c00);
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  border-radius: 0px;
+  font-size: 13px;
+  color: #666;
+  max-height: 80px;
+  overflow-y: auto;
+  line-height: 1.5;
+}
+
+.comment-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-family: 'Red Hat Display', sans-serif;
+  font-size: 14px;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+  margin-bottom: 12px;
+}
+
+.comment-textarea:focus {
+  outline: none;
+  border-color: var(--primary-orange, #ff5c00);
+}
+
+.comment-textarea::placeholder {
+  color: #999;
+}
+
+.comment-edit-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.comment-btn {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Red Hat Display', sans-serif;
+}
+
+.comment-btn-cancel {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.comment-btn-cancel:hover {
+  background: #e0e0e0;
+}
+
+.comment-btn-save {
+  background: var(--primary-orange, #ff5c00);
+  color: white;
+}
+
+.comment-btn-save:hover {
+  background: #e65100;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 92, 0, 0.3);
+}
+
+.comment-btn-save:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🎨 HIGHLIGHT DE TEXTO COMENTADO (Rough Notation - Circle)
+   ───────────────────────────────────────────────────────────── */
+.commented-text {
+  position: relative;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.commented-text:hover {
+  opacity: 0.8;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   💭 TOOLTIP DE VISUALIZAÇÃO DE COMENTÁRIO (hover)
+   ───────────────────────────────────────────────────────────── */
+.comment-view-tooltip {
+  position: absolute;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  color: white;
+  padding: 16px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.7;
+  max-width: 320px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10002;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(-8px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.comment-view-tooltip.visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.comment-view-tooltip::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: 24px;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid #1e293b;
+  filter: drop-shadow(0 -2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.comment-view-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 11px;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #94a3b8;
+}
+
+.comment-view-header i {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.5;
+}
+
+.comment-view-text {
+  color: #f1f5f9;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.comment-view-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.comment-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Red Hat Display', sans-serif;
+}
+
+.comment-view-btn i {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.5;
+}
+
+.comment-view-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.comment-view-btn-delete {
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.comment-view-btn-delete:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: rgba(239, 68, 68, 0.6);
+  color: #fecaca;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   📥 BOTÃO DE DOWNLOAD DE COMENTÁRIOS
+   ───────────────────────────────────────────────────────────── */
+.download-comments-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--primary-orange, #ff5c00);
+  padding: 16px 24px;
+  border-radius: 0px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+   font-family: 'Red Hat Display', sans-serif;
+  margin-top: 20px;
+  position: relative;
+  backdrop-filter: blur(10px);
+  background: var(--completion-white);
+    overflow: hidden;
+    border: 2px solid var(--completion-orange-border);
+    box-shadow: var(--completion-shadow);
+}
+
+.download-comments-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 48px rgba(255, 92, 0, 0.25);
+  background: var(--primary-orange, #ff5c00);
+  color: white;
+  border-color: var(--primary-orange, #ff5c00);
+}
+
+.download-comments-btn:hover::before {
+  content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1kb3dubG9hZC1pY29uIGx1Y2lkZS1kb3dubG9hZCI+PHBhdGggZD0iTTEyIDE1VjMiLz48cGF0aCBkPSJNMjEgMTV2NGEyIDIgMCAwIDEtMiAySDVhMiAyIDAgMCAxLTItMnYtNCIvPjxwYXRoIGQ9Im03IDEwIDUgNSA1LTUiLz48L3N2Zz4=');
+}
+
+.download-comments-btn:active {
+  transform: translateY(0);
+}
+
+.download-comments-btn::before {
+  content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmMjYxMGMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1kb3dubG9hZC1pY29uIGx1Y2lkZS1kb3dubG9hZCI+PHBhdGggZD0iTTEyIDE1VjMiLz48cGF0aCBkPSJNMjEgMTV2NGEyIDIgMCAwIDEtMiAySDVhMiAyIDAgMCAxLTItMnYtNCIvPjxwYXRoIGQ9Im03IDEwIDUgNSA1LTUiLz48L3N2Zz4=');
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+
+.download-comments-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  border: none;
+  color: white;
+}
+
+.download-comments-btn:disabled::before {
+  content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1kb3dubG9hZC1pY29uIGx1Y2lkZS1kb3dubG9hZCI+PHBhdGggZD0iTTEyIDE1VjMiLz48cGF0aCBkPSJNMjEgMTV2NGEyIDIgMCAwIDEtMiAySDVhMiAyIDAgMCAxLTItMnYtNCIvPjxwYXRoIGQ9Im03IDEwIDUgNSA1LTUiLz48L3N2Zz4=');
+}
+
+.download-comments-btn:disabled .download-comments-count{
+  background: #ccc;
+  color: white;
+  border-color: #ccc;
+}
+
+.download-comments-count {
+  background: rgba(255, 92, 0, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  min-width: 24px;
+  text-align: center;
+  /* border: 1px solid var(--primary-orange, #ff5c00); */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: var(--primary-orange, #ff5c00);
+  transition: all 0.2s ease;
+}
+
+.download-comments-btn:hover .download-comments-count {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   📱 RESPONSIVIDADE
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .comment-edit-box {
+    width: 90vw;
+    left: 5vw !important;
+  }
+
+  .comment-view-tooltip {
+    max-width: 80vw;
+  }
+
+  .download-comments-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🎯 SELEÇÃO DE TEXTO (estilo visual)
+   ───────────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(255, 92, 0, 0.2);
+  color: inherit;
+}
+
+::-moz-selection {
+  background: rgba(255, 92, 0, 0.2);
+  color: inherit;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ✨ ANIMAÇÕES
+   ───────────────────────────────────────────────────────────── */
+@keyframes commentPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.comment-saved-animation {
+  animation: commentPulse 0.5s ease;
+}
