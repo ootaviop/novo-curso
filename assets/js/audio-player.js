@@ -477,21 +477,6 @@ class AudioPlayer {
     // Reseta modo individual
     this.isIndividualMode = false;
     this.individualTrackIndex = null;
-
-    // Recria as rough notations com posições atualizadas após remover o highlight
-    if (window.roughAnnotationSystem) {
-      // Delay para garantir que o highlight foi removido e o layout estabilizou
-      setTimeout(() => {
-        window.roughAnnotationSystem.refresh();
-        console.log("[AudioPlayer] ✅ Rough notations padrão recalculadas após fechar player");
-
-        // Recria também as notations dos comentários
-        if (window.CommentsSystem?.refreshAnnotations) {
-          window.CommentsSystem.refreshAnnotations();
-          console.log("[AudioPlayer] ✅ Rough notations dos comentários recalculadas após fechar player");
-        }
-      }, 50);
-    }
   }
 
   /**

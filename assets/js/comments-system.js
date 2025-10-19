@@ -39,7 +39,12 @@
       e.stopPropagation();
     }, { capture: true });
 
-    document.body.appendChild(selectionTooltip);
+    // IMPORTANTE: Inserir dentro do .lesson-content-wrapper
+    // Com display: none não ocupam espaço no fluxo do documento
+    const lessonWrapper = document.querySelector('.lesson-content-wrapper');
+    const targetContainer = lessonWrapper || document.body;
+
+    targetContainer.appendChild(selectionTooltip);
 
     // Box de edição de comentário
     const editBox = document.createElement('div');
@@ -58,7 +63,7 @@
         <button class="comment-btn comment-btn-save" id="commentBtnSave">Salvar</button>
       </div>
     `;
-    document.body.appendChild(editBox);
+    targetContainer.appendChild(editBox);
 
     // Tooltip de visualização (hover)
     const viewTooltip = document.createElement('div');
@@ -80,7 +85,7 @@
         </button>
       </div>
     `;
-    document.body.appendChild(viewTooltip);
+    targetContainer.appendChild(viewTooltip);
 
     // Armazenar referências
     state.elements = {

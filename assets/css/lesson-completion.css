@@ -1,339 +1,291 @@
-/* ═══════════════════════════════════════════════════════════════
-   🎓 LESSON COMPLETION - Layout Horizontal Desktop
-   ═══════════════════════════════════════════════════════════════
-   
-   Layout:
-   Desktop: Progress ring à esquerda | Conteúdo à direita
-   Mobile: Layout vertical (empilhado)
-*/
-
-:root {
-  --completion-orange: #ff6b35;
-  --completion-orange-light: #ff9470;
-  --completion-orange-bg: rgba(255, 107, 53, 0.08);
-  --completion-orange-border: rgba(255, 107, 53, 0.2);
-  --completion-gray: #64748b;
-  --completion-gray-light: #f8fafc;
-  --completion-white: #ffffff;
-  --completion-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+.lesson-content-wrapper :root {
+    --completion-orange: #ff6b35;
+    --completion-orange-light: #ff9470;
+    --completion-orange-bg: rgba(255, 107, 53, 0.08);
+    --completion-orange-border: rgba(255, 107, 53, 0.2);
+    --completion-gray: #64748b;
+    --completion-gray-light: #f8fafc;
+    --completion-white: #ffffff;
+    --completion-shadow: 0 4px 24px rgba(0, 0, 0, 0.06)
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   💎 CONTAINER PRINCIPAL
-   ═══════════════════════════════════════════════════════════════ */
-
-.lesson-completion {
-  position: relative;
-  max-width: 800px;
-  margin: 4rem auto;
-  padding: 0;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(30px);
-  pointer-events: none;
-  
-  transition: 
-    opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-    visibility 0s 0.5s;
+.lesson-content-wrapper .lesson-completion {
+    position: relative;
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(30px);
+    pointer-events: none;
+    transition: opacity .5s cubic-bezier(0.34, 1.56, 0.64, 1), transform .5s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0s .5s
 }
 
-.lesson-completion.visible {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
-  transition-delay: 0s;
+.lesson-content-wrapper .lesson-completion.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition-delay: 0s
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   🎨 BACKGROUND
-   ═══════════════════════════════════════════════════════════════ */
-
-.completion-background {
-  position: absolute;
-  inset: 0;
-  background: var(--completion-white);
-  overflow: hidden;
-  border: 1px solid var(--completion-orange-border);
-  box-shadow: var(--completion-shadow);
+.lesson-content-wrapper .completion-background {
+    position: absolute;
+    inset: 0;
+    background: var(--completion-white);
+    overflow: hidden;
+    border: 1px solid var(--completion-orange-border);
+    box-shadow: var(--completion-shadow)
 }
 
-.completion-gradient {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(
-    90deg,
-    var(--completion-orange) 0%,
-    var(--completion-orange-light) 100%
-  );
+.lesson-content-wrapper .completion-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--completion-orange) 0%, var(--completion-orange-light) 100%)
 }
 
-.completion-particles {
-  position: absolute;
-  inset: 0;
-  background-image: 
-    radial-gradient(circle, var(--completion-orange-border) 1px, transparent 1px);
-  background-size: 40px 40px;
-  background-position: 0 0;
-  opacity: 0.3;
-  animation: particles-drift 30s linear infinite;
+.lesson-content-wrapper .completion-particles {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, var(--completion-orange-border) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: 0 0;
+    opacity: .3;
+    animation: particles-drift 30s linear infinite
 }
 
 @keyframes particles-drift {
-  from { background-position: 0 0; }
-  to { background-position: 40px 40px; }
+    from {
+        background-position: 0 0
+    }
+
+    to {
+        background-position: 40px 40px
+    }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   📦 CONTENT WRAPPER - Layout Flex Horizontal
-   ═══════════════════════════════════════════════════════════════ */
-
-.completion-content {
-  position: relative;
-  z-index: 1;
-  padding: 3rem;
-  display: flex;
-  align-items: center;
-  gap: 3rem;
-}
-
-/* Mobile: Vertical */
-@media (max-width: 768px) {
-  .completion-content {
-    flex-direction: column;
-    padding: 2.5rem 1.5rem;
-    gap: 2rem;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   🎯 PROGRESS RING - Lado Esquerdo (Desktop)
-   ═══════════════════════════════════════════════════════════════ */
-
-.completion-ring-container {
-  position: relative;
-  width: 160px;
-  height: 160px;
-  flex-shrink: 0;
-}
-
-.completion-ring {
-  width: 100%;
-  height: 100%;
-  transform: rotate(-90deg);
-  filter: drop-shadow(0 4px 16px rgba(255, 107, 53, 0.2));
-}
-
-.ring-track {
-  fill: none;
-  stroke: var(--completion-gray-light);
-  stroke-width: 10;
-}
-.ring-progress {
-  fill: none;
-  stroke: var(--completion-orange);
-  stroke-width: 10;
-  stroke-linecap: round;
-  
-  /* Estado inicial: completamente escondido */
-  stroke-dasharray: 439.823;
-  stroke-dashoffset: 439.823;
-  
-  /* Sem transition no CSS - anime.js controla */
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   🔢 CONTADOR CENTRAL
-   ═══════════════════════════════════════════════════════════════ */
-
-.completion-counter-wrapper {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-}
-
-.completion-counter {
-  font-family: 'Red Hat Display', var(--font), sans-serif;
-  font-size: 2.2rem;
-  font-weight: 800;
-  line-height: 1;
-  color: var(--completion-orange);
-  font-variant-numeric: tabular-nums;
-}
-
-.completion-counter-label {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--completion-gray);
-  text-transform: lowercase;
-  letter-spacing: 0.02em;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   📝 TEXTO SECTION - Lado Direito (Desktop)
-   ═══════════════════════════════════════════════════════════════ */
-
-.completion-text-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  align-items: flex-start;
-}
-
-/* Desktop: Alinha à esquerda */
-@media (min-width: 769px) {
-  .completion-text-section {
-    text-align: left;
-  }
-  
-  .completion-achievements {
-    justify-content: flex-start;
-  }
-}
-
-/* Mobile: Centraliza */
-@media (max-width: 768px) {
-  .completion-text-section {
+.lesson-content-wrapper .completion-content {
+    position: relative;
+    z-index: 1;
+    padding: 3rem;
+    display: flex;
     align-items: center;
-    text-align: center;
-  }
-  .completion-achievements {
+    gap: 3rem
+}
+
+@media(max-width: 768px) {
+    .lesson-content-wrapper .completion-content {
+        flex-direction: column;
+        padding: 2.5rem 1.5rem;
+        gap: 2rem
+    }
+}
+
+.lesson-content-wrapper .completion-ring-container {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    flex-shrink: 0
+}
+
+.lesson-content-wrapper .completion-ring {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    filter: drop-shadow(0 4px 16px rgba(255, 107, 53, 0.2))
+}
+
+.lesson-content-wrapper .ring-track {
+    fill: none;
+    stroke: var(--completion-gray-light);
+    stroke-width: 10
+}
+
+.lesson-content-wrapper .ring-progress {
+    fill: none;
+    stroke: var(--completion-orange);
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-dasharray: 439.823;
+    stroke-dashoffset: 439.823
+}
+
+.lesson-content-wrapper .completion-counter-wrapper {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-  }
+    gap: .25rem
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   📝 TEXTOS
-   ═══════════════════════════════════════════════════════════════ */
-
-.completion-title {
-  font-family: 'Red Hat Display', var(--font), sans-serif;
-  font-size: clamp(1.75rem, 4vw, 2.25rem)!important;
-  font-weight: 700;
-  line-height: 1.2!important;
-  color: #0f172a;
-  margin: 0!important;
+.lesson-content-wrapper .completion-counter {
+    font-family: "Red Hat Display", var(--font), sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--completion-orange);
+    font-variant-numeric: tabular-nums
 }
 
-.completion-subtitle {
-  font-size: clamp(1rem, 2vw, 1.125rem)!important;
-  font-weight: 400;
-  color: var(--completion-gray);
-  margin: 0!important;
-  line-height: 1.6!important;
+.lesson-content-wrapper .completion-counter-label {
+    font-size: .875rem;
+    font-weight: 600;
+    color: var(--completion-gray);
+    text-transform: lowercase;
+    letter-spacing: .02em
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   🎖️ BADGES DE CONQUISTAS
-   ═══════════════════════════════════════════════════════════════ */
-
-.completion-achievements {
-  display: none;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  width: 100%;
+.lesson-content-wrapper .completion-text-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: flex-start
 }
 
-.achievement-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
-  
-  background: var(--completion-white);
-  border: 2px solid var(--completion-orange);
-  border-radius: 50px;
-  
-  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.12);
-  
-  opacity: 0;
-  transform: scale(0.9) translateY(10px);
-  animation: badge-appear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  
-  transition: all 0.2s ease;
+@media(min-width: 769px) {
+    .lesson-content-wrapper .completion-text-section {
+        text-align: left
+    }
+
+    .lesson-content-wrapper .completion-achievements {
+        justify-content: flex-start
+    }
 }
 
-.achievement-badge:nth-child(1) { animation-delay: 0.1s; }
-.achievement-badge:nth-child(2) { animation-delay: 0.2s; }
-.achievement-badge:nth-child(3) { animation-delay: 0.3s; }
-.achievement-badge:nth-child(4) { animation-delay: 0.4s; }
-.achievement-badge:nth-child(5) { animation-delay: 0.5s; }
+@media(max-width: 768px) {
+    .lesson-content-wrapper .completion-text-section {
+        align-items: center;
+        text-align: center
+    }
+
+    .lesson-content-wrapper .completion-achievements {
+        justify-content: center
+    }
+}
+
+.lesson-content-wrapper .completion-title {
+    font-family: "Red Hat Display", var(--font), sans-serif;
+    font-size: clamp(1.75rem, 4vw, 2.25rem) !important;
+    font-weight: 700;
+    line-height: 1.2 !important;
+    color: #0f172a;
+    margin: 0 !important
+}
+
+.lesson-content-wrapper .completion-subtitle {
+    font-size: clamp(1rem, 2vw, 1.125rem) !important;
+    font-weight: 400;
+    color: var(--completion-gray);
+    margin: 0 !important;
+    line-height: 1.6 !important
+}
+
+.lesson-content-wrapper .completion-achievements {
+    display: none;
+    flex-wrap: wrap;
+    gap: .75rem;
+    width: 100%
+}
+
+.lesson-content-wrapper .achievement-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .75rem 1.25rem;
+    background: var(--completion-white);
+    border: 2px solid var(--completion-orange);
+    border-radius: 50px;
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.12);
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+    animation: badge-appear .4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    transition: all .2s ease
+}
+
+.lesson-content-wrapper .achievement-badge:nth-child(1) {
+    animation-delay: .1s
+}
+
+.lesson-content-wrapper .achievement-badge:nth-child(2) {
+    animation-delay: .2s
+}
+
+.lesson-content-wrapper .achievement-badge:nth-child(3) {
+    animation-delay: .3s
+}
+
+.lesson-content-wrapper .achievement-badge:nth-child(4) {
+    animation-delay: .4s
+}
+
+.lesson-content-wrapper .achievement-badge:nth-child(5) {
+    animation-delay: .5s
+}
 
 @keyframes badge-appear {
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0)
+    }
 }
 
-.badge-icon {
-  font-size: 1.25rem;
-  line-height: 1;
+.lesson-content-wrapper .badge-icon {
+    font-size: 1.25rem;
+    line-height: 1
 }
 
-.badge-label {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--completion-orange);
+.lesson-content-wrapper .badge-label {
+    font-size: .9375rem;
+    font-weight: 600;
+    color: var(--completion-orange)
 }
 
-.achievement-badge:hover {
-  background: var(--completion-orange-bg);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(255, 107, 53, 0.2);
+.lesson-content-wrapper .achievement-badge:hover {
+    background: var(--completion-orange-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(255, 107, 53, 0.2)
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   📱 RESPONSIVIDADE
-   ═══════════════════════════════════════════════════════════════ */
+@media(max-width: 768px) {
+    .lesson-content-wrapper .lesson-completion {
+        margin: 2rem 1rem
+    }
 
-@media (max-width: 768px) {
-  .lesson-completion {
-    margin: 2rem 1rem;
-  }
-  
-  .completion-ring-container {
-    width: 140px;
-    height: 140px;
-  }
-  
-  .completion-counter {
-    font-size: 1.8rem;
-  }
-  
-  .achievement-badge {
-    padding: 0.625rem 1rem;
-  }
-  
-  .badge-icon {
-    font-size: 1.125rem;
-  }
-  
-  .badge-label {
-    font-size: 0.875rem;
-  }
+    .lesson-content-wrapper .completion-ring-container {
+        width: 140px;
+        height: 140px
+    }
+
+    .lesson-content-wrapper .completion-counter {
+        font-size: 1.8rem
+    }
+
+    .lesson-content-wrapper .achievement-badge {
+        padding: .625rem 1rem
+    }
+
+    .lesson-content-wrapper .badge-icon {
+        font-size: 1.125rem
+    }
+
+    .lesson-content-wrapper .badge-label {
+        font-size: .875rem
+    }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   ♿ ACESSIBILIDADE
-   ═══════════════════════════════════════════════════════════════ */
+@media(prefers-reduced-motion: reduce) {
 
-@media (prefers-reduced-motion: reduce) {
-  .lesson-completion,
-  .ring-progress,
-  .achievement-badge,
-  .completion-particles {
-    animation: none !important;
-    transition-duration: 0.01ms !important;
-  }
+    .lesson-content-wrapper .lesson-completion,
+    .lesson-content-wrapper .ring-progress,
+    .lesson-content-wrapper .achievement-badge,
+    .lesson-content-wrapper .completion-particles {
+        animation: none !important;
+        transition-duration: .01ms !important
+    }
 }
-

@@ -11,7 +11,11 @@
        Renderiza instantaneamente antes de qualquer CSS externo
        ═══════════════════════════════════════════════════════════════ -->
   <style>
-    #skeleton-loader {
+    /* ═══════════════════════════════════════════════════════════════
+       🎯 ESTILOS ESCOPADOS - Skeleton Loader
+       Todos os estilos são prefixados com .lesson-content-wrapper
+       ═══════════════════════════════════════════════════════════════ */
+    .lesson-content-wrapper #skeleton-loader {
       position: fixed;
       top: 0;
       left: 0;
@@ -22,29 +26,29 @@
       overflow: hidden;
       transition: opacity 0.3s ease-out;
     }
-    
-    #skeleton-loader.loaded {
+
+    .lesson-content-wrapper #skeleton-loader.loaded {
       opacity: 0;
       pointer-events: none;
     }
-    
-    .skeleton-container {
+
+    .lesson-content-wrapper .skeleton-container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 2rem 1rem;
     }
-    
-    .skeleton-block {
+
+    .lesson-content-wrapper .skeleton-block {
       background: #e0e0e0;
       border-radius: 4px;
       margin-bottom: 1rem;
     }
-    
-    .skeleton-pulse {
-      animation: skeleton-pulse 1.5s ease-in-out infinite;
+
+    .lesson-content-wrapper .skeleton-pulse {
+      animation: lesson-skeleton-pulse 1.5s ease-in-out infinite;
     }
-    
-    @keyframes skeleton-pulse {
+
+    @keyframes lesson-skeleton-pulse {
       0%, 100% {
         opacity: 1;
       }
@@ -52,86 +56,86 @@
         opacity: 0.5;
       }
     }
-    
+
     /* Breadcrumb skeleton */
-    .skeleton-breadcrumb {
+    .lesson-content-wrapper .skeleton-breadcrumb {
       display: flex;
       gap: 0.5rem;
       margin-bottom: 2rem;
     }
-    
-    .skeleton-breadcrumb-item {
+
+    .lesson-content-wrapper .skeleton-breadcrumb-item {
       height: 16px;
       width: 80px;
       background: #e0e0e0;
       border-radius: 4px;
     }
-    
+
     /* Título skeleton */
-    .skeleton-title {
+    .lesson-content-wrapper .skeleton-title {
       height: 48px;
       width: 90%;
       margin-bottom: 1.5rem;
     }
-    
+
     /* Meta skeleton */
-    .skeleton-meta {
+    .lesson-content-wrapper .skeleton-meta {
       display: flex;
       align-items: center;
       gap: 0.5rem;
       margin-bottom: 2rem;
     }
-    
-    .skeleton-icon {
+
+    .lesson-content-wrapper .skeleton-icon {
       width: 20px;
       height: 20px;
       border-radius: 50%;
       background: #e0e0e0;
     }
-    
-    .skeleton-text {
+
+    .lesson-content-wrapper .skeleton-text {
       height: 16px;
       width: 150px;
     }
-    
+
     /* Botões skeleton */
-    .skeleton-buttons {
+    .lesson-content-wrapper .skeleton-buttons {
       display: flex;
       gap: 1rem;
       margin-bottom: 3rem;
       flex-wrap: wrap;
     }
-    
-    .skeleton-button {
+
+    .lesson-content-wrapper .skeleton-button {
       height: 44px;
       width: 160px;
       border-radius: 8px;
     }
-    
+
     /* Parágrafos skeleton */
-    .skeleton-paragraph {
+    .lesson-content-wrapper .skeleton-paragraph {
       height: 20px;
       margin-bottom: 1rem;
     }
-    
-    .skeleton-paragraph.w-100 { width: 100%; }
-    .skeleton-paragraph.w-95 { width: 95%; }
-    .skeleton-paragraph.w-90 { width: 90%; }
-    .skeleton-paragraph.w-85 { width: 85%; }
-    .skeleton-paragraph.w-80 { width: 80%; }
-    .skeleton-paragraph.w-70 { width: 70%; }
-    
+
+    .lesson-content-wrapper .skeleton-paragraph.w-100 { width: 100%; }
+    .lesson-content-wrapper .skeleton-paragraph.w-95 { width: 95%; }
+    .lesson-content-wrapper .skeleton-paragraph.w-90 { width: 90%; }
+    .lesson-content-wrapper .skeleton-paragraph.w-85 { width: 85%; }
+    .lesson-content-wrapper .skeleton-paragraph.w-80 { width: 80%; }
+    .lesson-content-wrapper .skeleton-paragraph.w-70 { width: 70%; }
+
     /* Responsive */
     @media (max-width: 768px) {
-      .skeleton-buttons {
+      .lesson-content-wrapper .skeleton-buttons {
         flex-direction: column;
       }
-      
-      .skeleton-button {
+
+      .lesson-content-wrapper .skeleton-button {
         width: 100%;
       }
-      
-      .skeleton-title {
+
+      .lesson-content-wrapper .skeleton-title {
         height: 36px;
       }
     }
@@ -146,22 +150,25 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="assets/css/components.css" />
-  <link rel="stylesheet" href="assets/css/tooltip.css" />
-  <link rel="stylesheet" href="assets/css/braille.css" />
-  <link rel="stylesheet" href="assets/css/lesson-completion.css" />
-  <link rel="stylesheet" href="assets/css/comments-system.css" />
   <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <link rel="stylesheet" href="assets/css/tooltip.css" />
 </head>
 
 <body>
   <!-- ═══════════════════════════════════════════════════════════════
-       💀 SKELETON LOADER - Estrutura HTML
-       Simula a estrutura da página durante carregamento
+       🎯 WRAPPER ISOLADOR - Previne conflitos CSS com Moodle
+       Todos os estilos da aula são escopados dentro deste wrapper
        ═══════════════════════════════════════════════════════════════ -->
-  <div id="skeleton-loader">
+  <div class="lesson-content-wrapper">
+    <!-- ═══════════════════════════════════════════════════════════════
+         📐 ÁREA DE CONTEÚDO - 80% (Esquerda)
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="content-area">
+
+    <div id="skeleton-loader">
     <div class="skeleton-container">
       <!-- Breadcrumb skeleton -->
       <div class="skeleton-breadcrumb">
@@ -211,21 +218,39 @@
   
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- ═══════════════════════════════════════════════════════════
-       🗺️ MINIMAP
+       🗺️ NAVIGATION CONTAINER (Minimap + Sidebar)
        ═══════════════════════════════════════════════════════════ -->
-  <div class="minimap-container" id="minimap">
-    <div class="minimap-lines" id="minimapLines"></div>
-    <div class="scroll-indicator" id="scrollIndicator">
-      <svg class="indicator-arrow" width="10" height="8" viewBox="0 0 7 6">
-        <path d="M3.54688 6L0.515786 0.75L6.57796 0.75L3.54688 6Z" />
-      </svg>
-      <span class="indicator-label" id="indicatorLabel">Nível 1</span>
+  <div class="navigation-container" id="navContainer">
+    <!-- Minimap Wrapper -->
+    <div class="minimap-wrapper" id="minimapWrapper">
+      <div class="minimap-lines" id="minimapLines"></div>
+      <div class="scroll-indicator" id="scrollIndicator">
+        <svg class="indicator-arrow" width="10" height="8" viewBox="0 0 7 6">
+          <path d="M3.54688 6L0.515786 0.75L6.57796 0.75L3.54688 6Z" />
+        </svg>
+        <span class="indicator-label" id="indicatorLabel">Nível 1</span>
+      </div>
+    </div>
+
+    <!-- Sidebar (Índice) -->
+    <div class="navigation-sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">Índice da Aula</div>
+        <div class="progress-info">
+          <div class="progress-percentage" id="progressPercentage">0%</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBarFill"></div>
+          </div>
+        </div>
+      </div>
+      <ul class="nav-items" id="navItems"></ul>
     </div>
   </div>
 
-  <div id="first" class="container-fluid">
+  <div id="contentAula" class="contentAula">
+    <div id="first" class="container-fluid">
     <div class="row">
-      <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+      <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
         <main class="lesson-main">
           <!-- Breadcrumb -->
           <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -303,11 +328,9 @@
       </div>
     </div>
   </div>
-
-  <div id="contentAula" class="contentAula">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
           <div class="content-wrapper">
             <section data-nav-level="1" data-label="Introdução">
               <p data-audio="p1">
@@ -336,7 +359,7 @@
                 Esse grande conjunto, formado por todas as seções, só pode
                 alcançar sua melhor performance quando trabalha de forma
                 integrada,
-                <span>respeitando os tempos e espaços uns dos outros. <span class="cls-highlight" data-tooltip="A harmonia na gestão escolar depende de liderança coordenada e colaboração entre todos os atores">Para que
+                <span>respeitando os tempos e espaços uns dos outros. <span class="cls-highlight">Para que
                     essa harmonia seja possível</span>, é essencial a atuação do
                   diretor escolar</span>. Cabe a ele o papel de maestro, capaz de orquestrar os
                 esforços individuais em prol de um projeto coletivo.
@@ -358,7 +381,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
           <section data-nav-level="3" data-label="Citação">
             <div data-audio="p6" class="callout-quote-author">
               <p>
@@ -376,7 +399,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
           <div class="content-wrapper">
             <section data-nav-level="2" data-label="Múltiplas dimensões de uma gestão democrática">
               <h3 data-audio="p7">
@@ -393,7 +416,7 @@
                 <strong>O gestor, mais do que nunca, precisa lidar simultaneamente
                   com múltiplas dimensões</strong>
                 –
-                <span class="cls-highlight" data-tooltip="As quatro dimensões fundamentais da gestão escolar eficaz">pedagógica, administrativa, humana e política</span>
+                <span class="cls-highlight">pedagógica, administrativa, humana e política</span>
                 – e garantir que todas estejam a serviço da aprendizagem.
               </p>
               <p data-audio="p9">
@@ -410,7 +433,7 @@
                   1988</a>
                 e a LDB, passando pela BNCC até a legislação que rege o
                 funcionamento do
-                <strong class="cls-highlight" data-color="var(--rough-notation-soft-purple)" data-tooltip="Fundo de Manutenção e Desenvolvimento da Educação Básica - principal fonte de financiamento da educação pública">Fundeb Permanente</strong>,
+                <strong class="cls-highlight" data-color="var(--rough-notation-soft-purple)">Fundeb Permanente</strong>,
                 e expressa valores que desejamos cultivar em nossa
                 sociedade e em nossos estudantes, como participação,
                 corresponsabilidade, transparência…
@@ -428,7 +451,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
           <section data-nav-level="3" data-label="Destaque">
             <div class="callout-note" data-audio="p12">
               <svg class="callout-note-icon icon" viewBox="0 0 24 24">
@@ -452,7 +475,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
           <div class="content-wrapper">
             <section data-nav-level="2" data-label="Uma liderança distribuída ecoa mais longe">
               <h3 data-audio="p13">
@@ -481,7 +504,7 @@
     </div>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
           <section data-nav-level="3" data-label="Reflita sobre isso">
             <div class="callout-reflection" data-audio="p16">
               <svg class="callout-reflection-icon icon" viewBox="0 0 24 24">
@@ -490,7 +513,7 @@
               </svg>
               <div class="callout-reflection-title">
                 <span class="cls-highlight"
-                  data-tooltip="Modelo de liderança compartilhada entre diversos atores escolares">Reflita sobre
+                  >Reflita sobre
                   isso</span>
               </div>
               <p>
@@ -510,7 +533,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
           <div class="content-wrapper">
             <p data-audio="p17">
               Com uma liderança distribuída – e, justamente por ser
@@ -539,7 +562,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
           <section data-nav-level="3" data-label="Citação">
             <div class="callout-quote-author" data-audio="p20">
               <p>
@@ -558,7 +581,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
           <div class="content-wrapper">
             <p data-audio="p21">
               Uma liderança escolar com essas características também pode ser
@@ -580,7 +603,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
           <div class="content-wrapper">
             <section data-nav-level="2" data-label="Domínios da prática">
               <h3>
@@ -622,14 +645,14 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
           <section data-nav-level="3" data-label="Citação">
             <div class="callout-quote">
               <p>
                 A liderança escolar tem efeito significativo nas
                 características da organização escolar, o que influencia
                 positivamente a qualidade do ensino e da aprendizagem.
-                <span class="cls-highlight" data-tooltip="A liderança escolar tem impacto indireto mas essencial na qualidade do ensino e aprendizagem">Embora moderado, esse efeito de liderança é vital para o
+                <span class="cls-highlight">Embora moderado, esse efeito de liderança é vital para o
                   sucesso da maioria dos esforços de melhoria escolar.</span>
               </p>
             </div>
@@ -641,7 +664,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
           <div class="content-wrapper">
             <p class="cls-bracket" data-color="var(--rough-notation-solid-blue)">
               Justamente porque define o clima organizacional e pedagógico, o
@@ -660,7 +683,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
           <div class="content-wrapper">
             <section data-nav-level="2" data-label="Diretores eficazes crescem junto com seus professores">
               <h3>
@@ -683,7 +706,7 @@
                 <strong>líderes mais eficazes</strong> não apenas
                 <strong>incentivam a formação</strong> dos profissionais da
                 escola, mas também
-                <strong class="cls-highlight" data-tooltip="Líderes eficazes não apenas incentivam a formação, mas aprendem junto com suas equipes">participam ativamente</strong>
+                <strong class="cls-highlight">participam ativamente</strong>
                 desse processo, seja como aprendizes ou liderando a equipe.
               </p>
               <p>
@@ -697,7 +720,7 @@
               <p>
                 Mas como isso se articula, na prática, com a gestão do
                 currículo orientada por evidências?
-                <span class="cls-highlight" data-color="var(--rough-notation-soft-purple)" data-tooltip="Continuação: como a liderança se articula com a gestão do currículo orientada por evidências">É o que veremos no próximo
+                <span class="cls-highlight" data-color="var(--rough-notation-soft-purple)">É o que veremos no próximo
                   tópico.</span>
               </p>
             </section>
@@ -708,7 +731,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
           <div class="content-wrapper">
             <section data-nav-level="2" data-label="O gestor e a construção da cultura de dados na escola">
               <h3>
@@ -739,7 +762,7 @@
               <p>
                 Mas como isso se articula, na prática, com a gestão do
                 currículo orientada por evidências?
-                <span class="cls-highlight" data-color="var(--rough-notation-soft-green)" data-tooltip="Saiba mais sobre a aplicação prática da gestão curricular baseada em dados">É o que veremos no próximo
+                <span class="cls-highlight" data-color="var(--rough-notation-soft-green)">É o que veremos no próximo
                   tópico.</span>
               </p>
               <p>A rede da qual essas escolas fazem parte tem seu sistema próprio de avaliação há mais de 10 anos e
@@ -755,7 +778,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
           <div class="content-wrapper">
             <section data-nav-level="2" data-label="Colaboração para o trabalho com evidências">
               <h3>
@@ -765,7 +788,7 @@
               <p class="cls-bracket" data-color="var(--rough-notation-solid-blue)"><strong>Primeiro</strong>, porque o volume de dados internos e externos disponíveis hoje para análise da realidade escolar é tão grande que seria praticamente impossível, para qualquer profissional isoladamente, dar conta de todos eles para elaborar um diagnóstico consistente. Solitariamente, essa tarefa se torna ainda mais inviável diante das inúmeras outras demandas que fazem parte do cotidiano escolar.</p>
               <p><strong>Em segundo lugar</strong>, porque – como vimos no Módulo 02 – os dados educacionais raramente são neutros. Isso significa que sua interpretação deve estar sempre ancorada na realidade concreta da escola, com todas as suas nuances e particularidades. Nesse sentido, o trabalho de transformar dados em informações úteis para a melhoria da aprendizagem torna-se mais consistente quando realizado através das diferentes perspectivas, expertises e experiências dos diversos atores da comunidade escolar.
               </p>
-              <p><strong>Finalmente</strong>, porque a construção de uma cultura de uso de dados na escola dificilmente prospera quando conduzida de maneira impositiva pelo gestor. Sem o <span class="cls-highlight" data-color="var(--rough-notation-soft-purple)" data-tooltip="A cultura de dados prospera quando professores se sentem parte ativa do processo decisório">engajamento e a corresponsabilização dos professores</span>, e sem a legitimação por parte dos estudantes e de suas famílias em relação às decisões tomadas a partir das evidências, esse trabalho corre o risco de se reduzir a uma tarefa burocrática, destituída de significado e inerte em seus efeitos positivos.
+              <p><strong>Finalmente</strong>, porque a construção de uma cultura de uso de dados na escola dificilmente prospera quando conduzida de maneira impositiva pelo gestor. Sem o <span class="cls-highlight" data-color="var(--rough-notation-soft-purple)">engajamento e a corresponsabilização dos professores</span>, e sem a legitimação por parte dos estudantes e de suas famílias em relação às decisões tomadas a partir das evidências, esse trabalho corre o risco de se reduzir a uma tarefa burocrática, destituída de significado e inerte em seus efeitos positivos.
               </p>
             </section>
 
@@ -776,7 +799,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-10 col-lg-10 col-xl-9 col-xxl-9 m-auto">
+        <div class="col-sm-12 col-lg-10 col-xl-10 col-xxl-10 m-auto">
           <!-- Botão de Download de Comentários -->
           <div style="text-align: center; margin: 40px 0;">
             <button class="download-comments-btn" id="downloadCommentsBtn" disabled>
@@ -821,9 +844,7 @@
     </div>
 
     <div class="separador-medio"></div>
-  </div>
-
-  <!-- Audio Player Bar -->
+   <!-- Audio Player Bar -->
   <div class="audio-player-bar">
     <div class="player-info">
       <div class="player-icon">
@@ -889,6 +910,12 @@
     </div>
   </div>
 
+  </div>
+
+  </div>
+  <!-- Fim da content-area -->
+
+ 
   <script src="https://unpkg.com/rough-notation@0.5.1/lib/rough-notation.iife.js"></script>
   <!-- Tippy.js para tooltips -->
   <script src="https://unpkg.com/@popperjs/core@2"></script>
@@ -964,6 +991,8 @@
       setTimeout(removeSkeletonLoader, 5000);
     })();
   </script>
+  </div>
+  <!-- Fim do wrapper isolador .lesson-content-wrapper -->
 </body>
 
 </html>

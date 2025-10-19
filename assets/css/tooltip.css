@@ -1,66 +1,50 @@
-/**
- * ═══════════════════════════════════════════════════════════════
- * 💬 TOOLTIPS CUSTOMIZADAS - Rough Notation
- * ═══════════════════════════════════════════════════════════════
- */
-
-/* Tema customizado laranja - leve e elegante */
-.tippy-box[data-theme~='orange-rounded'] {
-  background-color: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  color: var(--text, #333) !important;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 400;
-  padding: 10px 14px;
-  text-align: left;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
-  font-family: 'Red Hat Display', sans-serif;
-  line-height: 1.6;
-  max-width: 280px;
+.lesson-content-wrapper .tippy-box[data-theme~=orange-rounded] {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: var(--text, #333) !important;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 10px 14px;
+    text-align: left;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+    font-family: "Red Hat Display", sans-serif;
+    line-height: 1.6;
+    max-width: 280px
 }
 
-/* Seta da tooltip */
-.tippy-box[data-theme~='orange-rounded'][data-placement^='top'] > .tippy-arrow::before {
-  border-top-color: #ffffff;
+.lesson-content-wrapper .tippy-box[data-theme~=orange-rounded][data-placement^=top]>.tippy-arrow::before {
+    border-top-color: #fff
 }
 
-.tippy-box[data-theme~='orange-rounded'][data-placement^='bottom'] > .tippy-arrow::before {
-  border-bottom-color: #ffffff;
+.lesson-content-wrapper .tippy-box[data-theme~=orange-rounded][data-placement^=bottom]>.tippy-arrow::before {
+    border-bottom-color: #fff
 }
 
-.tippy-box[data-theme~='orange-rounded'][data-placement^='left'] > .tippy-arrow::before {
-  border-left-color: #ffffff;
+.lesson-content-wrapper .tippy-box[data-theme~=orange-rounded][data-placement^=left]>.tippy-arrow::before {
+    border-left-color: #fff
 }
 
-.tippy-box[data-theme~='orange-rounded'][data-placement^='right'] > .tippy-arrow::before {
-  border-right-color: #ffffff;
+.lesson-content-wrapper .tippy-box[data-theme~=orange-rounded][data-placement^=right]>.tippy-arrow::before {
+    border-right-color: #fff
 }
 
-/* Ajustes finos */
-.tippy-box[data-theme~='orange-rounded'] .tippy-content {
-  padding: 0;
-  line-height: 1.6;
+.lesson-content-wrapper .tippy-box[data-theme~=orange-rounded] .tippy-content {
+    padding: 0;
+    line-height: 1.6
 }
 
-/* Animação suave ao aparecer */
-.tippy-box[data-theme~='orange-rounded'][data-animation='fade'][data-state='hidden'] {
-  opacity: 0;
-  transform: scale(0.96);
+.lesson-content-wrapper .tippy-box[data-theme~=orange-rounded][data-animation=fade][data-state=hidden] {
+    opacity: 0;
+    transform: scale(0.96)
 }
 
-.tippy-box[data-theme~='orange-rounded'][data-animation='fade'][data-state='visible'] {
-  opacity: 1;
-  transform: scale(1);
+.lesson-content-wrapper .tippy-box[data-theme~=orange-rounded][data-animation=fade][data-state=visible] {
+    opacity: 1;
+    transform: scale(1)
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   💡 TOOLTIPS EM ELEMENTOS DESTACADOS
-   ═══════════════════════════════════════════════════════════════ */
-
-/* Elementos com tooltip mantêm cursor padrão - interação é via hover */
-[data-tooltip] {
-  position: relative;
-  cursor: help;
+.lesson-content-wrapper [data-tooltip] {
+    position: relative;
+    cursor: help
 }
-

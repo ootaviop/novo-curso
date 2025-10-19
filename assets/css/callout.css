@@ -2,7 +2,7 @@
    💡 DICA (Tip Box)
    ═══════════════════════════════════════════════════════════ */
 
-.callout-tip {
+.lesson-content-wrapper .callout-tip {
   position: relative;
   background: #f0fdf4;
   border-left: 4px solid #10b981;
@@ -12,14 +12,14 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .callout-tip {
+  .lesson-content-wrapper .callout-tip {
     background: rgba(16, 185, 129, 0.1);
     border-left-color: #34d399;
   }
 }
 
 /* Ícone */
-.callout-tip::before {
+.lesson-content-wrapper .callout-tip::before {
   content: "✓";
   position: absolute;
   left: 1rem;
@@ -39,14 +39,14 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .callout-tip::before {
+  .lesson-content-wrapper .callout-tip::before {
     background: #34d399;
     color: #1a1a1a;
   }
 }
 
 /* Título do callout */
-.callout-tip-title {
+.lesson-content-wrapper .callout-tip-title {
   font-size: var(--text-lg);
   font-weight: 700;
   margin-bottom: 1rem;
@@ -54,22 +54,22 @@
 }
 
 /* Parágrafos dentro do callout */
-.callout-tip p {
+.lesson-content-wrapper .callout-tip p {
   margin-bottom: 1rem;
   max-width: 100%;
   font-family: var(--font-serif);
   font-size: var(--text-base-small);
 }
 
-.callout-tip p:last-child {
+.lesson-content-wrapper .callout-tip p:last-child {
   margin-bottom: 0;
 }
 
 /* ═══════════════════════════════════════════════════════════
-     📄 NOTA (Note Box)
-     ═══════════════════════════════════════════════════════════ */
+    📄 NOTA (Note Box)
+    ═══════════════════════════════════════════════════════════ */
 
-.callout-note {
+.lesson-content-wrapper .callout-note {
   position: relative;
   background: #eff6ff;
   border-left: 4px solid #3b82f6;
@@ -82,7 +82,7 @@
   margin: calc(1.5rem * var(--scale-multiplier)) 0;
 }
 
-.icon {
+.lesson-content-wrapper .icon {
   display: inline-block;
   width: 32px;
   height: 32px;
@@ -93,7 +93,7 @@
   stroke-linejoin: round;
 }
 
-.callout-note-icon {
+.lesson-content-wrapper .callout-note-icon {
   position: absolute;
   left: calc(1rem * var(--scale-multiplier));
   top: calc(1.25rem * var(--scale-multiplier));
@@ -103,7 +103,7 @@
 }
 
 /* Título do callout */
-.callout-note-title {
+.lesson-content-wrapper .callout-note-title {
   font-size: var(--text-lg);
   font-weight: 700;
   margin-bottom: 1rem;
@@ -111,22 +111,22 @@
 }
 
 /* Parágrafos dentro do callout */
-.callout-note p {
+.lesson-content-wrapper .callout-note p {
   margin-bottom: 0;
   max-width: 100%;
   font-family: var(--font);
   font-size: var(--text-base-small);
 }
 
-.callout-note p:last-child {
+.lesson-content-wrapper .callout-note p:last-child {
   margin-bottom: 0;
 }
 
 /* ═══════════════════════════════════════════════════════════
-     💼 EXEMPLO (Example Box)
-     ═══════════════════════════════════════════════════════════ */
+    💼 EXEMPLO (Example Box)
+    ═══════════════════════════════════════════════════════════ */
 
-.callout-example {
+.lesson-content-wrapper .callout-example {
   position: relative;
   background: #faf5ff;
   border-left: 4px solid #a855f7;
@@ -136,14 +136,14 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .callout-example {
+  .lesson-content-wrapper .callout-example {
     background: rgba(168, 85, 247, 0.1);
     border-left-color: #c084fc;
   }
 }
 
 /* Ícone */
-.callout-example::before {
+.lesson-content-wrapper .callout-example::before {
   content: "◆";
   position: absolute;
   left: 1rem;
@@ -163,14 +163,14 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .callout-example::before {
+  .lesson-content-wrapper .callout-example::before {
     background: #c084fc;
     color: #1a1a1a;
   }
 }
 
 /* Título do callout */
-.callout-example-title {
+.lesson-content-wrapper .callout-example-title {
   font-size: var(--text-lg);
   font-weight: 700;
   margin-bottom: 1rem;
@@ -178,22 +178,22 @@
 }
 
 /* Parágrafos dentro do callout */
-.callout-example p {
+.lesson-content-wrapper .callout-example p {
   margin-bottom: 1rem;
   max-width: 100%;
   font-family: var(--font-serif);
   font-size: var(--text-base-small);
 }
 
-.callout-example p:last-child {
+.lesson-content-wrapper .callout-example p:last-child {
   margin-bottom: 0;
 }
 
 /* ═══════════════════════════════════════════════════════════
-     📖 CITAÇÃO AUTOR (Author Quote - Variante Simples)
-     ═══════════════════════════════════════════════════════════ */
+    📖 CITAÇÃO AUTOR (Author Quote - Variante Simples)
+    ═══════════════════════════════════════════════════════════ */
 
-.callout-quote-author {
+.lesson-content-wrapper .callout-quote-author {
   position: relative;
   background: #ffffff;
   border-left: 4px solid var(--orange);
@@ -207,7 +207,7 @@
 }
 
 /* Aspas decorativas sutis */
-.callout-quote-author::before {
+.lesson-content-wrapper .callout-quote-author::before {
   content: '"';
   position: absolute;
   left: calc(0.8rem * var(--scale-multiplier));
@@ -221,7 +221,7 @@
 }
 
 /* Texto da citação */
-.callout-quote-author p {
+.lesson-content-wrapper .callout-quote-author p {
   font-size: var(--text-base-small);
   line-height: 1.6;
   color: var(--text);
@@ -231,12 +231,12 @@
   font-style: italic;
 }
 
-.callout-quote-author p:last-of-type {
+.lesson-content-wrapper .callout-quote-author p:last-of-type {
   margin-bottom: 1.25rem;
 }
 
 /* Autor da citação */
-.callout-quote-author cite {
+.lesson-content-wrapper .callout-quote-author cite {
   display: block;
   font-size: var(--text-sm);
   font-style: italic;
@@ -250,7 +250,7 @@
 /* ═══════════════════════════════════════════════════════════
 4️⃣ REFLEXÃO (Reflection Box)
 ═══════════════════════════════════════════════════════════ */
-.callout-reflection {
+.lesson-content-wrapper .callout-reflection {
   position: relative;
   background: #faf5ff;
   border-left: 4px solid #a855f7;
@@ -261,7 +261,7 @@
   margin: calc(1.5rem * var(--scale-multiplier)) 0;
 }
 
-.callout-reflection-icon {
+.lesson-content-wrapper .callout-reflection-icon {
   position: absolute;
   left: calc(1rem * var(--scale-multiplier));
   top: calc(1.25rem * var(--scale-multiplier));
@@ -270,28 +270,28 @@
   color: #a855f7;
 }
 
-.callout-reflection-title {
+.lesson-content-wrapper .callout-reflection-title {
   color: #6b21a8;
   font-size: var(--text-base-small);
   font-weight: 700;
   margin-bottom: 0.5rem;
 }
 
-.callout-reflection p {
+.lesson-content-wrapper .callout-reflection p {
   margin-bottom: 0;
   max-width: 100%;
   font-family: var(--font);
   font-size: var(--text-base-small);
 }
 
-.callout-reflection p:last-child {
+.lesson-content-wrapper .callout-reflection p:last-child {
   margin-bottom: 0;
 }
 
-.audio-highlight .icon {
+.lesson-content-wrapper .audio-highlight .icon {
   display: none;
 }
 
-[class^="callout-"] {
+.lesson-content-wrapper [class^="callout-"] {
   transition: all 0.1s ease;
 }

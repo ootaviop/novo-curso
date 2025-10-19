@@ -2,79 +2,86 @@
 
 /**
  * ═══════════════════════════════════════════════════════════════
- * 🎨 SCROLL MINIMAP + SIDEBAR NAVIGATION
+ * 🎨 LAYOUT SIMPLES - CONTEÚDO (80%) + ÍNDICE (20%)
  * ═══════════════════════════════════════════════════════════════
- * 
- * Estilos completos do minimap e sidebar de navegação.
- * Valores dinâmicos são injetados via CSS Custom Properties.
  */
+
+/* ═══════════════════════════════════════════════════════════
+   🌐 CONFIGURAÇÕES GLOBAIS
+   ═══════════════════════════════════════════════════════════ */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
 
 body {
     font-family: 'Wotfard', sans-serif;
     line-height: 1.6;
     color: #333;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
 }
 
-html, body {
-    overflow: auto;
-}
-
-section {
-    display: flex;
-    justify-content: center;
-    font-size: 2rem;
-    font-weight: bold;
-    flex-direction: column;
+/* Ocultar scrollbar mas manter funcionalidade de scroll */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
 }
 
 /* ═══════════════════════════════════════════════════════════
-   🎯 CONTAINER PRINCIPAL
+   📐 WRAPPER PRINCIPAL - Layout de 2 Colunas
    ═══════════════════════════════════════════════════════════ */
-.navigation-container {
+.lesson-content-wrapper {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   📄 ÁREA DE CONTEÚDO - 80% (Esquerda)
+   ═══════════════════════════════════════════════════════════ */
+.lesson-content-wrapper .content-area {
+    width: 70%;
+    padding: 1rem;
+    overflow: visible;
+    position: relative;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   📑 ÁREA DO ÍNDICE - 20% (Direita, Fixo)
+   ═══════════════════════════════════════════════════════════ */
+.lesson-content-wrapper .navigation-container {
+    width: 30%;
     position: fixed;
-    right: 1.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1000;
-    width: var(--minimap-sidebar-width, 320px);
+    right: 0;
+    top: 0;
+    height: 100vh;
+    background:transparent;
+    /* border-left: 1px solid #e0e0e0; */
+    overflow: hidden;
     display: flex;
-    justify-content: flex-end;
-    pointer-events: none;
+    flex-direction: column;
+    
 }
 
 /* ═══════════════════════════════════════════════════════════
-   🗺️ MINIMAP WRAPPER (Estado Passivo)
+   🗺️ MINIMAP WRAPPER (Removido - sempre mostra sidebar)
    ═══════════════════════════════════════════════════════════ */
-.minimap-wrapper {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 1;
-    transition: opacity var(--minimap-minimap-transition, 0.25s) cubic-bezier(0.4, 0.0, 0.2, 1),
-                transform var(--minimap-minimap-transition, 0.25s) cubic-bezier(0.4, 0.0, 0.2, 1);
-    pointer-events: auto;
-}
-
-.navigation-container.sidebar-active .minimap-wrapper {
-    opacity: 0;
-    transform: translateY(-50%) translateX(20px);
-    pointer-events: none;
+.lesson-content-wrapper .minimap-wrapper {
+    display: none;
 }
 
 /* ═══════════════════════════════════════════════════════════
    📏 LINHAS DO MINIMAP
    ═══════════════════════════════════════════════════════════ */
-.minimap-lines {
+.lesson-content-wrapper .minimap-lines {
     display: flex;
     flex-direction: column;
     gap: 12px;
     align-items: flex-end;
 }
 
-.minimap-line {
+.lesson-content-wrapper .minimap-line {
     height: 1px;
     transition: transform 0.1s cubic-bezier(.3,.3,.98,.98);
     transform-origin: right center;
@@ -82,66 +89,35 @@ section {
 }
 
 @media (min-width: 1920px) {
-    .minimap-lines {
+    .lesson-content-wrapper .minimap-lines {
         gap: 16px;
     }
-    .minimap-line {
+    .lesson-content-wrapper .minimap-line {
         height: 1.3px;
     }
 }
 
 /* ═══════════════════════════════════════════════════════════
-   📑 SIDEBAR (Estado Ativo)
+   📑 SIDEBAR (Índice Integrado)
    ═══════════════════════════════════════════════════════════ */
-.navigation-sidebar {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%) translateX(100%);
-    width: var(--minimap-sidebar-width, 320px);
-    max-height: 80vh;
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 
-        0 0 0 1px rgba(0,0,0,0.03),
-        0 4px 12px rgba(0,0,0,0.03),
-        0 12px 32px rgba(0,0,0,0.06);
-    opacity: 0;
-    transition: all var(--minimap-sidebar-transition, 0.3s) cubic-bezier(0.4, 0.0, 0.2, 1);
-    transition-delay: 0.15s;
-    pointer-events: none;
-    overflow: hidden;
+.lesson-content-wrapper .navigation-sidebar {
+    width: 100%;
+    height: 100%;
+    background: transparent;
     display: flex;
     flex-direction: column;
-}
-
-/* Zona de buffer invisível à direita da sidebar */
-.navigation-sidebar::after {
-    content: '';
-    position: absolute;
-    right: -20px;
-    top: 0;
-    width: 20px;
-    height: 100%;
-    pointer-events: auto;
-    opacity: 0;
-}
-
-.navigation-container.sidebar-active .navigation-sidebar {
-    opacity: 1;
-    transform: translateY(-50%) translateX(0);
-    pointer-events: auto;
+    padding: 3rem 4rem 2rem 1rem;
 }
 
 /* Header */
-.sidebar-header {
-    padding: 1.25rem 1.5rem 1rem;
-    border-bottom: 1px solid #f5f5f5;
+.lesson-content-wrapper .sidebar-header {
+    padding: 0 0 1.5rem 0;
+    /* border-bottom: 1px solid #e0e0e0; */
     flex-shrink: 0;
 }
 
-.sidebar-title {
-    font-size: 0.6875rem;
+.lesson-content-wrapper .sidebar-title {
+    font-size: 0.75rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -149,20 +125,20 @@ section {
     margin-bottom: 0.875rem;
 }
 
-.progress-info {
+.lesson-content-wrapper .progress-info {
     display: flex;
     align-items: center;
     gap: 0.625rem;
 }
 
-.progress-percentage {
+.lesson-content-wrapper .progress-percentage {
     font-size: 0.875rem;
     font-weight: 600;
     color: #ff6b35;
     font-variant-numeric: tabular-nums;
 }
 
-.progress-bar-container {
+.lesson-content-wrapper .progress-bar-container {
     flex: 1;
     height: 4px;
     background: #f5f5f5;
@@ -170,7 +146,7 @@ section {
     overflow: hidden;
 }
 
-.progress-bar-fill {
+.lesson-content-wrapper .progress-bar-fill {
     height: 100%;
     background: #ff6b35;
     border-radius: 2px;
@@ -179,43 +155,45 @@ section {
 }
 
 /* Nav Items */
-.nav-items {
+.lesson-content-wrapper .nav-items {
     list-style: none;
     padding: 0.5rem 0;
     margin: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     flex: 1;
+    scroll-behavior: smooth;
 }
 
 /* Indicador visual de scroll ativo */
-.nav-items.scrolling {
+.lesson-content-wrapper .nav-items.scrolling {
     scrollbar-color: #ff6b35 transparent;
 }
 
-.nav-items::-webkit-scrollbar {
+.lesson-content-wrapper .nav-items::-webkit-scrollbar {
     width: 4px;
 }
 
-.nav-items::-webkit-scrollbar-track {
+.lesson-content-wrapper .nav-items::-webkit-scrollbar-track {
     background: transparent;
 }
 
-.nav-items::-webkit-scrollbar-thumb {
+.lesson-content-wrapper .nav-items::-webkit-scrollbar-thumb {
     background: #e8e8e8;
     border-radius: 2px;
 }
 
-.nav-items::-webkit-scrollbar-thumb:hover {
+.lesson-content-wrapper .nav-items::-webkit-scrollbar-thumb:hover {
     background: #d8d8d8;
 }
 
-.nav-item {
+.lesson-content-wrapper .nav-item {
     position: relative;
     user-select: none;
     width: 100%;
 }
 
-.nav-link2 {
+.lesson-content-wrapper .nav-link2 {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -231,7 +209,7 @@ section {
 }
 
 /* Marcador */
-.nav-marker {
+.lesson-content-wrapper .nav-marker {
     display: none;
     align-items: center;
     justify-content: center;
@@ -243,88 +221,88 @@ section {
 }
 
 /* Hierarquia por tamanho de marcador + opacidade */
-.nav-item[data-level="1"] .nav-marker {
+.lesson-content-wrapper .nav-item[data-level="1"] .nav-marker {
     font-size: 0.625rem;
     color: #565656ff;
 }
 
-.nav-item[data-level="2"] .nav-marker {
+.lesson-content-wrapper .nav-item[data-level="2"] .nav-marker {
     font-size: 0.5rem;
     color: #6c6c6cff;
 }
 
-.nav-item[data-level="3"] .nav-marker {
+.lesson-content-wrapper .nav-item[data-level="3"] .nav-marker {
     font-size: 0.4375rem;
     color: #bbb;
 }
 
-.nav-item[data-level="4"] .nav-marker {
+.lesson-content-wrapper .nav-item[data-level="4"] .nav-marker {
     font-size: 0.375rem;
     color: #ccc;
 }
 
-.nav-item[data-level="5"] .nav-marker {
+.lesson-content-wrapper .nav-item[data-level="5"] .nav-marker {
     font-size: 0.375rem;
     color: #ddd;
 }
 
 /* Hierarquia de texto */
-.nav-item[data-level="1"] .nav-link2 { 
-    padding-left: clamp(1.5rem, 1.5rem + 0.6vw, 1.2rem); 
+.lesson-content-wrapper .nav-item[data-level="1"] .nav-link2 {
+    padding-left: clamp(1.5rem, 1.5rem + 0.6vw, 1.2rem);
     font-weight: 600;
     font-size: clamp(0.6rem, 0.5rem + 0.6vw, 1.2rem);
     color: #1c1c1cff;
 }
 
-.nav-item[data-level="2"] .nav-link2 { 
-    padding-left: clamp(2.2rem, 2.2rem + 0.6vw, 1.2rem); 
+.lesson-content-wrapper .nav-item[data-level="2"] .nav-link2 {
+    padding-left: clamp(2.2rem, 2.2rem + 0.6vw, 1.2rem);
     font-size: clamp(0.6rem, 0.45rem + 0.58vw, 1.2rem);
     color: #333333ff;
     font-weight: 600;
 }
 
-.nav-item[data-level="3"] .nav-link2 { 
-    padding-left: clamp(2.7rem, 2.7rem + 0.6vw, 1.2rem); 
+.lesson-content-wrapper .nav-item[data-level="3"] .nav-link2 {
+    padding-left: clamp(2.7rem, 2.7rem + 0.6vw, 1.2rem);
     font-size: clamp(0.6rem, 0.4rem + 0.56vw, 1.2rem);
     color: #373737ff;
 }
 
-.nav-item[data-level="4"] .nav-link2 { 
-    padding-left: clamp(3.2rem, 3.2rem + 0.6vw, 1.2rem); 
+.lesson-content-wrapper .nav-item[data-level="4"] .nav-link2 {
+    padding-left: clamp(3.2rem, 3.2rem + 0.6vw, 1.2rem);
     font-size: clamp(0.6rem, 0.35rem + 0.54vw, 1.2rem);
     color: #888;
 }
 
-.nav-item[data-level="5"] .nav-link2 { 
-    padding-left: clamp(3.7rem, 3.7rem + 0.6vw, 1.2rem); 
+.lesson-content-wrapper .nav-item[data-level="5"] .nav-link2 {
+    padding-left: clamp(3.7rem, 3.7rem + 0.6vw, 1.2rem);
     font-size: clamp(0.6rem, 0.3rem + 0.52vw, 1.2rem);
     color: #999;
 }
 
 /* Hover */
-.nav-link2:hover {
+.lesson-content-wrapper .nav-link2:hover {
     color: #333;
     background: rgba(0,0,0,0.02);
     /* border-left-color: rgba(255, 107, 53, 0.2); */
 }
 
-.nav-link2:hover .nav-marker {
+.lesson-content-wrapper .nav-link2:hover .nav-marker {
     color: #ff6b35;
 }
 
 /* Ativo */
-.nav-item.active .nav-link2 {
+.lesson-content-wrapper .nav-item.active .nav-link2 {
     color: #ff6b35;
-    background: rgba(255, 107, 53, 0.04);
+    background: rgba(255, 107, 53, 0.08);
     font-weight: 500;
-    border-left-color: #ff6b35;
+    /* border-left-color: #ff6b35; */
 }
 
-.nav-item.active .nav-marker {
+.lesson-content-wrapper .nav-item.active .nav-marker {
     color: #ff6b35;
 }
 
-.level-icon {
+.lesson-content-wrapper .level-icon {
     width: 14px;
     height: 14px;
     display: flex;
@@ -335,19 +313,19 @@ section {
     flex-shrink: 0;
 }
 
-.nav-item[data-level="1"] .level-icon { 
+.lesson-content-wrapper .nav-item[data-level="1"] .level-icon {
     color: #999;
     font-size: 0.6875rem;
 }
 
-.nav-item.active .level-icon { 
+.lesson-content-wrapper .nav-item.active .level-icon {
     color: #ff6b35;
 }
 
 /* ═══════════════════════════════════════════════════════════
    📍 INDICADOR DE POSIÇÃO
    ═══════════════════════════════════════════════════════════ */
-.scroll-indicator {
+.lesson-content-wrapper .scroll-indicator {
     position: absolute;
     top: 0;
     right: 0;
@@ -359,18 +337,18 @@ section {
     justify-content: flex-end;
 }
 
-.indicator-arrow {
+.lesson-content-wrapper .indicator-arrow {
     position: absolute;
     right: -1rem;
     top: 50%;
     transform: translateY(-50%) rotate(90deg);
 }
 
-.indicator-arrow path {
+.lesson-content-wrapper .indicator-arrow path {
     fill: var(--base);
 }
 
-.indicator-label {
+.lesson-content-wrapper .indicator-label {
     position: absolute;
     left: 8rem;
     top: -12px;
@@ -390,26 +368,37 @@ section {
    📱 RESPONSIVIDADE
    ═══════════════════════════════════════════════════════════ */
 @media (max-width: 960px) {
-    .scroll-indicator {
+    .lesson-content-wrapper .scroll-indicator {
         right: 1rem;
         width: calc(100vw - 2rem);
     }
-    
-    .indicator-arrow {
+
+    .lesson-content-wrapper .indicator-arrow {
         display: none;
     }
 }
 
 @media (max-width: 768px) {
-    .navigation-container {
+    .lesson-content-wrapper .navigation-container {
         display: none;
+    }
+
+    .lesson-content-wrapper .content-area{
+        width: 100%;
     }
 }
 
 @media (max-width: 640px) {
-    .indicator-label {
+    .lesson-content-wrapper .indicator-label {
         left: 2.5rem;
         font-size: 0.65rem;
         padding: 0.2rem 0.4rem;
+    }
+}
+
+
+@media (min-width: 768px) and (max-width: 992px){
+    .lesson-content-wrapper .navigation-sidebar{
+        padding: 3rem 1rem 2rem 1rem;
     }
 }

@@ -1,932 +1,848 @@
-/**
- * ═══════════════════════════════════════════════════════════════
- * 🎵 AUDIO PLAYER - ESTILOS
- * ═══════════════════════════════════════════════════════════════
- * 
- * Inspirado no Spotify: Barra bottom fixa com controles
- */
-
-/* ═══════════════════════════════════════════════════════════
-   🎧 BOTÃO INICIAL - "Ouvir esta aula"
-   ═══════════════════════════════════════════════════════════ */
-
-.audio-trigger-container {
-  display: flex;
-  gap: clamp(0.8rem, 0.5rem + 1vw, 1.5rem);
-  margin: clamp(0.8rem, 0.5rem + 1vw, 1.5rem) 0;
-  padding: clamp(0.8rem, 0.5rem + 1vw, 1.5rem) 0;
-  border-top: 1px solid #f0f0f0;
-  border-bottom: 1px solid #f0f0f0;
-  flex-direction: column;  /* Mobile-first: vertical */
-  align-items: stretch;     /* Botões ocupam largura total */
+.lesson-content-wrapper .audio-trigger-container {
+    display: flex;
+    gap: clamp(.8rem, .5rem + 1vw, 1.5rem);
+    margin: clamp(.8rem, .5rem + 1vw, 1.5rem) 0;
+    padding: clamp(.8rem, .5rem + 1vw, 1.5rem) 0;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    flex-wrap: wrap;
 }
 
-/* Desktop: layout horizontal */
-@media (min-width: 768px) {
-  .audio-trigger-container {
-    flex-direction: row;
+@media(min-width: 768px) {
+    .lesson-content-wrapper .audio-trigger-container {
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+}
+
+@media(min-width: 768px) {
+    .lesson-content-wrapper .audio-trigger-container {
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+}
+
+
+.lesson-content-wrapper .audio-trigger-btn {
+    display: inline-flex;
     align-items: center;
-  }
+    gap: clamp(.5rem, .5rem + .25vw, 1rem);
+    padding: .7rem 0.8rem;
+    background: white;
+    color: var(--orange);
+    border: 2px solid var(--orange);
+    border-radius: 50px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s ease;
+    font-family: var(--font);
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.1)
 }
 
-.audio-trigger-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: clamp(0.5rem, 0.5rem + 0.25vw, 1rem);
-  /* padding: clamp(0.75rem, 0.75rem + 0.25vw, 1rem)
-    clamp(1.5rem, 1.5rem + 0.25vw, 2rem); */
-  padding: 0.9rem 1.4rem;
-  background: white;
-  color: var(--orange);
-  border: 2px solid var(--orange);
-  border-radius: 50px;
-  font-size: var(--text-sm);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: var(--font);
-  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.1);
+.lesson-content-wrapper .audio-trigger-btn svg,
+.lesson-content-wrapper .pdf-trigger-btn svg,
+.lesson-content-wrapper .braille-trigger-btn svg {
+    opacity: 0;
+    transition: opacity .3s ease
 }
 
-/* Esconder SVGs inicialmente para evitar piscar */
-.audio-trigger-btn svg,
-.pdf-trigger-btn svg,
-.braille-trigger-btn svg {
-  opacity: 0;
-  transition: opacity 0.3s ease;
+.lesson-content-wrapper .audio-trigger-btn.svg-ready svg,
+.lesson-content-wrapper .pdf-trigger-btn.svg-ready svg,
+.lesson-content-wrapper .braille-trigger-btn.svg-ready svg {
+    opacity: 1
 }
 
-/* Mostrar SVGs quando a classe 'svg-ready' for adicionada */
-.audio-trigger-btn.svg-ready svg,
-.pdf-trigger-btn.svg-ready svg,
-.braille-trigger-btn.svg-ready svg {
-  opacity: 1;
+.lesson-content-wrapper .audio-trigger-btn:hover {
+    background: var(--orange);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3)
 }
 
-.audio-trigger-btn:hover {
-  background: var(--orange);
-  color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+.lesson-content-wrapper .audio-trigger-btn:active {
+    transform: translateY(0)
 }
 
-.audio-trigger-btn:active {
-  transform: translateY(0);
+.lesson-content-wrapper .audio-trigger-btn .icon {
+    font-size: clamp(1.25rem, 1rem + 1vw, 1.5rem)
 }
 
-.audio-trigger-btn .icon {
-  font-size: clamp(1.25rem, 1rem + 1vw, 1.5rem);
+.lesson-content-wrapper .btn-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .2rem .6rem;
+    background: rgba(255, 107, 53, 0.1);
+    color: var(--orange);
+    border-radius: 40px;
+    font-size: calc(.8rem*var(--scale-multiplier));
+    font-weight: 500;
+    margin-left: calc(.4rem*var(--scale-multiplier));
+    letter-spacing: .01em;
+    transition: all .2s ease;
+    min-width: 3.5rem;
+    font-variant-numeric: tabular-nums;
+    text-align: center
 }
 
-/* Badge inline nos botões */
-.btn-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;  /* NOVO */
-  padding: 0.2rem 0.6rem;
-  background: rgba(255, 107, 53, 0.1);
-  color: var(--orange);
-  border-radius: 40px;
-  font-size: calc(0.8rem * var(--scale-multiplier));
-  font-weight: 500;
-  margin-left: calc(0.4rem * var(--scale-multiplier));
-  letter-spacing: 0.01em;
-  transition: all 0.2s ease;
-  min-width: 3.5rem;  /* NOVO - reserva espaço fixo */
-  font-variant-numeric: tabular-nums;  /* NOVO - números de largura fixa */
-  text-align: center;  /* NOVO - centraliza texto */
+.lesson-content-wrapper .audio-trigger-btn:hover .btn-badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: white
 }
 
-.audio-trigger-btn:hover .btn-badge {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+.lesson-content-wrapper .audio-trigger-info {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(.25rem, .25rem + .25vw, .5rem);
+    font-size: var(--text-sm);
+    color: var(--gray)
 }
 
-.audio-trigger-info {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(0.25rem, 0.25rem + 0.25vw, 0.5rem);
-  font-size: var(--text-sm);
-  color: var(--gray);
+.lesson-content-wrapper .audio-trigger-info strong {
+    color: var(--text);
+    font-weight: 600
 }
 
-.audio-trigger-info strong {
-  color: var(--text);
-  font-weight: 600;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   🎵 BARRA BOTTOM - Estilo Spotify
-   ═══════════════════════════════════════════════════════════ */
-
-.audio-player-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: clamp(90px, 90px + 0.6vw, 120px);
-  background: linear-gradient(to top, #1a1a1a 0%, #242424 100%);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 1.5rem;
-  z-index: 9999;
-  transform: translateY(100%);
-  opacity: 0;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
-  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.3);
-  max-width: 900px;
+.lesson-content-wrapper .audio-player-bar {
+    position: fixed;
+    bottom: 0;
+    justify-self: center;
+    height: clamp(90px, 90px + .6vw, 120px);
+    background: linear-gradient(to top, #1a1a1a 0%, #242424 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    z-index: 999;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform .4s cubic-bezier(0.4, 0, 0.2, 1), opacity .4s ease;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.3);
     border-radius: 20px;
     margin: 0 auto 2rem;
-
+    max-width: 645px;
+    min-width: 645px;
 }
 
-.audio-player-bar.active {
-  transform: translateY(0);
-  opacity: 1;
+.lesson-content-wrapper .audio-player-bar.active {
+    transform: translateY(0);
+    opacity: 1
 }
 
-/* Adiciona padding-bottom ao body quando player está ativo */
-body.audio-player-active {
-  padding-bottom: 90px;
+.lesson-content-wrapper body.audio-player-active {
+    padding-bottom: 90px
 }
 
-/* Esconde as Rough Notations quando o áudio está ativo */
-body.audio-player-active svg[class*="rough-annotation"] {
-  display: none !important;
+.lesson-content-wrapper .player-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 200px;
+    flex: 1
 }
 
-/* ═══════════════════════════════════════════════════════════
-   📊 SEÇÃO DE INFO (Esquerda)
-   ═══════════════════════════════════════════════════════════ */
-
-.player-info {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  min-width: 200px;
-  flex: 1;
+.lesson-content-wrapper .player-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--orange);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    flex-shrink: 0
 }
 
-.player-icon {
-  width: 56px;
-  height: 56px;
-  background: var(--orange);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 1.5rem;
-  flex-shrink: 0;
+.lesson-content-wrapper .player-text {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    overflow: hidden
 }
 
-.player-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  overflow: hidden;
+.lesson-content-wrapper .player-title {
+    font-size: .875rem;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px
 }
 
-.player-title {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #fff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 300px;
+.lesson-content-wrapper .player-subtitle {
+    font-size: .75rem;
+    color: #b3b3b3
 }
 
-.player-subtitle {
-  font-size: 0.75rem;
-  color: #b3b3b3;
+.lesson-content-wrapper .player-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .75rem;
+    flex: 1;
+    max-width: 600px
 }
 
-/* ═══════════════════════════════════════════════════════════
-   🎮 SEÇÃO DE CONTROLES (Centro)
-   ═══════════════════════════════════════════════════════════ */
-
-.player-controls {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  flex: 1;
-  max-width: 600px;
+.lesson-content-wrapper .player-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem
 }
 
-.player-buttons {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+.lesson-content-wrapper .player-btn {
+    background: none;
+    border: none;
+    color: #b3b3b3;
+    cursor: pointer;
+    padding: .5rem;
+    border-radius: 50%;
+    transition: all .2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center
 }
 
-.player-btn {
-  background: none;
-  border: none;
-  color: #b3b3b3;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.lesson-content-wrapper .player-btn:hover {
+    color: #fff;
+    transform: scale(1.1)
 }
 
-.player-btn:hover {
-  color: #fff;
-  transform: scale(1.1);
+.lesson-content-wrapper .player-btn:active {
+    transform: scale(0.95)
 }
 
-.player-btn:active {
-  transform: scale(0.95);
+.lesson-content-wrapper .player-btn.btn-play-pause {
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    color: #1a1a1a
 }
 
-.player-btn.btn-play-pause {
-  width: 40px;
-  height: 40px;
-  background: #fff;
-  color: #1a1a1a;
+.lesson-content-wrapper .player-btn.btn-play-pause:hover {
+    background: #fff;
+    transform: scale(1.1)
 }
 
-.player-btn.btn-play-pause:hover {
-  background: #fff;
-  transform: scale(1.1);
+.lesson-content-wrapper .player-btn .material-symbols-outlined {
+    font-size: 1.2rem
 }
 
-.player-btn .material-symbols-outlined {
-  font-size: 1.2rem;
-  
+.lesson-content-wrapper .player-btn.btn-play-pause .material-symbols-outlined {
+    font-size: 1.75rem
 }
 
-.player-btn.btn-play-pause .material-symbols-outlined {
-  font-size: 1.75rem;
-
+.lesson-content-wrapper .player-btn .btnCloseIcon {
+    color: white
 }
 
-.player-btn .btnCloseIcon {
-  color: white;
+.lesson-content-wrapper .player-btn .btnCloseIcon:hover {
+    color: var(--orange-hover)
 }
 
-.player-btn .btnCloseIcon:hover {
-  color: var(--orange-hover);
+.lesson-content-wrapper .player-progress-container {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    width: 100%;
+    height: 20px;
+    padding: 8px 0
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ⏱️ BARRA DE PROGRESSO
-   ═══════════════════════════════════════════════════════════ */
-
-.player-progress-container {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
-  height: 20px; /* Aumenta a área clicável */
-  padding: 8px 0; /* Adiciona padding vertical para área clicável */
+.lesson-content-wrapper .player-time {
+    font-size: .6875rem;
+    color: #b3b3b3;
+    font-variant-numeric: tabular-nums;
+    min-width: 40px;
+    text-align: center
 }
 
-.player-time {
-  font-size: 0.6875rem;
-  color: #b3b3b3;
-  font-variant-numeric: tabular-nums;
-  min-width: 40px;
-  text-align: center;
+.lesson-content-wrapper .player-progress-bar {
+    flex: 1;
+    height: 4px;
+    background: #4d4d4d;
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+    transition: height .2s ease
 }
 
-.player-progress-bar {
-  flex: 1;
-  height: 4px;
-  background: #4d4d4d;
-  border-radius: 2px;
-  cursor: pointer;
-  position: relative;
-  overflow: visible; /* Permite que o scrubber seja visível */
-  display: flex;
-  align-items: center;
-  transition: height 0.2s ease;
+.lesson-content-wrapper .player-progress-bar:hover {
+    height: 6px;
+    cursor: grab
 }
 
-.player-progress-bar:hover {
-  height: 6px;
-  cursor: grab;
+.lesson-content-wrapper .player-progress-bar:active,
+.lesson-content-wrapper .player-progress-bar.dragging {
+    cursor: grabbing
 }
 
-.player-progress-bar:active,
-.player-progress-bar.dragging {
-  cursor: grabbing;
+.lesson-content-wrapper .player-progress-fill {
+    height: 100%;
+    background: var(--orange);
+    border-radius: 2px;
+    width: 0%;
+    transition: width .1s linear;
+    position: relative
 }
 
-.player-progress-fill {
-  height: 100%;
-  background: var(--orange);
-  border-radius: 2px;
-  width: 0%;
-  transition: width 0.1s linear;
-  position: relative;
+.lesson-content-wrapper .player-progress-scrubber {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0;
+    transition: all .2s ease;
+    pointer-events: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    left: 0%
 }
 
-/* Scrubber (indicador de posição) */
-.player-progress-scrubber {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 12px;
-  height: 12px;
-  background: #fff;
-  border-radius: 50%;
-  opacity: 0;
-  transition: all 0.2s ease;
-  pointer-events: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  left: 0%;
+.lesson-content-wrapper .player-progress-bar:hover .player-progress-scrubber {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1)
 }
 
-.player-progress-bar:hover .player-progress-scrubber {
-  opacity: 1;
-  transform: translateY(-50%) scale(1.1);
+.lesson-content-wrapper .player-progress-bar.dragging .player-progress-scrubber {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4)
 }
 
-/* Estado ativo durante o arraste */
-.player-progress-bar.dragging .player-progress-scrubber {
-  opacity: 1;
-  transform: translateY(-50%) scale(1.3);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+.lesson-content-wrapper .player-progress-bar.dragging {
+    height: 6px
 }
 
-.player-progress-bar.dragging {
-  height: 6px;
+.lesson-content-wrapper .player-progress-bar.dragging .player-progress-fill {
+    transition: none
 }
 
-/* Animação suave para o fill durante o arraste */
-.player-progress-bar.dragging .player-progress-fill {
-  transition: none;
+.lesson-content-wrapper .player-progress-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 0%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: .25rem .5rem;
+    border-radius: 4px;
+    font-size: .75rem;
+    font-weight: 600;
+    white-space: nowrap;
+    pointer-events: none;
+    display: none;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3)
 }
 
-/* Tooltip de progresso */
-.player-progress-tooltip {
-  position: absolute;
-  bottom: 100%;
-  left: 0%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  white-space: nowrap;
-  pointer-events: none;
-  display: none;
-  margin-bottom: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+.lesson-content-wrapper .player-progress-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.8)
 }
 
-.player-progress-tooltip::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 4px solid transparent;
-  border-top-color: rgba(0, 0, 0, 0.8);
+.lesson-content-wrapper .player-extras {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-width: 200px;
+    flex: 1;
+    justify-content: center;
+    padding-top: 2rem;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ⚙️ SEÇÃO DE EXTRAS (Direita)
-   ═══════════════════════════════════════════════════════════ */
-
-.player-extras {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem; /* Aumentado de 1rem para 1.5rem */
-  min-width: 200px;
-  flex: 1;
-  justify-content: center;
+.lesson-content-wrapper .player-speed {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    color: #b3b3b3;
+    font-size: .8125rem;
+    font-weight: 500;
+    margin: auto
 }
 
-.player-speed {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #b3b3b3;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  margin: auto
+.lesson-content-wrapper .player-speed-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: .375rem .75rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: .75rem;
+    font-weight: 600;
+    transition: all .2s ease;
+    font-family: var(--font);
+    min-width: 50px;
+    text-align: center
 }
 
-.player-speed-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
-  padding: 0.375rem 0.75rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.75rem;
-  font-weight: 600;
-  transition: all 0.2s ease;
-  font-family: var(--font);
-  min-width: 50px;
-  text-align: center;
+.lesson-content-wrapper .player-speed-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3)
 }
 
-.player-speed-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
+.lesson-content-wrapper .player-download-btn {
+    background: none;
+    border: none;
+    color: #b3b3b3;
+    padding: .5rem;
+    border-radius: 50%;
+    transition: all .2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center
 }
 
-/* Botão de download - estilo neutro/secundário */
-.player-download-btn {
-  background: none;
-  border: none;
-  color: #b3b3b3;
-  padding: 0.5rem;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.lesson-content-wrapper .player-download-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px)
 }
 
-.player-download-btn:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-1px);
+.lesson-content-wrapper .player-download-btn svg {
+    display: block
 }
 
-.player-download-btn svg {
-  display: block;
+.lesson-content-wrapper .player-close-btn {
+    background: none;
+    border: none;
+    color: #b3b3b3;
+    padding: .5rem;
+    border-radius: 50%;
+    transition: all .2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: .5rem;
+    right: .75rem
 }
 
-.player-close-btn {
-  background: none;
-  border: none;
-  color: #b3b3b3;
-  /* cursor: pointer; */
-  padding: 0.5rem;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0.5rem;
-  right: 0.75rem; /* Aumentado de 0.5rem para 0.75rem */
+.lesson-content-wrapper .player-close-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1)
 }
 
-.player-close-btn:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* ═══════════════════════════════════════════════════════════
-   ✨ HIGHLIGHT DO PARÁGRAFO SENDO LIDO
-   ═══════════════════════════════════════════════════════════ */
-
-.audio-highlight {
-  background: linear-gradient(120deg, rgb(255 214 198 / 10%) 0%, rgb(255 255 255 / 0%) 100%);
-  border-left: 3px solid var(--orange);
-   padding-left: 1rem; 
-  /* margin-left: -1rem; */
-  transition: background 0.3s ease;
-  position: relative;
-  /* padding: calc(1rem * var(--scale-multiplier)); */
-}
-
-/* adicionar ícone no before do audio-highlight */
-.audio-highlight::before {
-  content: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZjVjMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1oZWFkcGhvbmVzLWljb24gbHVjaWRlLWhlYWRwaG9uZXMiPjxwYXRoIGQ9Ik0zIDE0aDNhMiAyIDAgMCAxIDIgMnYzYTIgMiAwIDAgMS0yIDJINWEyIDIgMCAwIDEtMi0ydi03YTkgOSAwIDAgMSAxOCAwdjdhMiAyIDAgMCAxLTIgMmgtMWEyIDIgMCAwIDEtMi0ydi0zYTIgMiAwIDAgMSAyLTJoMyIvPjwvc3ZnPg==");
-  display: inline-block;
-  width: 24px;
-  position: absolute;
-  left: -3rem; /* distância da borda esquerda */
-  top: 50%; /* ponto médio vertical */
-  transform: translateY(-50%); /* centraliza exatamente */
-
-  /* extras */
-  margin-right: 0.5rem;
-  vertical-align: middle;
-  transition: all 0.1s ease;
+.lesson-content-wrapper .audio-highlight, .lesson-content-wrapper .audio-highlight p {
+    background: linear-gradient(120deg, rgb(255 214 198/10%) 0%, rgb(255 255 255/0%) 100%);
+    color: var(--orange-hover);
+    transition: color .3s ease;
+    position: relative
 }
 
 
 
-.player-volume {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem; /* Aumentado de 0.5rem para 0.75rem */
+
+.lesson-content-wrapper .audio-highlight::after {
+    content: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZjVjMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1oZWFkcGhvbmVzLWljb24gbHVjaWRlLWhlYWRwaG9uZXMiPjxwYXRoIGQ9Ik0zIDE0aDNhMiAyIDAgMCAxIDIgMnYzYTIgMiAwIDAgMS0yIDJINWEyIDIgMCAwIDEtMi0ydi03YTkgOSAwIDAgMSAxOCAwdjdhMiAyIDAgMCAxLTIgMmgtMWEyIDIgMCAwIDEtMi0ydi0zYTIgMiAwIDAgMSAyLTJoMyIvPjwvc3ZnPg==");
+    display: inline-block;
+    width: 24px;
+    position: absolute;
+    left: -3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: .5rem;
+    vertical-align: middle;
+    transition: all .1s ease
+
 }
 
-.volume-slider-container {
-  width: 120px; /* Reduzido de 150px para 120px para dar mais espaço */
-  display: flex;
+.lesson-content-wrapper .player-volume {
+    display: flex;
+    align-items: center;
+    gap: .75rem
 }
 
-.volume-slider-bar {
-  width: 100%;
-  height: 4px;
-  background: #4d4d4d;
-  border-radius: 2px;
-  /* cursor: pointer; */
-  position: relative;
-  overflow: visible;
-  display: flex;
-  align-items: center;
-  transition: height 0.2s ease;
+.lesson-content-wrapper .volume-slider-container {
+    width: 100px;
+    display: flex
 }
 
-.volume-slider-bar:hover {
-  height: 6px;
-  /* cursor: grab; */
+.lesson-content-wrapper .volume-slider-bar {
+    width: 100%;
+    height: 4px;
+    background: #4d4d4d;
+    border-radius: 2px;
+    position: relative;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+    transition: height .2s ease
 }
 
-/* Volume slider dragging state - cursor control removed for touch devices */
-
-.volume-slider-fill {
-  height: 100%;
-  background: var(--orange);
-  border-radius: 2px;
-  width: 100%;
-  transition: width 0.1s linear;
-  position: relative;
+.lesson-content-wrapper .volume-slider-bar:hover {
+    height: 6px
 }
 
-.volume-slider-scrubber {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 12px;
-  height: 12px;
-  background: #fff;
-  border-radius: 50%;
-  opacity: 1;
-  transition: all 0.2s ease;
-  pointer-events: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  right: 0%;
+.lesson-content-wrapper .volume-slider-fill {
+    height: 100%;
+    background: var(--orange);
+    border-radius: 2px;
+    width: 100%;
+    transition: width .1s linear;
+    position: relative
 }
 
-.volume-slider-bar:hover .volume-slider-scrubber {
-  opacity: 1;
-  transform: translateY(-50%) scale(1.1);
+.lesson-content-wrapper .volume-slider-scrubber {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 1;
+    transition: all .2s ease;
+    pointer-events: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    right: 0%
 }
 
-.volume-slider-bar.dragging .volume-slider-scrubber {
-  opacity: 1;
-  transform: translateY(-50%) scale(1.3);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+.lesson-content-wrapper .volume-slider-bar:hover .volume-slider-scrubber {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1)
 }
 
-.volume-slider-bar.dragging {
-  height: 6px;
+.lesson-content-wrapper .volume-slider-bar.dragging .volume-slider-scrubber {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4)
 }
 
-.volume-slider-bar.dragging .volume-slider-fill {
-  transition: none;
+.lesson-content-wrapper .volume-slider-bar.dragging {
+    height: 6px
+}
+
+.lesson-content-wrapper .volume-slider-bar.dragging .volume-slider-fill {
+    transition: none
 }
 
 @keyframes showSpan {
-  from{
-    opacity: 0;
-  }
-  to{
-    opacity: 1;
-  }
+    from {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
 }
 
-
-.audio-trigger-btn.initial-animation span, .audio-trigger-btn.initial-animation .btn-badge{
-  animation: showSpan 0.5s ease-in-out;
-  animation-delay: 0.4s;
-  animation-fill-mode: both;
-  opacity: 0;
+.lesson-content-wrapper .audio-trigger-btn.initial-animation span,
+.lesson-content-wrapper .audio-trigger-btn.initial-animation .btn-badge {
+    animation: showSpan .5s ease-in-out;
+    animation-delay: .4s;
+    animation-fill-mode: both;
+    opacity: 0
 }
 
 @keyframes showBorder {
-  from{
-    border: 2px solid transparent;
-    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.0);
-  }
-  to{
-    border: 2px solid var(--orange);
-    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.1);
-    transform: translateY(-1px);
-  }
+    from {
+        border: 2px solid transparent;
+        box-shadow: 0 2px 8px rgba(255, 107, 53, 0)
+    }
+
+    to {
+        border: 2px solid var(--orange);
+        box-shadow: 0 2px 8px rgba(255, 107, 53, 0.1);
+        transform: translateY(-1px)
+    }
 }
 
-.audio-trigger-btn{
-  animation: showBorder 0.5s ease-in-out;
-  animation-delay: 0.4s;
-  animation-fill-mode: both;
-  opacity: 1;
+.lesson-content-wrapper .audio-trigger-btn {
+    animation: showBorder .5s ease-in-out;
+    animation-delay: .4s;
+    animation-fill-mode: both;
+    opacity: 1;
 }
 
-
-
-/* ═══════════════════════════════════════════════════════════
-   📱 RESPONSIVO - Mobile Delicado e Elegante
-   ═══════════════════════════════════════════════════════════ */
-
-   @media (max-width: 968px) {
-    .audio-player-bar {
-      height: auto;
-      min-height: 100px; /* Mais compacto, mas respirável */
-      padding: 0.875rem 1rem;
-      flex-direction: row; /* Mantém horizontal */
-      flex-wrap: wrap; /* Permite quebra de linha natural */
-      gap: 0.75rem;
-      align-items: center;
-      justify-content: space-between;
+@media (min-width: 769px) and (max-width: 992px) {
+    .lesson-content-wrapper .audio-player-bar {
+     
     }
-  
-    /* ═══════════════════════════════════════════════════════
-       🎮 CONTROLES - Layout Horizontal Compacto
-       ═══════════════════════════════════════════════════════ */
-    
-    .player-info {
-      display: none; /* Remove info em mobile */
-    }
-  
-    .player-controls {
-      flex: 0.93 0 auto;
-      order: 1;
-      max-width: none;
-      gap: 0.5rem;
-    }
-  
-    .player-buttons {
-      gap: 0.625rem; /* Espaçamento delicado */
-      justify-content: center;
-    }
-  
-    /* Botões: tocáveis mas não exagerados */
-    .player-btn {
-      padding: 0.5rem;
-      min-width: 40px;
-      min-height: 40px;
-    }
-  
-    .player-btn.btn-play-pause {
-      width: 40px;
-      height: 40px;
-    }
-  
-    .player-btn.btn-play-pause .material-symbols-outlined {
-      font-size: 1.5rem;
-    }
-  
-    .player-btn .material-symbols-outlined {
-      font-size: 1.25rem;
-    }
-  
-    /* ═══════════════════════════════════════════════════════
-       📊 PROGRESSO - Linha Independente
-       ═══════════════════════════════════════════════════════ */
-    
-    .player-progress-container {
-      flex: 1 1 100%; /* Ocupa linha inteira */
-      order: 3;
-      gap: 0.625rem;
-      height: auto;
-      padding: 0;
-      margin-top: 0.25rem;
-    }
-  
-    .player-time {
-      font-size: 0.6875rem;
-      min-width: 38px;
-      color: #94a3b8;
-    }
-  
-    .player-progress-bar {
-      height: 3px; /* Fino e elegante */
-    }
-  
-    .player-progress-scrubber {
-      width: 13px;
-      height: 13px;
-      opacity: 1; /* Sempre visível em mobile */
-    }
-  
-    /* ═══════════════════════════════════════════════════════
-       🎯 EXTRAS - Download + Close (Delicados)
-       ═══════════════════════════════════════════════════════ */
-    
-    .player-extras {
-      flex: 0.05 0 auto;
-      order: 2;
-      flex-direction: row;
-      gap: 0.5rem;
-      min-width: auto;
-      justify-content: flex-end;
-    }
-
-    .player-extras{
-      justify-content: flex-start;
-    }
-  
-    /* Mostra apenas Download e Close */
-    .player-download-btn,
-    .player-close-btn {
-      display: flex !important;
-      min-width: 36px;
-      min-height: 36px;
-      padding: 0.5rem;
-      opacity: 0.8; /* Levemente transparente = delicado */
-      transition: opacity 0.2s ease;
-    }
-
-    .player-download-btn{
-      margin-top: 2rem;
-    }
-  
-    .player-download-btn:hover,
-    .player-close-btn:hover {
-      opacity: 1;
-    }
-  
-    .player-download-btn svg,
-    .player-close-btn .material-symbols-outlined {
-      width: 18px;
-      height: 18px;
-      font-size: 18px;
-    }
-  
-    /* Esconde Speed e Volume */
-    .player-speed,
-    .player-volume {
-      display: none !important;
-    }
-  
-    /* ═══════════════════════════════════════════════════════
-       PADDING DO BODY
-       ═══════════════════════════════════════════════════════ */
-    
-    body.audio-player-active {
-      padding-bottom: 110px;
-    }
-  }
-  
-  /* ═══════════════════════════════════════════════════════════
-     📱 MOBILE PEQUENO - Ainda Mais Delicado
-     ═══════════════════════════════════════════════════════════ */
-  
-  @media (max-width: 640px) {
-    .audio-player-bar {
-      min-height: 95px;
-      padding: 0.75rem 0.875rem;
-      margin-inline: 0.75rem;
-      gap: 0.625rem;
-    }
-  
-    .player-buttons {
-      gap: 0.5rem;
-    }
-  
-    .player-btn {
-      min-width: 40px;
-      min-height: 40px;
-      padding: 0.375rem;
-    }
-  
-    .player-btn.btn-play-pause {
-      width: 35px;
-      height: 35px;
-    }
-  
-    .player-btn.btn-play-pause .material-symbols-outlined {
-      font-size: 1.575rem;
-    }
-  
-    .player-btn .material-symbols-outlined {
-      font-size: 1.225rem;
-    }
-  
-    .player-progress-container {
-      gap: 0.5rem;
-      margin-top: 0.125rem;
-    }
-  
-    .player-time {
-      font-size: 0.625rem;
-      min-width: 34px;
-    }
-  
-    .player-progress-bar {
-      height: 2.5px; /* Ultra fino */
-    }
-  
-    .player-progress-scrubber {
-      width: 15px;
-      height: 15px;
-    }
-  
-    .player-download-btn,
-    .player-close-btn {
-      min-width: 32px;
-      min-height: 32px;
-      padding: 0.375rem;
-    }
-
-    .player-download-btn{
-      margin-top: 2rem;
-    }
-  
-    .player-download-btn svg,
-    .player-close-btn .material-symbols-outlined {
-      width: 16px;
-      height: 16px;
-      font-size: 16px;
-    }
-  
-    body.audio-player-active {
-      padding-bottom: 105px;
-    }
-  }
-  
-  /* Botões ocupam 100% da largura em mobile */
-  @media (max-width: 767px) {
-    .audio-trigger-btn,
-    .pdf-trigger-btn,
-    .braille-trigger-btn {
-      width: 100%;
-      justify-content: center;
-    }
-
-    .button-circle{
-      width: 100%;
-    }
-  }
-
-/* ═══════════════════════════════════════════════════════════
-   🎧 BADGE DE HOVER - Play Individual de Parágrafo (HTML REAL)
-   ═══════════════════════════════════════════════════════════ */
-
-/* Elementos com data-audio precisam de posição relativa para os badges */
-[data-audio] {
-  position: relative;
-  transition: transform 0.2s ease;
 }
 
-/* Badge HTML real (ao invés de CSS ::after) */
-.audio-hover-badge {
-  position: absolute;
-  left: -52px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 36px;
-  height: 36px;
-  background: #f5f5f5;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 99999999;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.2s ease, visibility 0.2s ease, 
-              transform 0.2s ease, background 0.2s ease;
+@media(max-width: 992px) {
+    .lesson-content-wrapper .audio-player-bar {
+        height: auto;
+        min-height: 100px;
+        padding: .875rem 1rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: .75rem;
+        align-items: center;
+        justify-content: space-between;
+        min-width: 65vw;
+    }
+
+    .lesson-content-wrapper .player-info {
+        display: none
+    }
+
+    .lesson-content-wrapper .player-controls {
+        flex: .93 0 auto;
+        order: 1;
+        max-width: none;
+        gap: .5rem
+    }
+
+    .lesson-content-wrapper .player-buttons {
+        gap: .625rem;
+        justify-content: center
+    }
+
+    .lesson-content-wrapper .player-btn {
+        padding: .5rem;
+        min-width: 40px;
+        min-height: 40px
+    }
+
+    .lesson-content-wrapper .player-btn.btn-play-pause {
+        width: 40px;
+        height: 40px
+    }
+
+    .lesson-content-wrapper .player-btn.btn-play-pause .material-symbols-outlined {
+        font-size: 1.5rem
+    }
+
+    .lesson-content-wrapper .player-btn .material-symbols-outlined {
+        font-size: 1.25rem
+    }
+
+    .lesson-content-wrapper .player-progress-container {
+        flex: 1 1 100%;
+        order: 3;
+        gap: .625rem;
+        height: auto;
+        padding: 0;
+        margin-top: .25rem
+    }
+
+    .lesson-content-wrapper .player-time {
+        font-size: .6875rem;
+        min-width: 38px;
+        color: #94a3b8
+    }
+
+    .lesson-content-wrapper .player-progress-bar {
+        height: 3px
+    }
+
+    .lesson-content-wrapper .player-progress-scrubber {
+        width: 13px;
+        height: 13px;
+        opacity: 1
+    }
+
+    .lesson-content-wrapper .player-extras {
+        flex: .05 0 auto;
+        order: 2;
+        flex-direction: row;
+        gap: .5rem;
+        min-width: auto;
+        justify-content: flex-end
+    }
+
+    .lesson-content-wrapper .player-extras {
+        justify-content: flex-start
+    }
+
+    .lesson-content-wrapper .player-download-btn,
+    .lesson-content-wrapper .player-close-btn {
+        display: flex !important;
+        min-width: 36px;
+        min-height: 36px;
+        padding: .5rem;
+        opacity: .8;
+        transition: opacity .2s ease
+    }
+
+    .lesson-content-wrapper .player-download-btn {
+        margin-top: 2rem
+    }
+
+    .lesson-content-wrapper .player-download-btn:hover,
+    .lesson-content-wrapper .player-close-btn:hover {
+        opacity: 1
+    }
+
+    .lesson-content-wrapper .player-download-btn svg,
+    .lesson-content-wrapper .player-close-btn .material-symbols-outlined {
+        width: 18px;
+        height: 18px;
+        font-size: 18px
+    }
+
+    .lesson-content-wrapper .player-speed,
+    .lesson-content-wrapper .player-volume {
+        display: none !important
+    }
+
+    .lesson-content-wrapper body.audio-player-active {
+        padding-bottom: 110px
+    }
+}
+
+@media(max-width: 640px) {
+    .lesson-content-wrapper .audio-player-bar {
+        min-height: 95px;
+        padding: .75rem .875rem;
+        margin-inline: .75rem;
+        gap: .625rem
+    }
+
+    .lesson-content-wrapper .player-buttons {
+        gap: .5rem
+    }
+
+    .lesson-content-wrapper .player-btn {
+        min-width: 40px;
+        min-height: 40px;
+        padding: .375rem
+    }
+
+    .lesson-content-wrapper .player-btn.btn-play-pause {
+        width: 35px;
+        height: 35px
+    }
+
+    .lesson-content-wrapper .player-btn.btn-play-pause .material-symbols-outlined {
+        font-size: 1.575rem
+    }
+
+    .lesson-content-wrapper .player-btn .material-symbols-outlined {
+        font-size: 1.225rem
+    }
+
+    .lesson-content-wrapper .player-progress-container {
+        gap: .5rem;
+        margin-top: .125rem
+    }
+
+    .lesson-content-wrapper .player-time {
+        font-size: .625rem;
+        min-width: 34px
+    }
+
+    .lesson-content-wrapper .player-progress-bar {
+        height: 2.5px
+    }
+
+    .lesson-content-wrapper .player-progress-scrubber {
+        width: 15px;
+        height: 15px
+    }
+
+    .lesson-content-wrapper .player-download-btn,
+    .lesson-content-wrapper .player-close-btn {
+        min-width: 32px;
+        min-height: 32px;
+        padding: .375rem
+    }
+
+    .lesson-content-wrapper .player-download-btn {
+        margin-top: 2rem
+    }
+
+    .lesson-content-wrapper .player-download-btn svg,
+    .lesson-content-wrapper .player-close-btn .material-symbols-outlined {
+        width: 16px;
+        height: 16px;
+        font-size: 16px
+    }
+
+    .lesson-content-wrapper body.audio-player-active {
+        padding-bottom: 105px
+    }
+}
+
+@media(max-width: 530px) {
+
+    .lesson-content-wrapper .audio-trigger-btn,
+    .lesson-content-wrapper .pdf-trigger-btn,
+    .lesson-content-wrapper .braille-trigger-btn {
+        width: 100%;
+        justify-content: center
+    }
+
+    .lesson-content-wrapper .button-circle {
+        width: 100%
+    }
 }
 
 
-.audio-hover-badge.visible {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
+.lesson-content-wrapper [data-audio] {
+    position: relative;
+    transition: transform .2s ease
 }
 
-.audio-hover-badge:hover {
-  background: #e8e8e8;
-  border-color: #d0d0d0;
-  transform: translateY(-50%) scale(1.08);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+.lesson-content-wrapper .audio-hover-badge {
+    position: absolute;
+    left: -52px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 99999999;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .2s ease, visibility .2s ease, transform .2s ease, background .2s ease
 }
 
-.audio-hover-badge svg {
-  width: 18px;
-  height: 18px;
-  stroke: #888;
-  transition: stroke 0.2s ease;
+.lesson-content-wrapper .audio-hover-badge.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto
 }
 
-.audio-hover-badge:hover svg {
-  stroke: #555;
+.lesson-content-wrapper .audio-hover-badge:hover {
+    background: #e8e8e8;
+    border-color: #d0d0d0;
+    transform: translateY(-50%) scale(1.08);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3)
 }
 
-/* Esconde badges quando player está ativo */
-body.audio-player-active .audio-hover-badge {
-  display: none !important;
+.lesson-content-wrapper .audio-hover-badge svg {
+    width: 18px;
+    height: 18px;
+    stroke: #888;
+    transition: stroke .2s ease
 }
 
-/* Esconde em telas menores (mobile/tablet) */
-@media (max-width: 1024px) {
-  .audio-hover-badge {
-    display: none !important;
-  }
+.lesson-content-wrapper .audio-hover-badge:hover svg {
+    stroke: #555
+}
+
+.lesson-content-wrapper body.audio-player-active .audio-hover-badge {
+    display: none !important
+}
+
+@media(max-width: 1024px) {
+    .lesson-content-wrapper .audio-hover-badge {
+        display: none !important
+    }
 }

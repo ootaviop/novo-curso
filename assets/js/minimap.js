@@ -24,7 +24,7 @@ class ScrollMinimap {
       sectionDetectionOffset: "third", // 'top', 'center', 'third'
 
       // Responsividade
-      breakpointMobile: 1200,
+      breakpointMobile: 768,
 
       // Níveis (Hierarquia Visual)
       // Os valores abaixo precisarão ser calcaulados por um método que irá receber o valor da variável --text-h[n]
@@ -83,14 +83,13 @@ class ScrollMinimap {
       ...config,
     };
 
-    // Elementos DOM
+    // Elementos DOM (referências aos elementos existentes no HTML)
     this.navContainer = null;
     this.minimapWrapper = null;
     this.minimapLines = null;
     this.indicator = null;
     this.indicatorLabel = null;
     this.sidebar = null;
-    this.sidebarHeader = null;
     this.navItems = null;
     this.progressPercentage = null;
     this.progressBarFill = null;
@@ -133,10 +132,9 @@ class ScrollMinimap {
       return;
     }
 
-    this.buildStructure();
+    this.injectStyles();
     this.buildMinimap();
     this.setupScrollListener();
-    this.setupSidebarBehavior();
     this.setupScrollIsolation();
     this.updateIndicatorPosition();
 
@@ -152,113 +150,36 @@ class ScrollMinimap {
    * ═══════════════════════════════════════════════════════════
    */
   validateDOM() {
-    const minimapContainer = document.getElementById("minimap");
-    const minimapLines = document.getElementById("minimapLines");
-    const scrollIndicator = document.getElementById("scrollIndicator");
-    const indicatorLabel = document.getElementById("indicatorLabel");
+    // Busca elementos da estrutura que já existe no HTML
+    this.navContainer = document.getElementById("navContainer");
+    this.minimapWrapper = document.getElementById("minimapWrapper");
+    this.minimapLines = document.getElementById("minimapLines");
+    this.indicator = document.getElementById("scrollIndicator");
+    this.indicatorLabel = document.getElementById("indicatorLabel");
+    this.sidebar = document.getElementById("sidebar");
+    this.navItems = document.getElementById("navItems");
+    this.progressPercentage = document.getElementById("progressPercentage");
+    this.progressBarFill = document.getElementById("progressBarFill");
 
+    // Valida se todos os elementos essenciais existem
     if (
-      !minimapContainer ||
-      !minimapLines ||
-      !scrollIndicator ||
-      !indicatorLabel
+      !this.navContainer ||
+      !this.minimapWrapper ||
+      !this.minimapLines ||
+      !this.indicator ||
+      !this.indicatorLabel ||
+      !this.sidebar ||
+      !this.navItems ||
+      !this.progressPercentage ||
+      !this.progressBarFill
     ) {
+      console.error("[ScrollMinimap] Estrutura HTML incompleta");
       return false;
     }
-
-    // Armazena referências originais
-    this.minimapLines = minimapLines;
-    this.indicator = scrollIndicator;
-    this.indicatorLabel = indicatorLabel;
-    this.originalMinimapContainer = minimapContainer;
 
     return true;
   }
 
-  /**
-   * ═══════════════════════════════════════════════════════════
-   * 🏗️ CONSTRUÇÃO DA ESTRUTURA (Minimap + Sidebar)
-   * ═══════════════════════════════════════════════════════════
-   */
-  buildStructure() {
-    const body = document.body;
-
-    // Container Principal
-    this.navContainer = document.createElement("div");
-    this.navContainer.className = "navigation-container";
-    this.navContainer.id = "navContainer";
-
-    // Minimap Wrapper (Estado Passivo)
-    this.minimapWrapper = document.createElement("div");
-    this.minimapWrapper.className = "minimap-wrapper";
-    this.minimapWrapper.id = "minimapWrapper";
-
-    // Move elementos existentes para o wrapper
-    this.minimapWrapper.appendChild(this.minimapLines);
-    this.minimapWrapper.appendChild(this.indicator);
-
-    // Sidebar (Estado Ativo)
-    this.sidebar = this.createSidebar();
-
-    // Monta estrutura
-    this.navContainer.appendChild(this.minimapWrapper);
-    this.navContainer.appendChild(this.sidebar);
-
-    // Substitui container original
-    this.originalMinimapContainer.replaceWith(this.navContainer);
-
-    // Injeta estilos
-    this.injectStyles();
-  }
-
-  /**
-   * ═══════════════════════════════════════════════════════════
-   * 📑 CRIAÇÃO DA SIDEBAR
-   * ═══════════════════════════════════════════════════════════
-   */
-  createSidebar() {
-    const sidebar = document.createElement("div");
-    sidebar.className = "navigation-sidebar";
-    sidebar.id = "sidebar";
-
-    // Header
-    const header = document.createElement("div");
-    header.className = "sidebar-header";
-
-    const title = document.createElement("div");
-    title.className = "sidebar-title";
-    title.textContent = "Índice da Aula";
-
-    const progressInfo = document.createElement("div");
-    progressInfo.className = "progress-info";
-
-    this.progressPercentage = document.createElement("div");
-    this.progressPercentage.className = "progress-percentage";
-    this.progressPercentage.textContent = "0%";
-
-    const progressBarContainer = document.createElement("div");
-    progressBarContainer.className = "progress-bar-container";
-
-    this.progressBarFill = document.createElement("div");
-    this.progressBarFill.className = "progress-bar-fill";
-    progressBarContainer.appendChild(this.progressBarFill);
-
-    progressInfo.appendChild(this.progressPercentage);
-    progressInfo.appendChild(progressBarContainer);
-
-    header.appendChild(title);
-    header.appendChild(progressInfo);
-
-    // Nav Items
-    this.navItems = document.createElement("ul");
-    this.navItems.className = "nav-items";
-    this.navItems.id = "navItems";
-
-    sidebar.appendChild(header);
-    sidebar.appendChild(this.navItems);
-
-    return sidebar;
-  }
 
   /**
    * ═══════════════════════════════════════════════════════════
@@ -392,33 +313,28 @@ class ScrollMinimap {
 
   /**
    * ═══════════════════════════════════════════════════════════
-   * 🎭 COMPORTAMENTO DA SIDEBAR (Hover com Delays)
+   * 🎯 CENTRALIZAÇÃO AUTOMÁTICA DO ITEM ATIVO
    * ═══════════════════════════════════════════════════════════
    */
-  setupSidebarBehavior() {
-    // Mouseenter: Delay antes de mostrar sidebar
-    this.navContainer.addEventListener("mouseenter", () => {
-      clearTimeout(this.hoverTimeout);
-      clearTimeout(this.hideTimeout);
+  centerActiveItemInSidebar(navItem) {
+    if (!navItem || !this.navItems) return;
 
-      // Se já está ativa, apenas cancela o hide
-      if (this.isSidebarActive) return;
+    const navItemsContainer = this.navItems;
+    const itemRect = navItem.getBoundingClientRect();
+    const containerRect = navItemsContainer.getBoundingClientRect();
 
-      this.hoverTimeout = setTimeout(() => {
-        this.isSidebarActive = true;
-        this.navContainer.classList.add("sidebar-active");
-      }, this.config.sidebarHoverDelay);
-    });
+    // Calcula posição do item relativa ao container
+    const itemRelativeTop = itemRect.top - containerRect.top;
 
-    // Mouseleave: Delay antes de esconder sidebar
-    this.navContainer.addEventListener("mouseleave", () => {
-      clearTimeout(this.hoverTimeout);
-      clearTimeout(this.hideTimeout);
+    // Calcula quanto precisa scrollar para centralizar
+    const containerCenter = containerRect.height / 2;
+    const itemCenter = itemRelativeTop + itemRect.height / 2;
+    const scrollAmount = itemCenter - containerCenter;
 
-      this.hideTimeout = setTimeout(() => {
-        this.isSidebarActive = false;
-        this.navContainer.classList.remove("sidebar-active");
-      }, this.config.sidebarHideDelay);
+    // Aplica scroll suave
+    navItemsContainer.scrollTo({
+      top: navItemsContainer.scrollTop + scrollAmount,
+      behavior: 'smooth'
     });
   }
 
@@ -429,22 +345,33 @@ class ScrollMinimap {
    */
   setupScrollIsolation() {
     const navItems = this.navItems;
-    
-    navItems.addEventListener('wheel', (e) => {
+    const sidebar = this.sidebar;
+
+    // Previne scroll da página quando mouse está sobre a sidebar
+    const preventPageScroll = (e) => {
       const { scrollTop, scrollHeight, clientHeight } = navItems;
       const isScrollingDown = e.deltaY > 0;
       const isScrollingUp = e.deltaY < 0;
-      
+
       const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
       const isAtTop = scrollTop <= 1;
-      
-      // Bloqueia scroll da página se a sidebar ainda pode scrollar
+
+      // Sempre bloqueia scroll da página quando mouse está sobre sidebar
+      e.stopPropagation();
+
+      // Permite scroll interno se ainda tem espaço
       if ((isScrollingDown && !isAtBottom) || (isScrollingUp && !isAtTop)) {
-        e.stopPropagation();
         e.preventDefault();
         navItems.scrollTop += e.deltaY;
+      } else {
+        // Bloqueia completamente quando não tem mais espaço
+        e.preventDefault();
       }
-    }, { passive: false });
+    };
+
+    // Aplica em toda a sidebar, não apenas no navItems
+    sidebar.addEventListener('wheel', preventPageScroll, { passive: false });
+    navItems.addEventListener('wheel', preventPageScroll, { passive: false });
   }
 
   /**
@@ -672,6 +599,9 @@ class ScrollMinimap {
     });
 
     activeNavItem.classList.add("active");
+
+    // Centraliza automaticamente o item ativo
+    this.centerActiveItemInSidebar(activeNavItem);
   }
 
   /**

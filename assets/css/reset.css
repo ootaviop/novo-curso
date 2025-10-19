@@ -1,28 +1,28 @@
 /* ═══════════════════════════════════════════════════════════
-   🌐 RESET GLOBAL
+   🌐 RESET ESCOPADO - Isolado para não afetar Moodle
    ═══════════════════════════════════════════════════════════ */
-   * {
+
+/* Reset apenas dentro do wrapper da aula */
+.lesson-content-wrapper * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     scrollbar-width: none;
 }
 
-:root {
-  }
-
-*::-webkit-scrollbar {
+.lesson-content-wrapper *::-webkit-scrollbar {
     display: none;
 }
 
-body::-webkit-scrollbar {
+/* Scrollbar para o wrapper principal e elementos internos */
+.lesson-content-wrapper,
+.lesson-content-wrapper body::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
 
-html {
+.lesson-content-wrapper {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
-
 

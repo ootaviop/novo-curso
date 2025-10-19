@@ -1,29 +1,24 @@
-body{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Wotfard', sans-serif;
-    scroll-behavior: smooth;
-}
+/* ═══════════════════════════════════════════════════════════
+   📐 LAYOUT ESCOPADO
+   ═══════════════════════════════════════════════════════════ */
 
-.container{
 
+
+.lesson-content-wrapper .container {
     background-color: white;
 }
 
-.topo{
+.lesson-content-wrapper .topo {
     height: 100vh;
     background-color: var(--base);
 }
 
-.separador-medio{
+.lesson-content-wrapper .separador-medio {
     height: 60px;
 }
 
-::selection{
+.lesson-content-wrapper ::selection {
     background-color: var(--orange-white3);
     color: var(--orange-white);
- }
+}
 
-
- 

@@ -1,13 +1,13 @@
     /* ═══════════════════════════════════════════════════════
-       📄 CONTAINER PRINCIPAL
+       📄 CONTAINER PRINCIPAL - ESCOPADO
        ═══════════════════════════════════════════════════════ */
 
-    .lesson-main {
+    .lesson-content-wrapper .lesson-main {
       padding-bottom: clamp(1rem, 1rem + 1vw, 2rem);
 
     }
 
-    .lesson-container {
+    .lesson-content-wrapper .lesson-container {
       margin: 0 auto;
       padding: clamp(2rem, 2rem + 1vw, 3rem);
       display: grid;
@@ -19,7 +19,7 @@
     /* ═══════════════════════════════════════════════════════
        📍 BREADCRUMB
        ═══════════════════════════════════════════════════════ */
-    .breadcrumb {
+    .lesson-content-wrapper .breadcrumb {
       display: flex;
       align-items: center;
       gap: clamp(0.75rem, 0.7rem + 0.25vw, 1rem);
@@ -29,24 +29,24 @@
       flex-wrap: wrap;
     }
 
-    .breadcrumb-item {
+    .lesson-content-wrapper .breadcrumb-item {
       color: var(--gray);
       text-decoration: none;
       transition: color 150ms;
       font-size: var(--text-xs);
     }
 
-    .breadcrumb-item:hover {
+    .lesson-content-wrapper .breadcrumb-item:hover {
       color: var(--orange);
     }
 
-    .breadcrumb-separator {
+    .lesson-content-wrapper .breadcrumb-separator {
       color: var(--orange);
       font-weight: 400;
       font-size: var(--text-sm);
     }
 
-    .breadcrumb-current {
+    .lesson-content-wrapper .breadcrumb-current {
       color: var(--orange-white);
       font-weight: 400;
       font-size: var(--text-xs);
@@ -56,7 +56,7 @@
        📝 CONTEÚDO PRINCIPAL
        ═══════════════════════════════════════════════════════ */
 
-    .lesson-title {
+    .lesson-content-wrapper .lesson-title {
       font-size: var(--text-h4);
       font-weight: 700;
       color: var(--black);
@@ -65,7 +65,7 @@
       margin-bottom: clamp(0.75rem, 0.7rem + 0.25vw, 1rem);
     }
 
-    .lesson-meta {
+    .lesson-content-wrapper .lesson-meta {
       font-size: var(--text-sm);
       color: var(--gray);
       font-style: italic;
@@ -74,33 +74,33 @@
       align-items: center;
     }
 
-    .lesson-intro {
+    .lesson-content-wrapper .lesson-intro {
       font-size: var(--text-lg);
       line-height: 1.7;
       color: var(--gray-dark);
       margin-bottom: clamp(2rem, 2rem + 0vw, 2rem);
     }
 
-    .lesson-intro strong {
+    .lesson-content-wrapper .lesson-intro strong {
       font-weight: 600;
       color: var(--black);
     }
 
-    #first {
+    .lesson-content-wrapper #first {
       padding-top: clamp(2rem, 2rem + 0vw, 2rem);
     }
 
-    .icon-time{
+    .lesson-content-wrapper .icon-time{
       width: calc(.85rem * var(--scale-multiplier));
       height: calc(.85rem * var(--scale-multiplier));
       margin-right: calc(0.4rem * var(--scale-multiplier));
       /* padding-bottom: .2rem; */
     }
 
-    
 
 
-@keyframes showSpan {
+
+@keyframes lesson-showSpan {
   from{
   opacity: 0;
   }
@@ -110,8 +110,8 @@
 }
 
 
-.time-leitura{
-  animation: showSpan 0.5s ease-in-out;
+.lesson-content-wrapper .time-leitura{
+  animation: lesson-showSpan 0.5s ease-in-out;
   animation-delay: 0.4s;
   animation-fill-mode: both;
   opacity: 0;

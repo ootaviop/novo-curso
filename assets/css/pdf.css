@@ -1,110 +1,106 @@
-.pdf-trigger-container {
+.lesson-content-wrapper .pdf-trigger-container {
     display: flex;
-    /* align-items: center; */
     gap: clamp(1rem, 0rem + 1vw, 2rem);
-    margin: clamp(0.8rem, 0.5rem + 1vw, 1.5rem) 0
-      clamp(0.8rem, 0.5rem + 1vw, 1.5rem);
-    padding: clamp(0.8rem, 0.5rem + 1vw, 1.5rem) 0;
+    margin: clamp(.8rem, .5rem + 1vw, 1.5rem) 0 clamp(.8rem, .5rem + 1vw, 1.5rem);
+    padding: clamp(.8rem, .5rem + 1vw, 1.5rem) 0;
     border-top: 1px solid #f0f0f0;
     border-bottom: 1px solid #f0f0f0;
     flex-direction: column;
-    align-items: start;
-  }
-  
-.pdf-trigger-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: clamp(0.5rem, 0.5rem + 0.25vw, 1rem);
-  /* padding: clamp(0.75rem, 0.75rem + 0.25vw, 1rem)
-    clamp(1.5rem, 1.5rem + 0.25vw, 2rem); */
-  padding: 0.9rem 1.4rem;
-  background: white;
-  color: var(--orange);
-  border: 2px solid var(--orange);
-  border-radius: 50px;
-  font-size: var(--text-sm);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: var(--font);
-  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.1);
+    align-items: start
 }
-  
-  .pdf-trigger-btn:hover {
+
+.lesson-content-wrapper .pdf-trigger-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(.5rem, .5rem + .25vw, 1rem);
+    padding: .7rem 0.8rem;
+    background: white;
+    color: var(--orange);
+    border: 2px solid var(--orange);
+    border-radius: 50px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s ease;
+    font-family: var(--font);
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.1)
+}
+
+.lesson-content-wrapper .pdf-trigger-btn:hover {
     background: var(--orange);
     color: white;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
-  }
-  
-.pdf-trigger-btn:active {
-  transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3)
 }
 
-.pdf-trigger-btn .btn-badge {
-  background: rgba(255, 107, 53, 0.1);
-  color: var(--orange);
-  min-width: 3.5rem;  /* NOVO - herda comportamento consistente */
-  font-variant-numeric: tabular-nums;  /* NOVO */
-  text-align: center;  /* NOVO */
+.lesson-content-wrapper .pdf-trigger-btn:active {
+    transform: translateY(0)
 }
 
-.pdf-trigger-btn:hover .btn-badge {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+.lesson-content-wrapper .pdf-trigger-btn .btn-badge {
+    background: rgba(255, 107, 53, 0.1);
+    color: var(--orange);
+    min-width: 3.5rem;
+    font-variant-numeric: tabular-nums;
+    text-align: center
 }
-  
-  .pdf-trigger-btn .icon {
-    font-size: clamp(1.25rem, 1rem + 1vw, 1.5rem);
-  }
-  
-  .pdf-trigger-info {
+
+.lesson-content-wrapper .pdf-trigger-btn:hover .btn-badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: white
+}
+
+.lesson-content-wrapper .pdf-trigger-btn .icon {
+    font-size: clamp(1.25rem, 1rem + 1vw, 1.5rem)
+}
+
+.lesson-content-wrapper .pdf-trigger-info {
     display: flex;
     flex-direction: column;
-    gap: clamp(0.25rem, 0.25rem + 0.25vw, 0.5rem);
+    gap: clamp(.25rem, .25rem + .25vw, .5rem);
     font-size: var(--text-sm);
-    color: var(--gray);
-  }
-  
-  .pdf-trigger-info strong {
+    color: var(--gray)
+}
+
+.lesson-content-wrapper .pdf-trigger-info strong {
     color: var(--text);
-    font-weight: 600;
-  }
-  
-  @keyframes showSpan {
-    from{
-      opacity: 0;
-    }
-    to{
-      opacity: 1;
-    }
-  }
+    font-weight: 600
+}
 
-  
-  .pdf-trigger-btn.initial-animation span, .pdf-trigger-btn.initial-animation .btn-badge{
-    animation: showSpan 0.5s ease-in-out;
-    animation-delay: 0.4s;
+@keyframes showSpan {
+    from {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+.lesson-content-wrapper .pdf-trigger-btn.initial-animation span,
+.lesson-content-wrapper .pdf-trigger-btn.initial-animation .btn-badge {
+    animation: showSpan .5s ease-in-out;
+    animation-delay: .4s;
     animation-fill-mode: both;
-    opacity: 0;
-  }
+    opacity: 0
+}
 
-  @keyframes showBorder {
-    from{
-      border: 2px solid transparent;
-      box-shadow: 0 2px 8px rgba(255, 107, 53, 0.0);
+@keyframes showBorder {
+    from {
+        border: 2px solid transparent;
+        box-shadow: 0 2px 8px rgba(255, 107, 53, 0)
     }
-    to{
-      border: 2px solid var(--orange);
-      box-shadow: 0 2px 8px rgba(255, 107, 53, 0.1);
-      transform: translateY(-1px);
+
+    to {
+        border: 2px solid var(--orange);
+        box-shadow: 0 2px 8px rgba(255, 107, 53, 0.1);
+        transform: translateY(-1px)
     }
-  }
-  
-  .pdf-trigger-btn{
-    animation: showBorder 0.5s ease-in-out;
-    animation-delay: 0.4s;
+}
+
+.lesson-content-wrapper .pdf-trigger-btn {
+    animation: showBorder .5s ease-in-out;
+    animation-delay: .4s;
     animation-fill-mode: both;
-    opacity: 1;
-  }
-
-
+    opacity: 1
+}

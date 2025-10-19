@@ -1,4 +1,4 @@
-@import "reset.css";
+
 @import "variables.css";
 @import "layout.css";
 @import "hero.css";
@@ -9,4 +9,9 @@
 @import "audio-player.css";
 @import "nav-footer.css";
 @import "pdf.css";
+@import "braille.css";
+@import "lesson-completion.css";
+@import "comments-system.css";
+
+
 
