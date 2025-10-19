@@ -570,12 +570,6 @@
     opacity: 1;
 }
 
-@media (min-width: 769px) and (max-width: 992px) {
-    .lesson-content-wrapper .audio-player-bar {
-     
-    }
-}
-
 @media(max-width: 992px) {
     .lesson-content-wrapper .audio-player-bar {
         height: auto;
