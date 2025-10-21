@@ -163,6 +163,7 @@ body::-webkit-scrollbar {
     overflow-x: hidden;
     flex: 1;
     scroll-behavior: smooth;
+    overscroll-behavior: contain;
 }
 
 /* Indicador visual de scroll ativo */
@@ -323,6 +324,103 @@ body::-webkit-scrollbar {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   🎨 ÍCONES E INDICADORES DE PROGRESSO
+   ═══════════════════════════════════════════════════════════ */
+
+/* Container do ícone */
+.lesson-content-wrapper .nav-item-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  transition: color 0.2s ease;
+  display: none;
+}
+
+.lesson-content-wrapper .nav-item.active .nav-item-icon {
+  color: #ff6b35;
+}
+
+.lesson-content-wrapper .nav-item:hover .nav-item-icon {
+  color: #ff6b35;
+}
+
+/* Progress checkbox/circle */
+.lesson-content-wrapper .nav-progress-indicator {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #d0d0d0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Ícone de check (oculto por padrão) */
+.lesson-content-wrapper .nav-check-icon {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  color: #10b981;
+  width: 18px;
+  height: 18px;
+}
+
+/* Estado completado */
+.lesson-content-wrapper .nav-item.completed .nav-progress-indicator {
+  background: transparent;
+  border-color: transparent;
+}
+
+.lesson-content-wrapper .nav-item.completed .nav-check-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Agrupamento de seções macro */
+.lesson-content-wrapper .nav-group-header {
+  padding: 1rem 1.5rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #999;
+  margin-top: 1rem;
+}
+
+.lesson-content-wrapper .nav-group-header:first-child {
+  margin-top: 0;
+}
+
+/* Layout do item com ícone + texto + checkbox */
+.lesson-content-wrapper .nav-link2-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Badges de conteúdo */
+.lesson-content-wrapper .nav-content-badges {
+  display: flex;
+  gap: 0.25rem;
+  margin-left: auto;
+  opacity: 0.5;
+}
+
+.lesson-content-wrapper .nav-content-badge {
+  width: 14px;
+  height: 14px;
+  color: #999;
+}
+
+/* ═══════════════════════════════════════════════════════════
    📍 INDICADOR DE POSIÇÃO
    ═══════════════════════════════════════════════════════════ */
 .lesson-content-wrapper .scroll-indicator {
@@ -335,6 +433,7 @@ body::-webkit-scrollbar {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 .lesson-content-wrapper .indicator-arrow {

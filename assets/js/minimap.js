@@ -4,81 +4,31 @@
  * ═══════════════════════════════════════════════════════════════
  *
  * Navegação visual precisa com minimap dinâmico e sidebar expansível.
- * Utiliza proporção áurea (φ ≈ 1.618) em timings e dimensões.
+ * Refatorado para simplicidade e manutenibilidade.
  *
- * @author Refatorado com precisão cirúrgica
- * @version 2.0.0
+ * @author Refatorado - Versão Simplificada
+ * @version 3.0.0
+ * @changes Removido overengineering: velocity effects, proporção áurea 
+ *          artificial, configurações excessivas, código morto
  */
 
 class ScrollMinimap {
   constructor(config = {}) {
-    // Proporção Áurea
-    const PHI = 1.618;
-
     this.config = {
-      // Seletores
-      navLevelSelector: "[data-nav-level]",
-
       // Scroll
       scrollOffset: 80,
-      sectionDetectionOffset: "third", // 'top', 'center', 'third'
-
-      // Responsividade
-      breakpointMobile: 768,
 
       // Níveis (Hierarquia Visual)
-      // Os valores abaixo precisarão ser calcaulados por um método que irá receber o valor da variável --text-h[n]
-      // Para responsividade, defina levelWidths como função que retorna valores diferentes conforme a largura da tela.
-      levelWidths: (() => {
-        // Exemplo: desktop, tablet, mobile
-        const w = window.innerWidth;
-        if (w >= 1920)
-          return [
-            (34 * w) / 1200,
-            (26 * w) / 1200,
-            (21 * w) / 1200,
-            (18 * w) / 1200,
-            (15 * w) / 1200,
-          ]; // Desktop
-        return [
-          (23 * w) / 800,
-          (17 * w) / 800,
-          (14 * w) / 800,
-          (12 * w) / 800,
-          (10 * w) / 800,
-        ]; // Tablet
-      })(),
-      maxLevels: 5,
+      levelWidths: [34, 26, 21, 18, 15], // valores em px fixos
       levelOpacities: [1.0, 0.9, 0.8, 0.7, 0.6],
       levelColors: ["#222", "#555", "#777", "#999", "#bbb"],
 
-      // Indicador
-      indicatorSnapToLine: true,
-      indicatorTransitionDuration: 0.3,
-
-      // Velocidade (px/segundo)
-      enableVelocityEffect: true,
-      minVelocity: 200,
-      maxVelocity: 2500,
-      velocityMultiplierMin: 0.5,
-      velocityMultiplierMax: 1.3,
-      velocityCurveExponent: 0.8,
-      velocitySmoothingFactor: 0.15,
-      velocityDecayRate: 0.7,
-
-      // Influence Radius (proporção áurea)
-      minInfluenceRadius: 15,
-      maxInfluenceRadius: Math.round(25 * PHI * PHI), // ≈ 65px
-
       // Highlight
       highlightMaxScale: 1.4,
+      influenceRadius: 60, // valor fixo
 
-      // Sidebar (proporção áurea aplicada)
-      sidebarWidth: 320, // ≈ 200 × φ
-      sidebarHoverDelay: 70, // 250ms × φ
-      sidebarHideDelay: 800, // Delay maior para evitar flickering
-      sidebarTransitionDuration: 0.3,
-      minimapTransitionDuration: 0.25,
+      // Sidebar
+      sidebarWidth: 320,
 
       ...config,
     };
@@ -97,17 +47,7 @@ class ScrollMinimap {
     // Estado
     this.sections = [];
     this.currentActiveSection = null;
-    this.scrollHistory = []; // ✅ Propriedade (fix memory leak)
     this.isScrolling = false;
-    this.isSidebarActive = false; // ✅ Flag para evitar flickering
-    this.hoverTimeout = null;
-    this.hideTimeout = null;
-
-    // Métricas de Scroll
-    this.scrollMetrics = {
-      velocity: 0,
-      velocityMultiplier: 1,
-    };
 
     this.init();
   }
@@ -119,7 +59,7 @@ class ScrollMinimap {
    */
   init() {
     // Validação Mobile
-    if (window.innerWidth < this.config.breakpointMobile) {
+    if (window.innerWidth < 768) {
       console.log(
         `[ScrollMinimap] Não renderizado em mobile (${window.innerWidth}px)`
       );
@@ -134,14 +74,20 @@ class ScrollMinimap {
 
     this.injectStyles();
     this.buildMinimap();
+    this.setupProgressTracking();
+    this.setupProgressReset();
     this.setupScrollListener();
-    this.setupScrollIsolation();
     this.updateIndicatorPosition();
 
     // Inicializa estado visual
     requestAnimationFrame(() => {
       this.resetLineScales();
     });
+
+    // Renderiza ícones Lucide após toda construção
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
   }
 
   /**
@@ -187,36 +133,21 @@ class ScrollMinimap {
    * ═══════════════════════════════════════════════════════════
    */
   buildMinimap() {
-    const allSections = document.querySelectorAll(this.config.navLevelSelector);
-
-    if (allSections.length === 0) {
-      console.warn("[ScrollMinimap] Nenhuma seção encontrada");
+    // Busca APENAS seções navegáveis
+    const navSections = document.querySelectorAll('[data-nav-section="true"]');
+    
+    if (navSections.length === 0) {
+      console.warn("[ScrollMinimap] Nenhuma seção navegável encontrada");
       return;
     }
 
-    allSections.forEach((section, index) => {
-      const level = parseInt(section.dataset.navLevel) || 1;
-      const label = section.dataset.label || `Seção ${index + 1}`;
-
-      // Cria linha do minimap
-      const line = this.createLine(level);
-      this.minimapLines.appendChild(line);
-
-      // Cria item da sidebar
-      const navItem = this.createNavItem(level, label, index);
-      this.navItems.appendChild(navItem);
-
-      this.sections.push({
-        element: section,
-        level: level,
-        label: label,
-        lineElement: line,
-        navItem: navItem,
-        index: index,
-      });
-    });
-
-    console.log(`[ScrollMinimap] ${this.sections.length} seções carregadas`);
+    // Agrupa por data-nav-group
+    const groups = this.groupSectionsByNavGroup(navSections);
+    
+    // Renderiza grupos + itens
+    this.renderNavigationGroups(groups);
+    
+    console.log(`[ScrollMinimap] ${navSections.length} seções em ${Object.keys(groups).length} grupos`);
   }
 
   /**
@@ -296,6 +227,202 @@ class ScrollMinimap {
     return icons[level - 1] || "•";
   }
 
+  getGroupDisplayName(groupKey) {
+    const names = {
+      'introducao': 'Introdução',
+      'conteudo': 'Conteúdo Principal',
+      'reflexao': 'Momento de Reflexão',
+      'aprofundamento': 'Aprofundamento',
+      'conclusao': 'Conclusão',
+      'outros': 'Outras Seções'
+    };
+    
+    return names[groupKey] || groupKey;
+  }
+
+  /**
+   * ═══════════════════════════════════════════════════════════
+   * 📊 AGRUPAMENTO DE SEÇÕES POR GRUPO DE NAVEGAÇÃO
+   * ═══════════════════════════════════════════════════════════
+   */
+  groupSectionsByNavGroup(sections) {
+    const groups = {};
+    
+    sections.forEach((section, index) => {
+      const group = section.dataset.navGroup || 'outros';
+      
+      if (!groups[group]) {
+        groups[group] = {
+          name: this.getGroupDisplayName(group),
+          items: []
+        };
+      }
+      
+      const level = parseInt(section.dataset.navLevel) || 1;
+      const title = section.dataset.navTitle || `Seção ${index + 1}`;
+      const icon = section.dataset.navIcon || 'file-text';
+      
+      // Conta tipos de conteúdo dentro desta seção
+      const contentBadges = this.scanContentTypes(section);
+      
+      groups[group].items.push({
+        element: section,
+        level: level,
+        title: title,
+        icon: icon,
+        badges: contentBadges,
+        index: index
+      });
+    });
+    
+    return groups;
+  }
+
+  /**
+   * ═══════════════════════════════════════════════════════════
+   * 🔍 ESCANEIA TIPOS DE CONTEÚDO DENTRO DA SEÇÃO
+   * ═══════════════════════════════════════════════════════════
+   */
+  scanContentTypes(section) {
+    const types = section.querySelectorAll('[data-content-type]');
+    const badges = {};
+    
+    types.forEach(el => {
+      const type = el.dataset.contentType;
+      badges[type] = (badges[type] || 0) + 1;
+    });
+    
+    return badges;
+  }
+
+  /**
+   * ═══════════════════════════════════════════════════════════
+   * 🎨 RENDERIZA GRUPOS DE NAVEGAÇÃO
+   * ═══════════════════════════════════════════════════════════
+   */
+  renderNavigationGroups(groups) {
+    const groupOrder = ['introducao', 'conteudo', 'reflexao', 'aprofundamento', 'conclusao', 'outros'];
+    
+    groupOrder.forEach(groupKey => {
+      if (!groups[groupKey]) return;
+      
+      const group = groups[groupKey];
+      
+      // Header do grupo
+      const header = document.createElement('div');
+      header.className = 'nav-group-header';
+      header.textContent = group.name;
+      this.navItems.appendChild(header);
+      
+      // Itens do grupo
+      group.items.forEach(item => {
+        const navItem = this.createNavItemWithIcon(item);
+        this.navItems.appendChild(navItem);
+        
+        // Cria linha do minimap (mantém compatibilidade)
+        const line = this.createLine(item.level);
+        this.minimapLines.appendChild(line);
+        
+        this.sections.push({
+          element: item.element,
+          level: item.level,
+          title: item.title,
+          lineElement: line,
+          navItem: navItem,
+          index: item.index
+        });
+      });
+    });
+  }
+
+  /**
+   * ═══════════════════════════════════════════════════════════
+   * 🎯 CRIA ITEM DE NAVEGAÇÃO COM ÍCONE
+   * ═══════════════════════════════════════════════════════════
+   */
+  createNavItemWithIcon(item) {
+    const li = document.createElement('li');
+    li.className = 'nav-item';
+    li.dataset.level = item.level;
+    li.dataset.index = item.index;
+
+    const link = document.createElement('a');
+    link.className = 'nav-link2';
+    link.href = '#';
+
+    // Progress indicator (checkbox)
+    const progressIndicator = document.createElement('span');
+    progressIndicator.className = 'nav-progress-indicator';
+    
+    // Ícone de check (Lucide circle-check)
+    const checkIcon = document.createElement('i');
+    checkIcon.className = 'nav-check-icon';
+    checkIcon.setAttribute('data-lucide', 'circle-check');
+    progressIndicator.appendChild(checkIcon);
+    
+    // Content wrapper
+    const contentWrapper = document.createElement('div');
+    contentWrapper.className = 'nav-link2-content';
+
+    // Ícone (Lucide)
+    const iconWrapper = document.createElement('span');
+    iconWrapper.className = 'nav-item-icon';
+    iconWrapper.setAttribute('data-lucide', item.icon);
+
+    // Texto
+    const text = document.createElement('span');
+    text.textContent = item.title;
+    
+    // Badges de conteúdo
+    const badgesContainer = this.createContentBadges(item.badges);
+
+    contentWrapper.appendChild(iconWrapper);
+    contentWrapper.appendChild(text);
+    
+    link.appendChild(progressIndicator);
+    link.appendChild(contentWrapper);
+    link.appendChild(badgesContainer);
+    
+    li.appendChild(link);
+
+    li.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.scrollToSection(item.index);
+    });
+
+    return li;
+  }
+
+  /**
+   * ═══════════════════════════════════════════════════════════
+   * 🏷️ CRIA BADGES DE CONTEÚDO
+   * ═══════════════════════════════════════════════════════════
+   */
+  createContentBadges(badges) {
+    const container = document.createElement('div');
+    container.className = 'nav-content-badges';
+    
+    const badgeIconMap = {
+      'quote': 'quote',
+      'highlight': 'message-square-text',
+      'reflection': 'lightbulb',
+      'question': 'help-circle'
+    };
+    
+    Object.entries(badges).forEach(([type, count]) => {
+      if (count === 0) return;
+      
+      const badge = document.createElement('span');
+      badge.className = 'nav-content-badge';
+      badge.setAttribute('data-lucide', badgeIconMap[type] || 'circle');
+      badge.title = `${count} ${type}(s)`;
+      
+      container.appendChild(badge);
+    });
+    
+    return container;
+  }
+
   scrollToSection(index) {
     const section = this.sections[index];
     if (!section) return;
@@ -305,10 +432,6 @@ class ScrollMinimap {
       top: targetY,
       behavior: "smooth",
     });
-  }
-
-  lerp(start, end, factor) {
-    return start + (end - start) * factor;
   }
 
   /**
@@ -340,108 +463,27 @@ class ScrollMinimap {
 
   /**
    * ═══════════════════════════════════════════════════════════
-   * 🔒 ISOLAMENTO DE SCROLL DA SIDEBAR
-   * ═══════════════════════════════════════════════════════════
-   */
-  setupScrollIsolation() {
-    const navItems = this.navItems;
-    const sidebar = this.sidebar;
-
-    // Previne scroll da página quando mouse está sobre a sidebar
-    const preventPageScroll = (e) => {
-      const { scrollTop, scrollHeight, clientHeight } = navItems;
-      const isScrollingDown = e.deltaY > 0;
-      const isScrollingUp = e.deltaY < 0;
-
-      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-      const isAtTop = scrollTop <= 1;
-
-      // Sempre bloqueia scroll da página quando mouse está sobre sidebar
-      e.stopPropagation();
-
-      // Permite scroll interno se ainda tem espaço
-      if ((isScrollingDown && !isAtBottom) || (isScrollingUp && !isAtTop)) {
-        e.preventDefault();
-        navItems.scrollTop += e.deltaY;
-      } else {
-        // Bloqueia completamente quando não tem mais espaço
-        e.preventDefault();
-      }
-    };
-
-    // Aplica em toda a sidebar, não apenas no navItems
-    sidebar.addEventListener('wheel', preventPageScroll, { passive: false });
-    navItems.addEventListener('wheel', preventPageScroll, { passive: false });
-  }
-
-  /**
-   * ═══════════════════════════════════════════════════════════
-   * 📊 SCROLL LISTENER (Velocity + Progress)
+   * 📊 SCROLL LISTENER
    * ═══════════════════════════════════════════════════════════
    */
   setupScrollListener() {
     let ticking = false;
-    const HISTORY_DURATION = 100;
+    let scrollTimeout;
 
     const handleScroll = () => {
-      if (this.config.enableVelocityEffect) {
-        const now = performance.now();
-        const currentY = window.scrollY;
-
-        // Adiciona ao histórico
-        this.scrollHistory.push({ y: currentY, time: now });
-
-        // Remove eventos antigos
-        while (
-          this.scrollHistory.length > 0 &&
-          now - this.scrollHistory[0].time > HISTORY_DURATION
-        ) {
-          this.scrollHistory.shift();
-        }
-
-        // Calcula velocidade
-        if (this.scrollHistory.length >= 2) {
-          const oldest = this.scrollHistory[0];
-          const newest = this.scrollHistory[this.scrollHistory.length - 1];
-
-          const deltaY = Math.abs(newest.y - oldest.y);
-          const deltaTime = newest.time - oldest.time;
-
-          const rawVelocity = deltaTime > 0 ? (deltaY / deltaTime) * 1000 : 0;
-
-          this.scrollMetrics.velocity = this.lerp(
-            this.scrollMetrics.velocity,
-            rawVelocity,
-            this.config.velocitySmoothingFactor
-          );
-
-          this.scrollMetrics.velocityMultiplier =
-            this.calculateVelocityMultiplier();
-        }
-      }
-
       this.isScrolling = true;
 
       if (!ticking) {
         window.requestAnimationFrame(() => {
           this.updateIndicatorPosition();
-          this.updateProgress();
           ticking = false;
         });
         ticking = true;
       }
 
-      // Reset velocity após parar de scrollar
-      clearTimeout(this.scrollTimeout);
-      this.scrollTimeout = setTimeout(() => {
-        if (this.config.enableVelocityEffect) {
-          this.scrollMetrics.velocityMultiplier = this.lerp(
-            this.scrollMetrics.velocityMultiplier,
-            1.0,
-            this.config.velocityDecayRate
-          );
-        }
-
+      // Reset após parar de scrollar
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
         this.isScrolling = false;
         this.resetLineScales();
       }, 150);
@@ -452,34 +494,106 @@ class ScrollMinimap {
 
   /**
    * ═══════════════════════════════════════════════════════════
-   * ⚡ CÁLCULO DE VELOCITY MULTIPLIER
+   * 🔄 RESET DE PROGRESSO COM CTRL + F5
    * ═══════════════════════════════════════════════════════════
    */
-  calculateVelocityMultiplier() {
-    if (!this.config.enableVelocityEffect) return 1;
+  setupProgressReset() {
+    window.addEventListener('keydown', (e) => {
+      // Detecta Ctrl + F5 (Ctrl + R também funciona)
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'F5' || e.key === 'r')) {
+        // Limpa o progresso
+        localStorage.removeItem('lesson-progress');
+        this.completedSections.clear();
+        
+        // Remove marcação visual de todos os itens
+        this.sections.forEach(section => {
+          if (section.navItem) {
+            section.navItem.classList.remove('completed');
+          }
+        });
+        
+        // Atualiza porcentagem
+        this.updateProgressPercentageTracking();
+        
+        console.log('[ScrollMinimap] Progresso resetado');
+      }
+    });
+  }
 
-    const v = this.scrollMetrics.velocity;
-    const {
-      minVelocity,
-      maxVelocity,
-      velocityMultiplierMin,
-      velocityMultiplierMax,
-      velocityCurveExponent,
-    } = this.config;
-
-    if (v < minVelocity) {
-      const ratio = v / minVelocity;
-      return Math.max(0.3, velocityMultiplierMin * ratio);
-    }
-
-    const clampedV = Math.min(v, maxVelocity);
-    const normalized = (clampedV - minVelocity) / (maxVelocity - minVelocity);
-    const curved = Math.pow(normalized, velocityCurveExponent);
-
-    return (
-      velocityMultiplierMin +
-      curved * (velocityMultiplierMax - velocityMultiplierMin)
+  /**
+   * ═══════════════════════════════════════════════════════════
+   * 📊 SISTEMA DE PROGRESS TRACKING
+   * ═══════════════════════════════════════════════════════════
+   */
+  setupProgressTracking() {
+    // Carrega progresso salvo
+    this.completedSections = new Set(
+      JSON.parse(localStorage.getItem('lesson-progress') || '[]')
     );
+    
+    // Marca itens já completados
+    this.sections.forEach((section, index) => {
+      if (this.completedSections.has(index)) {
+        section.navItem.classList.add('completed');
+      }
+    });
+    
+    // Intersection Observer para tracking
+    const observerOptions = {
+      threshold: 0.5, // 50% visível
+      rootMargin: '0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const sectionData = this.sections.find(s => s.element === entry.target);
+        if (!sectionData) return;
+        
+        // Marca como completo quando 50% visível
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+          this.markSectionCompleted(sectionData.index);
+        }
+      });
+    }, observerOptions);
+    
+    // Observa todas as seções
+    this.sections.forEach(section => {
+      observer.observe(section.element);
+    });
+  }
+
+  markSectionCompleted(index) {
+    if (this.completedSections.has(index)) return;
+    
+    this.completedSections.add(index);
+    
+    // Salva no localStorage
+    localStorage.setItem(
+      'lesson-progress',
+      JSON.stringify([...this.completedSections])
+    );
+    
+    // Atualiza UI
+    const section = this.sections[index];
+    if (section && section.navItem) {
+      section.navItem.classList.add('completed');
+    }
+    
+    // Atualiza porcentagem de progresso
+    this.updateProgressPercentageTracking();
+  }
+
+  updateProgressPercentageTracking() {
+    const total = this.sections.length;
+    const completed = this.completedSections.size;
+    const percentage = Math.round((completed / total) * 100);
+    
+    if (this.progressPercentage) {
+      this.progressPercentage.textContent = `${percentage}%`;
+    }
+    if (this.progressBarFill) {
+      this.progressBarFill.style.width = `${percentage}%`;
+    }
   }
 
   /**
@@ -492,20 +606,17 @@ class ScrollMinimap {
 
     if (!currentSection) return;
 
-    if (this.config.indicatorSnapToLine) {
-      const lineRect = currentSection.lineElement.getBoundingClientRect();
-      const minimapRect = this.minimapLines.getBoundingClientRect();
+    const lineRect = currentSection.lineElement.getBoundingClientRect();
+    const minimapRect = this.minimapLines.getBoundingClientRect();
 
-      const lineRelativeY =
-        lineRect.top - minimapRect.top + lineRect.height / 2;
+    const lineRelativeY =
+      lineRect.top - minimapRect.top + lineRect.height / 2;
 
-      this.currentActiveSection = currentSection;
+    this.currentActiveSection = currentSection;
 
-      this.indicator.style.transition = `transform ${this.config.indicatorTransitionDuration}s cubic-bezier(0.4, 0.0, 0.2, 1)`;
-      this.indicator.style.transform = `translateY(${lineRelativeY}px)`;
-    }
+    this.indicator.style.transform = `translateY(${lineRelativeY}px)`;
 
-    this.indicatorLabel.textContent = currentSection.label;
+    this.indicatorLabel.textContent = currentSection.title;
     this.highlightActiveLine(currentSection.lineElement);
     this.updateActiveNavItem(currentSection.navItem);
   }
@@ -516,19 +627,7 @@ class ScrollMinimap {
    * ═══════════════════════════════════════════════════════════
    */
   getCurrentSection() {
-    let scrollPos;
-
-    switch (this.config.sectionDetectionOffset) {
-      case "top":
-        scrollPos = window.scrollY + this.config.scrollOffset;
-        break;
-      case "third":
-        scrollPos = window.scrollY + window.innerHeight / 3;
-        break;
-      case "center":
-      default:
-        scrollPos = window.scrollY + window.innerHeight / 2;
-    }
+    const scrollPos = window.scrollY + window.innerHeight / 3;
 
     for (let i = this.sections.length - 1; i >= 0; i--) {
       const section = this.sections[i];
@@ -542,7 +641,7 @@ class ScrollMinimap {
 
   /**
    * ═══════════════════════════════════════════════════════════
-   * 🎨 HIGHLIGHT DA LINHA ATIVA (Velocity Effect)
+   * 🎨 HIGHLIGHT DA LINHA ATIVA
    * ═══════════════════════════════════════════════════════════
    */
   highlightActiveLine(activeLineElement) {
@@ -551,16 +650,8 @@ class ScrollMinimap {
     const activeRect = activeLineElement.getBoundingClientRect();
     const activeCenterY = activeRect.top + activeRect.height / 2;
 
-    const effectiveMaxScale =
-      1 +
-      (this.config.highlightMaxScale - 1) *
-        this.scrollMetrics.velocityMultiplier;
-
-    const { minInfluenceRadius, maxInfluenceRadius } = this.config;
-    const effectiveMaxInfluence =
-      minInfluenceRadius +
-      (maxInfluenceRadius - minInfluenceRadius) *
-        this.scrollMetrics.velocityMultiplier;
+    const maxScale = this.config.highlightMaxScale;
+    const influenceRadius = this.config.influenceRadius;
 
     this.sections.forEach(({ lineElement, level }) => {
       const originalColor =
@@ -572,10 +663,10 @@ class ScrollMinimap {
       const distance = Math.abs(activeCenterY - lineCenterY);
 
       let scale = 1;
-      if (distance < effectiveMaxInfluence) {
-        const normalizedDistance = distance / effectiveMaxInfluence;
+      if (distance < influenceRadius) {
+        const normalizedDistance = distance / influenceRadius;
         const influence = 1 - normalizedDistance;
-        scale = 1 + influence ** 2 * (effectiveMaxScale - 1);
+        scale = 1 + influence ** 2 * (maxScale - 1);
       }
 
       lineElement.style.transition =
@@ -599,35 +690,7 @@ class ScrollMinimap {
     });
 
     activeNavItem.classList.add("active");
-
-    // Centraliza automaticamente o item ativo
     this.centerActiveItemInSidebar(activeNavItem);
-  }
-
-  /**
-   * ═══════════════════════════════════════════════════════════
-   * 📊 CÁLCULO DE PROGRESSO
-   * ═══════════════════════════════════════════════════════════
-   */
-  updateProgress() {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight;
-    const windowHeight = window.innerHeight;
-    const scrollable = docHeight - windowHeight;
-
-    if (scrollable <= 0) {
-      this.progressPercentage.textContent = "0%";
-      this.progressBarFill.style.width = "0%";
-      return;
-    }
-
-    const percentage = Math.min(
-      100,
-      Math.max(0, (scrollTop / scrollable) * 100)
-    );
-
-    this.progressPercentage.textContent = `${Math.round(percentage)}%`;
-    this.progressBarFill.style.width = `${percentage}%`;
   }
 
   /**
@@ -655,8 +718,6 @@ class ScrollMinimap {
     style.textContent = `
       :root {
         --minimap-sidebar-width: ${this.config.sidebarWidth}px;
-        --minimap-minimap-transition: ${this.config.minimapTransitionDuration}s;
-        --minimap-sidebar-transition: ${this.config.sidebarTransitionDuration}s;
       }
     `;
 
@@ -667,9 +728,4 @@ class ScrollMinimap {
 // ═══════════════════════════════════════════════════════════════
 // 🚀 INICIALIZAÇÃO
 // ═══════════════════════════════════════════════════════════════
-const minimap = new ScrollMinimap({
-  scrollOffset: 80,
-  indicatorSnapToLine: true,
-  sectionDetectionOffset: "third",
-  levelOpacities: [1.0, 0.9, 0.8, 0.7, 0.6],
-});
+const minimap = new ScrollMinimap();
